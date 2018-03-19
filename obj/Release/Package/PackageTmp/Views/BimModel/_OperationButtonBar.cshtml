@@ -1,0 +1,135 @@
+﻿@using TS.Core.Domain.Organizations
+@using TS.Core.Domain.Projects
+@using TS.Web.Models.Comments
+@model TS.Web.Models.BimModel.ModelDetailModel
+
+@{
+    Layout = null;
+}
+
+@if (Model.CurrentCustomer.CurrentRole != null)
+{
+    if (Model.CurrentCustomer.Organization.OrganizationType == OrganizationType.Censorship)
+    {
+        //角色
+        //审核人可操作：添加完整性意见（完整，不完整）
+        if (Model.CurrentCustomer.CurrentRole == Role.Checker &&
+            (Model.CurrentModelProfession.Status == FlowCode.Pre_AuditCompany_ProjectManager_Sign
+             || Model.CurrentModelProfession.Status == FlowCode.Pre_AuditCompany_ProfessionReAudit_Back)
+            //&& Model.CurrentFileVersion.Status == FlowCode.Pre_AuditCompany_ProjectManager_Sign
+            )
+        {
+            <div id="addIntegralityComment" class="new-integrality-opinion">添加专业完整性意见</div>
+            if (Model.Pre_CanCheckerSubmit)
+            {
+                <div class="profession-Operation">
+                    <a data-uri="@Url.Action("CommitIntegralityCommentToReviewer", "BimModel")" data-des="确认提交给复核人？">提交给复核人</a>
+                </div>
+            }
+        }
+        //复核人可操作：同意审核人的意见或者不同意。可查看审核人留下的完整性意见
+        if (Model.CurrentCustomer.CurrentRole == Role.Reviewer &&
+            Model.CurrentModelProfession.Status == FlowCode.Pre_AuditCompany_ProfessionAudit_Submit)
+        {
+            <div id="addIntegralityComment" class="new-integrality-opinion">添加专业完整性意见</div>
+            if (Model.Pre_CanReviewerReturn)
+            {
+                <div class="profession-Operation">
+                    <a data-uri="@Url.Action("ReturnIntegralityComment", "BimModel")" data-des="确认退回给审核人？">退回给审核人</a>
+                </div>
+            }
+            if (Model.Pre_CanReviewerSubmit)
+            {
+                <div class="profession-Operation">
+                    <a data-uri="@Url.Action("ConfirmIntegralityComment", "BimModel")" data-des="确认提交给项目经理？">提交给项目经理</a>
+                </div>
+            }
+        }
+        //审核人：对设计公司新模型的修复未修复意见做标记
+        //审核人：可添加专业批注意见，可修改，可删除，可取消删除，可标记已修复。
+        if (Model.CurrentCustomer.CurrentRole == Role.Checker &&
+            (Model.CurrentModelProfession.Status == FlowCode.AuditCompany_ProjectManager_Sign_BuildCompany))
+        {
+            <div>
+                <a class="bulkOperation" href="javascript:void(0)" data-uri="@Url.Action("BulkOperation", "Comment")" data-type="@CommentBulkOperationType.CheckerAgreeRepaired" data-des="？">批量标记修复</a>
+            </div>
+            <div>
+                <a class="bulkOperation" href="javascript:void(0)" data-uri="@Url.Action("BulkOperation", "Comment")" data-type="@CommentBulkOperationType.ChecherDisagreeRepaired" data-des="？">批量标记未修复</a>
+            </div>
+        }
+        //审核人：可添加专业批注意见，可修改，可删除，可取消删除，可标记已修复。
+        if (Model.CurrentCustomer.CurrentRole == Role.Checker &&
+            (Model.CurrentModelProfession.Status == FlowCode.Pre_AuditCompany_ProjectManager_ConformComplate
+             || Model.CurrentModelProfession.Status == FlowCode.AuditCompany_ProfessionReaudit_Reject_ProfessionAudit
+             || Model.CurrentModelProfession.Status == FlowCode.AuditCompany_ProjectManager_Sign_BuildCompany))
+        {
+            <div class="new-opinion">新建意见</div>
+            if (Model.CanCheckerSubmit)
+            {
+                <div class="profession-Operation">
+                    <a data-uri="@Url.Action("ApplyReAudit", "BimModel")" data-des="确认申请复核？">申请复核</a>
+                </div>
+            }
+        }
+        //复核人：可添加专业批注意见，可修改，可删除，可取消删除，可标记已修复，可审核审核人的意见通过与否
+        if (Model.CurrentCustomer.CurrentRole == Role.Reviewer &&
+            Model.CurrentModelProfession.Status == FlowCode.AuditCompany_ProfessionAudit_Submit)
+        {
+            <div>
+                <a class="bulkOperation" href="javascript:void(0)" data-uri="@Url.Action("BulkOperation", "Comment")" data-type="@CommentBulkOperationType.ReviewerAgreeRepaired" data-des="？">批量标记修复</a>
+            </div>
+            <div>
+                <a class="bulkOperation" href="javascript:void(0)" data-uri="@Url.Action("BulkOperation", "Comment")" data-type="@CommentBulkOperationType.ReviewerAgreeRepaired" data-des="？">批量标记未修复</a>
+            </div>
+
+            <div class="new-opinion">新建意见</div>
+            if (Model.CanReviewerSubmit)
+            {
+                <div class="profession-Operation">
+                    <a data-uri="@Url.Action("ReviewerSubmit", "BimModel")" data-des="确认转发至项目经理？">转发至项目经理</a>
+                </div>
+            }
+            if (Model.CanReviewerReturn)
+            {
+                <div class="profession-Operation">
+                    <a data-uri="@Url.Action("ReviewerReturn", "BimModel")" data-des="确认驳回给审核人？">驳回给审核人</a>
+                </div>
+            }
+        }
+        //复核人：审核设计公司的回应。
+        if (Model.CurrentCustomer.CurrentRole == Role.Reviewer &&
+            Model.CurrentModelProfession.Status == FlowCode.DesignCompany_Submit_AuditCompany_ProfessionReaudit)
+        {
+            if (Model.CanReviewerSubmit)
+            {
+                <div class="profession-Operation">
+                    <a data-uri="@Url.Action("ReviewerSubmit", "BimModel")" data-des="确认转发至项目经理？">转发至项目经理</a>
+                </div>
+            }
+        }
+
+    }
+    else if (Model.CurrentCustomer.CurrentRole == Role.DesignCompanyManager && 
+             Model.CurrentModelProfession.Status == FlowCode.AuditCompany_ProjectManager_Confrim_CurrentProcess_End)
+    {
+        <div>
+            <a class="bulkOperation" href="javascript:void(0)" data-uri="@Url.Action("BulkOperation", "Comment")" data-type="@CommentBulkOperationType.DesignManagerRepaired" data-des="？">批量标记修复</a>
+        </div>
+        <div>
+            <a class="bulkOperation" href="javascript:void(0)" data-uri="@Url.Action("BulkOperation", "Comment")" data-type="@CommentBulkOperationType.DesignManagerRepaired" data-des="？">批量标记未修复</a>
+        </div>
+    }
+    else
+    {
+        @*<div>无可用操作</div>*@
+    }
+}
+else
+{
+    @*<div>无可用操作</div>*@
+}
+<script>
+
+
+
+</script>

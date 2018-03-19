@@ -1,0 +1,221 @@
+.adminInformationManagement-content {
+  padding: 60px 60px 60px 60px;
+  background-color: #fff;
+  box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+  -moz-box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+  -webkit-box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+  -o-box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+  min-height: 100%;
+  position: relative; }
+.adminInformationManagement-content .InformationManagement-tabs {
+  padding-left: 82px;
+  border-bottom: 1px solid #E4E7F0;
+  font-size: 14px;
+}
+.adminInformationManagement-content .InformationManagement-tabs li {
+  padding: 9px 10px;
+  color: #767A8A;
+  letter-spacing: 1px;
+  float: left;
+  margin-right: 45px;
+  cursor: default;
+  /* &.new-group {
+     color: #0078D7;
+     text-decoration: underline;
+     float: right;
+     display: none;
+   }*/ }
+.adminInformationManagement-content .InformationManagement-tabs li.active {
+  border-bottom: 1px solid #0078D7;
+  color: #0078D7; }
+  .adminInformationManagement-content .title {
+    font-size: 22px;
+    color: #0078D7;
+    letter-spacing: 1px;
+    padding-bottom: 25px;
+  }
+  .adminInformationManagement-content .profession-box {
+    padding: 10px 40px 0px 40px; }
+    .adminInformationManagement-content .profession-box .drawing-professional {
+      background: rgba(247, 247, 250, 0.6);
+      border-radius: 2px;
+      padding-top: 12px;
+      min-height: 140px;
+      margin-top: 20px;
+      padding-left: 125px;
+      padding-bottom: 12px;
+      position: relative; }
+      .adminInformationManagement-content .profession-box .drawing-professional .profession-type {
+        font-size: 16px;
+        color: #393946;
+        position: absolute;
+        top: 22px;
+        left: 20px; }
+      .adminInformationManagement-content .profession-box .drawing-professional ul {
+        display: inline-block; }
+        .adminInformationManagement-content .profession-box .drawing-professional ul li {
+          float: left;
+          padding: 6px 30px;
+          text-align: center;
+          font-size: 16px;
+          color: #0078D7;
+          border: 1px solid #0078D7;
+          border-radius: 2px;
+          margin-right: 40px;
+          background: #fff;
+          margin-top: 10px;
+          position: relative; }
+          .adminInformationManagement-content .profession-box .drawing-professional ul li.professional-listsLi img {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            display: none; }
+          .adminInformationManagement-content .profession-box .drawing-professional ul li.professional-listsLi:hover {
+            background: #0078D7;
+            color: #fff; }
+            .adminInformationManagement-content .profession-box .drawing-professional ul li.professional-listsLi:hover img {
+              display: block; }
+      .adminInformationManagement-content .profession-box .drawing-professional li.add-btn {
+        float: left;
+        padding: 0px;
+        width: 100px;
+        height: 34px;
+        line-height: 32px;
+        text-align: center;
+        font-size: 18px;
+        background: #E4E7F0;
+        border-radius: 2px;
+        color: #A0A6B8;
+        border: 1px solid #E4E7F0; }
+  .adminInformationManagement-content .completed {
+    width: 160px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    background: #FF574D;
+    border-radius: 2px;
+    font-size: 16px;
+    color: #FFFFFF;
+    position: absolute;
+    top: 60px;
+    right: 60px; }
+.view-type-box {
+  padding: 22px 40px 38px 60px;
+  border-bottom: 1px dashed #E4E7F0;
+  position: relative;
+}
+.view-type-con {
+  position: relative;
+}
+
+.view-type-con .increased {
+  position: absolute;
+  right: 20px;
+  top: -88px;
+  padding:7px 30px;
+  background: #0078D7;
+  border-radius: 2px;
+  color: #fff;
+  font-size: 14px;
+  cursor: default;
+}
+.view-type-con .increased:hover {
+  background: #2A9AF2;
+  box-shadow: 0 3px 5px 0 rgba(0,0,0,0.16);
+}
+.view-type-box .delete-option {
+  font-size: 14px;
+  color: #0078D7;
+  letter-spacing: 1px;
+  text-decoration: underline;
+  position: absolute;
+  bottom: 10px;
+  right: 40px;
+  cursor: default;
+}
+.view-type-box .form-group {
+  width: 331px;
+  border: none;
+}
+.view-type-box .form-group .select-lists {
+  width: 220px;
+  left: 111px;
+  top: 43px;
+}
+.view-type-box .form-group .prompt{
+  width: 111px;
+  color: #393946;
+  font-size: 16px;
+  padding-left: 0px;
+}
+
+.view-type-box  .form-group .form-controls {
+  left: 111px;
+  border: 1px solid #E4E7F0;
+  border-radius: 2px;
+}
+.view-type-box  .options .optionlabel{
+  width: 111px;
+  color: #393946;
+  font-size: 16px;
+  margin-top: 20px;
+  line-height: 36px;
+}
+.view-type-box  .optionUl li{
+  float: left;
+  margin-top: 20px;
+  padding: 6px 20px;
+  font-size: 16px;
+  color: #0078D7;
+  border: 1px solid #0078D7;
+  border-radius: 2px;
+  margin-right: 30px;
+  max-width: 500px;
+  word-wrap: break-word;
+  word-break: normal;
+  position: relative;
+}
+.view-type-box  .optionUl li img {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  display: none;
+}
+.view-type-box  .optionUl li.professional-listsLi:hover {
+  background: #0078D7;
+  color: #fff; }
+.view-type-box  .optionUl li.professional-listsLi:hover img {
+  display: block; }
+.view-type-box  .optionUl li.add-btn {
+  padding: 0px;
+  width: 100px;
+  height: 34px;
+  background: #E4E7F0;
+  text-align: center;
+  line-height: 34px;
+  font-size: 18px;
+  color: #A0A6B8;
+  border: 1px solid #E4E7F0;
+}
+.tabcon {
+  display: none;
+}
+.tabcon.active {
+  display: block;
+}
+.option-information .form-controls .control {
+  height: 80px !important;
+}
+.option-information  .prompt {
+  height: 80px !important;
+}
+.option-information textarea {
+  padding-top: 10px !important;
+}
+.optionUl {
+  width: 80%;
+}

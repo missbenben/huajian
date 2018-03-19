@@ -1,0 +1,20 @@
+﻿@using TS.Web.Models.Comments
+@model List<CommentListModel.CommentModel>
+@foreach (var comment in Model)
+{
+    <tr>
+        <td></td>
+        <td><input type="checkbox" class="selectedComment" value="@comment.CommnenId"></td>
+        <td>@comment.EngineeringFileCommentId</td>
+        <td>@comment.Floor</td>
+        <td>@comment.Checker</td>
+        <td>@comment.Reviewer</td>
+        <td>@comment.CreateVersion</td>
+        <td>@comment.CommentType</td>
+        <td class="effective-advice">@comment.CommentStatusDes</td>
+        <td>@comment.Operation</td>
+        <td>@comment.UpdateTime</td>
+        <td class="common-color"><a target="_blank" href="@Url.Action("CommentDetail","Comment",new { commentId = comment.CommnenId})">查看</a></td>
+        <td></td>
+    </tr>
+}

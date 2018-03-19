@@ -1,0 +1,31 @@
+﻿@using TS.Web.Models.Comments
+@using TS.Core.Domain.Comments
+@model List<CommentRecordModel>
+@foreach (var commentRecord in Model)
+{
+    <li>
+        <div class="clearfix opinionInformation">
+            <div class="left pull-left clearfix">
+                <div>
+                    @commentRecord.OperatorName：<span>@commentRecord.Operation</span>
+                </div>
+                <div>
+                    意见状态：<span>@commentRecord.StatusDes</span>
+                </div>
+                <!--TODO 二期添加-->
+                @*<div>
+                    指派给：<span>设计公司项目经理-刘建宏</span>
+                </div>*@
+            </div>
+            <div class="date pull-right">@commentRecord.UpdateTime</div>
+        </div>
+        @if (commentRecord.ChangeType == ChangeType.Return)
+        {
+            <div class="rejection-reason">
+                <div class="reasonTitle">驳回理由：</div>
+                @commentRecord.Reason
+            </div>
+        }        
+    </li>
+}
+

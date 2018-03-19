@@ -1,0 +1,144 @@
+﻿@using TS.Web.Models.EngineeringFiles
+@model DrawingListModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.ProjectName + "-版本管理";
+}
+<link rel="stylesheet" href="~/Content/css/paperVersionManagement.css">
+
+@Html.Action("ProjectHeader","Project")
+<div class="main-box">
+    <div class="paperVersionManagement-content">
+        <div class="myProject">版本管理</div>
+        <div class="drawing-tables">
+            <div class="table-box">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="first-space"></th>
+                                <th>图纸名称</th>
+                                <th>图纸版本</th>
+                                <th>图纸目录</th>
+                                <th>图纸状态</th>
+                                <th>版本说明</th>
+                                <th>状态更新时间</th>
+                                <th>大小</th>
+                                <th class="space"></th>
+                                <th>操作</th>
+                                <th class="first-space"></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_PageFooter")
+    </div>
+</div>
+<!--版本说明弹窗-->
+<div class="popUp">
+    <div class="common-popUp releaseNotes-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">版本说明</div>
+            <div class="uploadDrawings-detail">
+                <div class="commonStyle clearfix">
+                    <div class="name">图纸名称：</div>
+                    <span id="fileName"></span>
+                </div>
+                <div class="commonStyle clearfix">
+                    <div class="name">图纸大小：</div>
+                    <span id="fileSize"></span>
+                </div>
+                <div class="commonStyle clearfix">
+                    <div class="name">版本说明：</div>
+                    <div class="inputBox editionStatement">
+                        <textarea id="drawingSeriseDes" readonly="readonly"></textarea>
+                        <div class="words"><span>0</span>/200</div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="confirm-box">
+                    <div class="confirm-btn">确认</div>
+                    <div class="cancle-btn">取消</div>
+                </div>*@
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        var searchData = {
+            pageSize: 10,
+            pageIndex: 1,
+            totalCount : 0,
+            drawingSeriesId: "@Model.DrawingSeriesId",
+        };
+
+        //获取取初始数据
+        getPageData(true);
+
+        function initPageFooter() {
+            var divhtml = '<div class="mypagenation" id="mypagenation"></div>'
+            $('.list-footer').empty();
+            $('.list-footer').append(divhtml);
+            $('#mypagenation').initPagenation({
+                totalCount: searchData.totalCount,      //数据总个数,
+                showBtnFirst: true,   //是否显示 首页按钮
+                showCount: 10,        //每页显示多少个,默认10个
+                showBtnsCount: 5,     //数字按钮数量,最多10个,默认10个
+                callback: function (pageIndex) {
+                    searchData.pageIndex = pageIndex;
+                    getPageData(false);
+                }
+            });
+        }
+
+        function getPageData(needInitFooter) {
+            ajaxGetPageData("@Url.Action("DrawingListPageData", "EngineeringFile")", searchData, function (data) {
+                if (!data.result) {
+                    errPromot(data.errmsg);
+                } else {
+                    $("tbody").empty();
+                    $("tbody").append(data.listHtml);
+
+                    //版本说明弹窗
+                    popUp(".imprint", ".releaseNotes-popUp");
+                    $(".imprint").on("click", function () {
+                        var fileName = $(this).attr("data-fileName");
+                        var fileSize = $(this).attr("data-fileSize");
+                        var des = $(this).attr("data-des");
+
+                        $(".releaseNotes-popUp #fileName").empty().text(fileName);
+                        $(".releaseNotes-popUp #fileSize").empty().text(fileSize);
+                        $(".releaseNotes-popUp #drawingSeriseDes").empty().text(des);
+
+                        //显示字数
+                        var len = $(".editionStatement textarea").val().length;
+                        $(".editionStatement .words span").html(len);
+                    });
+
+                    searchData.totalCount = data.total;
+
+                    if (needInitFooter) {
+                        initPageFooter();
+                    }
+                }
+            });           
+        }
+
+        $(".deleteDrawing").click(function () {
+            var uri = $(this).attr("data-uri");
+            var des = $(this).attr("data-des");
+
+            operatePrompt(des, uri, function (data) {
+                if (!data.result) {
+                    errPromot("操作失败");
+                } else {
+                    getPageData(false);
+                }
+            });
+        });
+    });
+</script>

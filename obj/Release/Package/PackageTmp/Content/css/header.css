@@ -1,0 +1,98 @@
+.HJ-header {
+  width: 100%;
+  height: 300px;
+  background: #0078D7;
+  min-width: 1000px;
+}
+  .HJ-header .HJ-header-tabs {
+    padding: 28px 0px 32px 0px; }
+  .HJ-header .project-classification .name {
+    padding-left: 30px;
+    font-size: 20px;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+    margin-right: 110px; }
+.HJ-header .project-classification .name a {
+  color: #FFFFFF;
+}
+  .HJ-header .project-classification ul {
+    padding: 0px 30px;
+    border: 0 solid #67AEF7;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 100px; }
+    .HJ-header .project-classification ul li {
+      display: inline-block;
+      margin-right: 50px;
+      font-size: 14px;
+      padding: 4px 1px;
+      color: #094C82;
+      cursor: default; }
+      .HJ-header .project-classification ul li a {
+        color: #094C82; }
+      .HJ-header .project-classification ul li:last-child {
+        margin-right: 0px; }
+      .HJ-header .project-classification ul li.active {
+        border-bottom: 1px solid #D7EBFF;
+        color: #D7EBFF; }
+        .HJ-header .project-classification ul li.active a {
+          color: #D7EBFF; }
+      .HJ-header .project-classification ul li:hover {
+        border-bottom: 1px solid #D7EBFF;
+        color: #D7EBFF; }
+        .HJ-header .project-classification ul li:hover a {
+          color: #D7EBFF; }
+  .HJ-header .personal-center {
+    padding-right: 40px;
+  }
+    .HJ-header .personal-center .user {
+      position: relative; }
+      .HJ-header .personal-center .user .name {
+        color: #fff;
+        cursor: pointer;
+        text-align: center;
+      }
+        .HJ-header .personal-center .user .name img {
+          width: 30px;
+          height: 30px;
+          margin-right: 12px; }
+        .HJ-header .personal-center .user .name i {
+          font-size: 12px; }
+      .HJ-header .personal-center .user .user-dropDown-box {
+        width: 134px;
+        position: absolute;
+        top: 32px;
+        right: 0px;
+        z-index: 10;
+        background-color: #fff;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+        -o-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+        border-radius: 2px;
+        color: #767A8A;
+        display: none; }
+        .HJ-header .personal-center .user .user-dropDown-box.active {
+          display: block; }
+        .HJ-header .personal-center .user .user-dropDown-box .company {
+          padding: 10px; }
+        .HJ-header .personal-center .user .user-dropDown-box .personal-information {
+          padding: 0px 10px 10px 10px; }
+          .HJ-header .personal-center .user .user-dropDown-box .personal-information a {
+            color: #0078D7; }
+        .HJ-header .personal-center .user .user-dropDown-box .exit {
+          line-height: 29px;
+          text-align: center;
+          border-top: 1px solid #E4E7F0; }
+          .HJ-header .personal-center .user .user-dropDown-box .exit .exit-logo {
+            display: inline-block;
+            position: relative;
+            padding-left: 18px;
+            cursor: default;
+          }
+            .HJ-header .personal-center .user .user-dropDown-box .exit .exit-logo img {
+              width: 16px;
+              height: 16px;
+              position: absolute;
+              left: 0px;
+              top: 50%;
+              margin-top: -8px; }

@@ -1,0 +1,205 @@
+﻿@using TS.Web.Models.Projects
+@using TS.Core.Domain.Projects;
+@using TS.Core.Domain.Customers;
+@model ProjectDetailModel
+<div class="admin-project-overview">
+    <div class="project-name">@Model.ProjectName</div>
+    <div class="projectOverview-tabs">
+        <ul class="clearfix">
+            <li class="active tabli">基本信息</li>
+            <li class="tabli">单位工程</li>
+        </ul>
+    </div>
+    <div class="basic-information active">
+        <div class="information-lists clearfix">
+            <div class="left pull-left">
+                <table>
+                    <tr>
+                        <td class="informationName">建设单位：</td>
+                        <td>@Model.BuildingCompany</td>
+                    </tr>
+                    <tr>
+                        <td class="informationName">建设单位联系电话：</td>
+                        <td>@Model.BuildingCompanyContacterPhone</td>
+                    </tr>
+                    <tr>
+                        <td class="informationName">项目分类：</td>
+                        <td>@Model.ProjectCatalogDes</td>
+                    </tr>
+                    <tr>
+                        <td class="informationName">是否装配式面积：</td>
+                        <td>@Model.IsPrefabricatedBuilding</td>
+                    </tr>
+                    <tr>
+                        <td class="informationName">审查机构：</td>
+                        <td>@Model.Censorship</td>
+                    </tr>
+                    <tr>
+                        <td class="informationName">设计单位：</td>
+                        <td>@Model.DesignCompany</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="pull-left">
+                <table>
+                    <tr>
+                        <td class="informationName">报建编号：</td>
+                        <td>@Model.DeliverNo</td>
+                    </tr>
+                    <tr>
+                        <td class="informationName">项目名称：</td>
+                        <td>@Model.ProjectName</td>
+                    </tr>
+                    <tr>
+                        <td class="informationName">建设单位联系人：</td>
+                        <td>@Model.BuildingCompanyContacterName</td>
+                    </tr>
+                    <tr>
+                        <td class="informationName">建设地点：</td>
+                        <td>@Model.BuildingLocation</td>
+                    </tr>
+                    <tr>
+                        <td class="informationName">总建筑面积：</td>
+                        <td>@(string.Format("{0}平方米", Model.BuildingArea)) </td>
+                    </tr>
+                    <tr>
+                        <td class="informationName">人防面积：</td>
+                        <td>@string.Format("{0}平方米", Model.CivilAirDefenseArea)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="basic-information unitInformation">
+
+        @foreach (var engineering in Model.Engineerings)
+            {<div class="information-lists clearfix">
+                <div class="left pull-left unitInformation-table">
+                    <table>
+                        <tr>
+                            <td class="informationName">单位工程名称：</td>
+                            <td>@engineering.Name</td>
+                        </tr>
+                        <tr>
+                            <td class="informationName">单位工程高度：</td>
+                            <td>@string.Format("{0}米", engineering.Height)</td>
+                        </tr>
+                        <tr>
+                            <td class="informationName">其他层数：</td>
+                            <td>
+                                <div class="other-floor-lists">
+                                    @if (!string.IsNullOrWhiteSpace(engineering.Desription))
+                                    {
+                                        foreach (var str in engineering.Desription.Split(','))
+                                        {
+                                            <span>@str</span>
+                                        }
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="informationName">人员分配：</td>
+                            <td class="view-staff-allocation" data-id="@engineering.Id">查看</td>
+                        </tr>
+                    </table>
+                    <div class="popUp">
+                        <div class="common-popUp  view-staff-popUp" id="@engineering.Id">
+                            <div class="addProfession-popUp-con">
+                                <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+                                <div class="title">人员分配</div>
+                                <div class="assign-con clearfix">
+                                    <div class="role pull-left">
+                                        <ul>
+                                            <li>
+                                                <span class="character">设计公司项目经理：</span>
+                                                <span>@Model.DesignCompanyManager</span>
+                                            </li>
+                                            <li>
+                                                <span class="character">建设公司项目经理：</span>
+                                                <span>@Model.BuildingCompanyManager</span>
+                                            </li>
+                                            <li>
+                                                <span class="character">审查公司项目经理：</span>
+                                                <span>@Model.CensorshipManager</span>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="professional pull-left">
+                                        <table>
+                                            <tbody>
+                                                @foreach (var profession in engineering.ProfessionRoles)
+                                                {
+                                                    <tr>
+                                                        <td class="professionaltd"><span>专业：</span><span class="category">@profession.ProfessionName</span></td>
+                                                        <td class="professionaltd"><span>审查人：</span><span class="category">@profession.EngineeringChecker</span></td>
+                                                        <td class="professionaltd"><span>复核人：</span><span class="category">@profession.EngineeringReviwer</span></td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-left">
+                    <table>
+                        <tr>
+                            <td class="informationName">单位工程(地上)层数：</td>
+                            <td>@engineering.FloorsAboveGround</td>
+                        </tr>
+                        <tr>
+                            <td class="informationName">单位工程(地下)层数：</td>
+                            <td>@engineering.FloorsUnderGround</td>
+                        </tr>
+                        <tr>
+                            <td class="informationName">单位工程地上面积(平方米)：</td>
+                            <td>@engineering.AreaAboveGround</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+    @if (Model.customerType == CustomerType.User && Model.Roles.Contains(Role.BuildingCompanyManager))
+    {
+        if (!Model.IsFiled)
+        {
+            <div id="btnFileModel" class="modify-information common-btn" data-des="确认是否归档？" data-uri="@Url.Action("FileProject", "Project", new { projectId = Model.ProjectId })">归档</div>
+
+        }
+    }
+
+    @if (Model.customerType == CustomerType.Admin && Model.OrganizationType.Value == TS.Core.Domain.Organizations.OrganizationType.BuildingCompany)
+    {
+        <div class="modify-information common-btn"><a href="@Url.Action("Edit","Project",new{id=Model.ProjectId})">修改</a></div>
+    }
+</div>
+<script>
+    $(function () {
+        $("#btnFileModel").click(function () {
+            var uri = $(this).attr("data-uri");
+            var des = $(this).attr("data-des");
+
+            operatePrompt(des, uri, function (data) {
+                if (!data.result) {
+                    errPromot("操作失败")
+                } else {
+                    window.location.reload();
+                }
+            });
+        });
+
+        $(".unitInformation").on("click", ".view-staff-allocation", function () {
+            var itemId = $(this).attr("data-id");
+            $(".wrap").show();
+            $("#" + itemId).show();
+            $("body").css({
+                'overflow': 'hidden'
+            });
+        });
+    });
+</script>

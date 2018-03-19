@@ -1,0 +1,164 @@
+﻿@using TS.Core.Domain.Projects
+@using TS.Web.Models.Comments
+@model TS.Web.Models.BimModel.CommentDataListModel
+
+@{
+    Layout = null;
+}
+
+<ul>
+    @foreach (var c in Model.Comments)
+    {
+        var liClassName = c.MustOperate ? "preoperate viewLists" : "operated viewLists";
+        <li class="@liClassName">
+            <div class="view-show">
+                <div class="title clearfix">
+                    <div class="opinion-num pull-left">
+                        <input type="checkbox" class="selectedComment" value="@c.Id">
+                        <span class="serial-number">@c.EngineeringFileCommentId.ToString()</span>
+                        <span class="status validity">@c.StatusDisplayName</span>
+                    </div>
+                    <div class="view pull-right">
+                        @* <a href="@Html.Raw(Url.Action("CommentDetail", "Comment", new {commentId = c.Id}))" target="_blank">查看</a>*@
+                        展开
+                    </div>
+                </div>
+
+                <div class="date">@c.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                <div class="person clearfix">
+                    <ul>
+                        <li>提出人：@c.Creator.Name</li>
+                        <li>类别：@c.CommentType</li>
+                        <li>楼层：@c.Floor</li>
+                    </ul>
+                </div>
+                <div class="con">概述：@c.Description</div>
+
+                @Html.Partial("_CommentButton", c.commentButtom)
+            </div>
+            <!--意见卡片展开-->
+            <div class="comment-card-spread">
+                <div class="title clearfix">
+                    <div class="opinion-num pull-left">
+                        @c.EngineeringFileCommentId.ToString()
+                        <span class="status validity">@c.StatusDisplayName</span>
+                    </div>
+                    <div class="view pull-right">收起</div>
+                </div>
+                <div class="date">2017-12-12 18:12:09</div>
+                <div class="person clearfix">
+                    <ul>
+                        <li>提出人：@c.Creator.Name</li>
+                        <li>类别：@c.CommentType</li>
+                        <li>楼层：@c.Floor</li>
+                    </ul>
+                </div>
+                <div class="spread-main">
+                    <div class="spread-con">
+                        <div class="con">概述：@c.Description</div>
+                        <!--标注-->
+                        <div class="annotation clearfix">
+                            <div class="annotation-name pull-left">标注：</div>
+                            <div class="annotation-lists pull-left">
+                                <ul>
+                                    @foreach (var item in c.BimElements.Where(i => i.BIMElementType == TS.Core.Domain.Comments.BIMType.Viewpoint))
+                                    {
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="viewAnnotation('@item.BIMId');">
+                                                <img src="@item.BimThumb" alt="@item.BIMId" class="mark-img">
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <!--构件-->
+                        <div class="component-link clearfix">
+                            <div class="type pull-left">构件：</div>
+                            <div class="linkLists pull-left">
+                                <ul class="clearfix">
+                                    @foreach (var item in c.BimElements.Where(i => i.BIMElementType == TS.Core.Domain.Comments.BIMType.Component))
+                                    {
+                                        <li class="linkLi">
+                                            <span>
+                                                <a href="javascript:void(0);" onclick="viewStructure('@item.BIMId');">@item.Name</a>
+                                            </span>
+                                            <i class="iconfont icon-lianjie">
+                                            </i>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--驳回理由-->
+                    @if (c.RejectDetail != null)
+                    {
+                        <div class="spread-con">
+                            <div class="con">驳回理由：@c.RejectDetail.Description</div>
+                            <!--标注-->
+                            <div class="annotation clearfix">
+                                <div class="annotation-name pull-left">标注：</div>
+                                <div class="annotation-lists pull-left">
+                                    <ul>
+                                        @foreach (var item in c.RejectDetail.BimElements.Where(i => i.BIMElementType == TS.Core.Domain.Comments.BIMType.Viewpoint))
+                                        {
+                                            <li>
+                                                <a href="javascript:void(0);" onclick="viewAnnotation('@item.BIMId');">
+                                                    <img src="@item.BimThumb" alt="@item.BIMId" class="mark-img">
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--构件-->
+                            <div class="component-link clearfix">
+                                <div class="type pull-left">构件：</div>
+                                <div class="linkLists pull-left">
+                                    <ul class="clearfix">
+                                        @foreach (var item in c.RejectDetail.BimElements.Where(i => i.BIMElementType == TS.Core.Domain.Comments.BIMType.Component))
+                                        {
+                                            <li class="linkLi">
+                                                <span>
+                                                    <a href="javascript:void(0);" onclick="viewStructure('@item.BIMId');">@item.Name</a>
+                                                </span>
+                                                <i class="iconfont icon-lianjie">
+                                                </i>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                @Html.Partial("_CommentButton", c.commentButtom)
+            </div>
+        </li>
+
+    }
+</ul>
+
+<script>
+    $(function () {
+        $("#commentList").on("click", ".operation a", function () {
+            var uri = $(this).attr("data-uri");
+            var des = $(this).attr("data-des");
+
+            if (des == "" || des == null)
+                des = "确认进行此操作？";
+
+            operatePrompt(des, uri, function (data) {
+                if (data.errmsg == "" || des == null) {
+                    data.errmsg = "操作成功";
+                }
+                errPromot(data.errmsg);
+                getCommentsData();
+                getOperationButton();
+            });
+        });
+    });
+
+</script>

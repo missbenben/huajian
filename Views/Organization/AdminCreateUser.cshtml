@@ -1,0 +1,300 @@
+﻿@model TS.Web.Models.CustomerLogin.CompanyRegisterModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "创建账号";
+}
+<div class="registration-bg">
+    <div class="title"><span>数字化审图平台 | </span>创建账号 </div>
+</div>
+<div class="registration-classification">
+    <ul>
+        <li class="active">创建用户</li>
+    </ul>
+</div>
+
+<!--用户注册-->
+
+<div class="user-registration-box login-iterms active">
+    <form action="/Organization/AdminCreateUserFunc" method="post">
+        <div class="input-box">
+            <div class="form-group">
+                <label for="account" class="prompt">账户</label>
+                <div class="form-controls">
+                    <input id="account" name="UserAccount" onblur="checkAccount()" type="text" class="control" placeholder="请设置您的账户名" value="@Model.UserAccount">
+                    <div class="error-reminder"></div>
+                </div>
+                <!--<div class="mandatory-signs">*</div>-->
+            </div>
+            <div class="form-group">
+                <label for="name" class="prompt">姓名</label>
+                <div class="form-controls">
+                    <input id="name" name="UserName" onblur="checkName()" type="text" class="control" placeholder="请输入您的姓名" value="@Model.UserName">
+                    <div class="error-reminder"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="prompt">邮箱</label>
+                <div class="form-controls">
+                    <input id="email" name="UserEmail" onblur="checkEmail()" type="text" class="control" placeholder="请输入您的企业邮箱" value="@Model.UserEmail">
+                    <div class="error-reminder"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="prompt">密码</label>
+                <div class="form-controls">
+                    <input id="password" name="UserPassword" onblur="checkPassword()" type="password" class="control" placeholder="请设置6-20位包含数字与字母的密码" value="@Model.UserPassword">
+                    <div class="error-reminder"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password" class="prompt">确认密码</label>
+                <div class="form-controls">
+                    <input id="confirm-password" onblur="checkConfirmPassword()" type="password" class="control" placeholder="请再次输入登录密码">
+                    <div class="error-reminder"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="mobile-number" class="prompt">手机号码</label>
+                <div class="form-controls">
+                    <input id="mobile-number" name="UserMobile" onblur="checkMobileNumber()" type="text" class="control" placeholder="请输入手机号码" value="@Model.UserMobile">
+                    <div class="error-reminder"></div>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <label for="telephone" class="prompt">固定电话</label>
+                <div class="form-controls">
+                    <input id="telephone" type="text" class="control" placeholder="请输入固定电话">
+                </div>
+            </div>-->
+        </div>
+
+        <div class="agreement">注册即视为同意 <a href="#">《数字化审图用户注册协议》</a> </div>
+        <div class="">
+            <input type="submit" class="submit-btn disable user-registration-btn" value="创建">
+        </div>
+    </form>
+</div>
+
+
+
+
+
+<script>
+    function checkAccount() {
+        var account = $("#account").val();
+        //账户验证
+        if ((!regs.account.test(account)) && (account)) {
+            errPromotShow($("#account"), "账户应为6到15字以内包含字母，数字");
+            return false;
+        }
+        var isExixtCus = false;
+        $.ajax({
+            url: '@Html.Raw(Url.Action("IsAccountExist", "Customer"))',
+            type: 'POST',
+            data: { account: account },
+            async: false,
+            success: function (res) {
+                var obj = eval(res);
+                var result = obj.Result;
+                var mess = obj.Message;
+                if (!result) {
+                    errPromotShow($("#account"), mess);
+                    isExixtCus = true;
+                }
+            },
+            error: function (res) {
+                errPromot("异常");
+                //     $('#loginButton').attr('disabled', 'false');
+            }
+        });
+        if (isExixtCus) {
+            return false;
+        }
+    }
+
+    function checkName() {
+        var name = $("#name").val();
+        //姓名验证
+        if ((!regs.name(name)) && (name)) {
+            errPromotShow($("#name"), "姓名应为5字以内汉字");
+            return false;
+        }
+    }
+
+    function checkEmail() {
+        var email = $("#email").val();
+        if ((!regs.email.test(email)) && email) {
+            errPromotShow($("#email"), "请填写正确的邮箱格式");
+            return false;
+        }
+    }
+
+    function checkPassword() {
+        var password = $("#password").val();
+        if ((!regs.password(password)) && password) {
+            errPromotShow($("#password"), "密码设置应为6-20位包含数字，大小写字母");
+            return false;
+        }
+    }
+
+    function checkConfirmPassword() {
+        var password = $("#password").val();
+        var confirmPassword = $("#confirm-password").val();
+        if ((confirmPassword !== password) && (confirmPassword)) {
+            errPromotShow($("#confirm-password"), "请使密码保持一致");
+            return false;
+        }
+    }
+
+    function checkMobileNumber() {
+        var mobileNumber = $("#mobile-number").val();
+        if ((!regs.phone.test(mobileNumber)) && (mobileNumber)) {
+            errPromotShow($("#mobile-number"), "手机号格式错误");
+            return false;
+        }
+    }
+
+    
+
+    $(".form-controls .control").on("focus", function () {
+        removeErr($(this));
+    });
+
+</script>
+<script>
+    var ispostok = false;
+    function timer() {
+        ispostok = true;
+        $(".user-registration-btn").click();
+    }
+
+    function start() {
+        set_timer = setInterval(timer, 2000);
+
+    }
+        $(function () {
+
+            var userRegistrationBtn = $(".user-registration-btn");
+
+            //必填项有值过后，注册按钮移除disable,可用
+            $('.form-group .control').keyup(function () {
+                //用户注册
+                var account = $("#account").val();
+                var name = $("#name").val();
+                var email = $("#email").val();
+                var password = $("#password").val();
+                var confirmPassword = $("#confirm-password").val();
+                var selectBoxCompany = $("#select-box-company").val();
+
+                var mobileNumber = $("#mobile-number").val();
+                if (account && name && email && password && confirmPassword && selectBoxCompany  && mobileNumber) {
+                    userRegistrationBtn.removeClass("disable");
+                } else {
+                    userRegistrationBtn.addClass("disable");
+                }
+               
+
+
+            })
+
+            //用户注册提交
+            userRegistrationBtn.click(function () {
+                //            if($(this).hasClass("disable")) return;
+                var name = $("#name").val();
+                var email = $("#email").val();
+                var mobileNumber = $("#mobile-number").val();
+                var password = $("#password").val();
+                var confirmPassword = $("#confirm-password").val();
+                var account = $("#account").val();
+                var selectBoxCompany = $("#select-box-company").val();
+                //账户验证
+                if (!account) {
+                    errPromotShow($("#account"), "账户不能为空");
+                    return false;
+                }
+                if (!regs.account.test(account)) {
+                    errPromotShow($("#account"), "账户只能包含字母、数字，长度为6-15位");
+                    return false;
+                }
+                var isExixtCus = false;
+                $.ajax({
+                    url: '@Html.Raw(Url.Action("IsAccountExist", "Customer"))',
+                    type: 'POST',
+                    data: { account: account },
+                    async:false,
+                    success: function (res) {
+                        var obj = eval(res);
+                        var result = obj.Result;
+                        var mess = obj.Message;
+                        if (!result) {
+                            errPromotShow($("#account"), mess);
+                            isExixtCus=true;
+                        }
+                    },
+                    error: function (res) {
+                        errPromot("异常");
+                        //     $('#loginButton').attr('disabled', 'false');
+                    }
+                });
+                if (isExixtCus) {
+                    return false;
+                }
+                //姓名验证
+                if (!name) {
+                    errPromotShow($("#name"), "姓名不能为空");
+                    return false;
+                }
+                if (!regs.name(name)) {
+                    errPromotShow($("#name"), "姓名应为5字以内汉字");
+                    return false;
+                }
+                //邮箱格式错误验证
+                if (!email) {
+                    errPromotShow($("#email"), "邮箱不能为空");
+                    return false;
+                }
+                if (!regs.email.test(email)) {
+                    errPromotShow($("#email"), "请填写正确的邮箱格式");
+                    return false;
+                }
+                //密码验证
+                if (!password) {
+                    errPromotShow($("#password"), "密码不能为空");
+                    return false;
+                }
+                if (!regs.password(password)) {
+                    errPromotShow($("#password"), "密码设置应为6-20位包含数字，大小写字母");
+                    return false;
+                }
+
+                //密码相同验证
+                if (!confirmPassword) {
+                    errPromotShow($("#confirm-password"), "请确认密码");
+                    return false;
+                }
+                if (confirmPassword !== password) {
+                    errPromotShow($("#confirm-password"), "请使密码保持一致");
+                    return false;
+                }
+                //手机号格式验证
+                if (!mobileNumber) {
+                    errPromotShow($("#mobile-number"), "手机号不能为空");
+                    return false;
+                }
+                if (!regs.phone.test(mobileNumber)) {
+                    errPromotShow($("#mobile-number"), "手机号格式错误");
+                    return false;
+                }
+                if (!ispostok) {
+                    errPromot("创建成功");
+                    start();
+                }
+                if (!ispostok) {
+                    return false;
+                }
+            });
+        })
+</script>
+
+
+

@@ -1,0 +1,303 @@
+﻿@using TS.Web.Models.Comments
+@using TS.Core.Domain.Projects
+@model CommentDetailModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.ProjectName + "-" + Model.EngineeringName + "-意见详情";
+}
+
+<link rel="stylesheet" href="~/Content/css/viewsDetail.css">
+
+<!--头部-->
+@Html.Action("ProjectHeader", "Project")
+
+<div class="main-box">
+    <div class="views-box">
+        <div class="views-information clearfix">
+            <div class="title">
+                @Model.EngineeringName
+                <div class="turn-page pull-right">
+                    <a href="@(Model.PreCommentId != 0 ? Url.Action("CommentDetail",new { commentId = Model.PreCommentId }) : "javascript:void(0);" )" class="pre @(Model.PreCommentId == 0 ? "disabled" : null)">上一条</a>
+                    <a href="@(Model.NextCommentId != 0 ? Url.Action("CommentDetail", new { commentId = Model.NextCommentId }) : "javascript:void(0);")" class="@(Model.NextCommentId == 0 ? "disabled" : null)">下一条</a>
+                </div>
+            </div>
+        </div>
+        <div class="views-tab">
+            <ul class="clearfix views-tab-ul">
+                <li class="active opinionTab">意见详情</li>
+                <li class="opinionTab">操作记录</li>
+            </ul>
+            <!--意见详情-->
+            <div class="views-detail-box opinionTabCon active">
+                <div class="views-type">
+                    <div class="common-type">意见类型：<span>@Model.CommentType</span></div>
+                    <div class="common-type">专业：<span>@Model.Profession</span></div>
+                    <div class="common-type">楼层：<span>@Model.Floor</span></div>
+                    <div class="common-type">意见状态：<span>@Model.StatusDes</span></div>
+                </div>
+                <table class="companys-table">
+                    <tbody>
+                        <tr>
+                            <td>设计公司：@Model.DesignCompany</td>
+                            <td>项目经理：@Model.DesignCompanyManager</td>
+                        </tr>
+                        <tr>
+                            <td>建设公司：@Model.BuildingCompany</td>
+                            <td>项目经理：@Model.BuildingCompanyManager</td>
+                        </tr>
+                        <tr>
+                            <td>审核公司：@Model.Censorship</td>
+                            <td>项目经理：@Model.CensorshipManager</td>
+                            <td>初审人：@Model.Checker</td>
+                            <td>复核人：@Model.Reviewer</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--审查意见-->
+                <div class="audit-opinion clearfix">
+                    <div class="type pull-left">审查意见：</div>
+                    <div class="audit-opinion-content pull-left">
+                        @Model.Description
+                    </div>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.ReturnDes))
+                {
+                    <!--驳回说明-->
+                    <div class="audit-opinion clearfix">
+                        <div class="type pull-left">驳回说明：</div>
+                        <div class="audit-opinion-content pull-left">
+                            @Model.ReturnDes
+                        </div>
+                    </div>
+                }
+                <!--拾取截图-->
+                <div class="pickUp-screenshot clearfix">
+                    <div class="type pull-left">拾取截图：</div>
+                    <div class="imgs pull-left">
+                        <ul class="clearfix">
+
+                            @foreach (var annotation in Model.Annotations)
+                            {
+                                if (annotation.type == TS.Core.Domain.Comments.BIMType.Viewpoint)
+                                {
+                                    <li>
+                                        <img src="@annotation.Uri" alt="@annotation.HDBimThumbUrl">
+                                        <div class="operation-btn">
+                                            <div class="preview">预览</div>
+                                            <div><a href="@Url.Action("ModelDetail", "BimModel", new { modelVersionId = Model.CreateVersionId, annotationId = annotation.AnnotationId })">查看</a></div>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <!--链接构件-->
+                <div class="component-link clearfix">
+                    <div class="type pull-left">链接构件</div>
+                    <div class="linkLists pull-left">
+                        <ul class="clearfix">
+                            @foreach (var annotation in Model.Annotations)
+                            {
+                                if (annotation.type == TS.Core.Domain.Comments.BIMType.Component)
+                                {
+                                    <li class="linkLi">
+                                        <span> <a href="@Url.Action("ModelDetail", "BimModel", new { modelVersionId = Model.CreateVersionId, annotationId = annotation.AnnotationId })">@annotation.Name</a></span>
+                                        <i class="iconfont icon-lianjie"></i>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <!--创建时间-->
+                <div class="view-createTime clearfix">
+                    <div class="type pull-left">创建时间：</div>
+                    <div class="date">@Model.CreateTime</div>
+                </div>
+                @if (!Model.IsProjectFiled)
+                {
+                    @Html.Partial("_CommentButton", Model.commentButton)
+                }
+            </div>
+            <!--操作记录-->
+            <div class="opinion-operating-record opinionTabCon">
+                <ul class="operating-recordUl"></ul>
+                <!--分页-->
+                @Html.Partial("_PageFooter")
+            </div>
+        </div>
+    </div>
+</div>
+<div class="popUp">
+    <!--意见驳回弹窗-->
+    <div class="common-popUp final-Rejection-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" class="close-icon">
+            <div class="title">意见驳回</div>
+            <div class="reason-box">
+                <div class="commonStyle">
+                    <div class="inputBox">
+                        <textarea id="returnDes"></textarea>
+                        <div class="words"><span>0</span>/200</div>
+                    </div>
+                    <div class="name">退回说明：</div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="view-larger-image">
+    <img src="" alt="">
+</div>
+<script>
+    $(function() {
+        $(".views-tab .views-tab-ul li").click(function() {
+            $(this).addClass("active").siblings().removeClass("active");
+            var index = $(this).index();
+            $(".opinionTabCon").eq(index).addClass("active").siblings().removeClass("active");
+        });
+
+        //过滤数据
+        var searchData = {
+            pageSize: 10,
+            pageIndex: 1,
+            commentId: "@Model.CommentId",
+        };
+
+        //获取取初始数据
+        getPageData(true);
+
+        function initPageFooter() {
+            var divhtml = '<div class="mypagenation" id="mypagenation"></div>'
+            $('.list-footer').empty();
+            $('.list-footer').append(divhtml);
+            $('#mypagenation').initPagenation({
+                totalCount: searchData.totalCount,      //数据总个数,
+                showBtnFirst: true,   //是否显示 首页按钮
+                showCount: 10,        //每页显示多少个,默认10个
+                showBtnsCount: 5,     //数字按钮数量,最多10个,默认10个
+                callback: function (pageIndex) {
+                    searchData.pageIndex = pageIndex;
+                    getPageData(false);
+                }
+            });
+        }
+
+        function getPageData(needInitFooter) {
+            if (needInitFooter) {
+                searchData.pageIndex = 1;
+            }
+
+            ajaxGetPageData("@Url.Action("CommentRecordModelPagaData", "Comment")",
+                searchData,
+                function(data) {
+                    if (!data.result) {
+                        errPromot(data.errmsg);
+                    } else {
+                        $(".operating-recordUl").empty();
+                        $(".operating-recordUl").append(data.listHtml);
+
+                        if (needInitFooter) {
+                            initPageFooter();
+                        }
+                    }
+                });
+        }
+
+        $(".pickUp-screenshot").on("click",
+            "li .preview",
+            function () {
+                var HDimgurl = $(this).parents("li").find("img").attr("alt");
+                var src;
+                ajaxGetPageData(HDimgurl, "", function (data) {
+                    src = data;
+                });
+                $(".wrap").show();
+                $(".view-larger-image").show();
+                $(".view-larger-image img").attr("src", src);
+                $("body").css({
+                    'overflow': 'hidden'
+                });
+            });
+        $(".wrap,.view-larger-image").on("click",
+            function() {
+                $(".wrap").hide();
+                $(".view-larger-image").hide();
+                $("body").css({
+                    'overflow': 'auto'
+                });
+            });
+
+        $(".operation a").click(function() {
+            var uri = $(this).attr("data-uri");
+            var des = $(this).attr("data-des");
+
+            if (des == "" || des == null)
+                des = "确认进行此操作？";
+
+            operatePrompt(des,
+                uri,
+                function(data) {
+                    if (!data.result) {
+                        errPromot("操作失败");
+                    } else {
+                        window.location.reload();
+                    }
+                });
+        });
+
+        $(".update_a").unbind();
+
+        //意见驳回添加驳回说明
+        $(".return-comment").unbind();
+
+        popUp(".return-comment", ".final-Rejection-popUp");
+
+        $(".inputBox textarea").on("input",
+            function() {
+                var length = this.value.length;
+                if (length > 200) {
+                    $(".words span").css("color", " #FF0000");
+                    this.value = this.value.slice(0, 200);
+                } else {
+                    $(".words span").html(length);
+                }
+            });
+
+        $(".final-Rejection-popUp .confirm-btn ").click(function() {
+            var uri = $(".return-comment").attr("data-uri");
+            var des = $(".inputBox textarea").val();
+
+            uri += "&reason=" + des;
+
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: uri,
+                success: function(data) {
+                    if (!data.result) {
+                        errPromot("操作失败");
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                error: function() {
+                    errPromot("操作失败");
+                },
+                beforeSend: function() {
+                    loading();
+                },
+                complete: function() {
+                    loadingSuccess();
+                    $(".wrap").hide();
+                }
+            });
+
+        });
+    });
+</script>

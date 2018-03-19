@@ -1,0 +1,294 @@
+﻿@model TS.Service.BusinessLogic.Models.DistributionModel
+@if (Model.OrganizationType == TS.Core.Domain.Organizations.OrganizationType.Censorship)
+{
+    <!--审查公司人员分配弹窗-->
+    <div class="common-popUp reviewCompany-addProfession-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">人员分配</div>
+            <div class="personnelBox">
+                <div class="reviewCompany-addProfession-select clearfix">
+                    <div class="select-project pull-left">
+                        <ul>
+                            @foreach (var engineering in Model.DistributionEngreeingList)
+                            {
+                                if (engineering.EngreeingId == 0)
+                                {
+                                    <li>
+                                        <input class="all-engineering" type="checkbox" data-id="@engineering.EngreeingId" />
+                                        <span>@engineering.EngreeingName</span>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <input class="select-engineering" type="checkbox" data-id="@engineering.EngreeingId" />
+                                        <span>@engineering.EngreeingName</span>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <div class="tabContent pull-left">
+                        <div class="choose-person projectManager">
+                            <div class="form-group">
+                                <label class="prompt">项目经理</label>
+                                <div class="form-controls">
+                                    <div class="select-control">
+                                        <input type="text" class="control select-input ProjectManagerId" readonly value="@Model.ProjectManagerName" data-id="@Model.ProjectManagerId" placeholder="请选择项目经理">
+                                        <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="select-lists">
+                                    <ul>
+                                        @foreach (var manager in Model.CompanyCustomerList)
+                {
+                                            <li data-id="@manager.Id">@manager.Name</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        @{
+                            var isFirst = true;
+                        }
+                        @foreach (var item in Model.DistributionEngreeingList)
+                        {
+                            var className = string.Empty;
+                            if (isFirst)
+                            {
+                                isFirst = false;
+                                className = "active";
+                            }
+                            <div id="engineering-@item.EngreeingId" class="chooseProfessional-box @className">
+                                @Html.Hidden("EngreeingId", item.EngreeingId, new { @class = "EngreeingId" })
+                                @Html.Hidden("EngreeingName", item.EngreeingName, new { @class = "EngreeingName" })
+                                @foreach (var profession in item.ProfessionDistributionList)
+                                {
+                                    <div class="professionalLists" data-id="@profession.ProfessionId">
+                                        @Html.Hidden("ProfessionId", profession.ProfessionId, new { @class = "ProfessionId" })
+                                        <div class="professionalName ProfessionName" data-name="@profession.ProfessionName">@(@profession.ProfessionName)：</div>
+                                        <div class="role clearfix">
+                                            <div class="form-group pull-left">
+                                                <label class="prompt">审查人</label>
+                                                <div class="form-controls">
+                                                    <div class="select-control">
+                                                        <input type="text" class="control select-input ProfessionAuidtId" readonly value="@profession.ProfessionAuidtName" data-type="ProfessionAuidtId" data-id="@profession.ProfessionAuidtId" placeholder="请选择">
+                                                        <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="select-lists">
+                                                    <ul>
+                                                        @foreach (var auditor in Model.CompanyCustomerList)
+                                                        {
+                                                            <li data-id="@auditor.Id">@auditor.Name</li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="form-group pull-right">
+                                                <label class="prompt">复核人</label>
+                                                <div class="form-controls">
+                                                    <div class="select-control">
+                                                        <input type="text" class="control select-input ProfessionReAuidtId" readonly value="@profession.ProfessionReAuidtName" data-type="ProfessionReAuidtId" data-id="@profession.ProfessionReAuidtId" placeholder="请选择">
+                                                        <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="select-lists">
+                                                    <ul>
+                                                        @foreach (var reAuditor in Model.CompanyCustomerList)
+                                                        {
+                                                            <li data-id="@reAuditor.Id">@reAuditor.Name</li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="confirm-box">
+                    <div class="confirm-btn submit">确认</div>
+                    <div class="cancle-btn">取消</div>
+                </div>
+            </div>
+        </div>
+    </div>
+                            }
+                            else
+                            {
+        <!--项目经理人员分配弹窗-->
+                                <div class="common-popUp addProfession-popUp">
+                                    <div class="addProfession-popUp-con">
+                                        <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+                                        <div class="title">人员分配</div>
+                                        <div class="choose-person">
+                                            <div class="form-group">
+                                                <label for="enterprise-type" class="prompt">项目经理</label>
+                                                <div class="form-controls">
+                                                    <div class="select-control">
+                                                        <input id="enterprise-type" type="text" class="control select-input ProjectManagerId" readonly value="@Model.ProjectManagerName" data-id="@Model.ProjectManagerId">
+                                                        <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="select-lists">
+                                                    <ul>
+                                                        @foreach (var item in Model.CompanyCustomerList)
+                                                        {
+                                                            <li data-id="@item.Id">@item.Name</li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="confirm-box">
+                                            <div class="confirm-btn submit">确认</div>
+                                            <div class="cancle-btn">取消</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+
+<script type="text/javascript">
+    var distributeModel = {
+        OrganizationType: "@Model.OrganizationType",
+        ProjectId: "@Model.ProjectId",
+        DistributionEngreeingList: [],
+        ProjectManagerId: 0,
+        ProjectManagerName: ""
+    };
+
+    var currentIndex = 0;
+
+    function GetDistriutionList() {
+        var tabContent = $(".chooseProfessional-box");
+        distributeModel.ProjectManagerId = $(".ProjectManagerId").data("id");
+        distributeModel.ProjectManagerName = $(".ProjectManagerId").val();
+
+        for (var i = 0; i < tabContent.length; i++) {
+            currentIndex = i;
+            if (!GetDistribution(tabContent[i], i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function GetDistribution(ele) {
+        var engreeingId = $(ele).find(".EngreeingId").val();
+        var engreeingName = $(ele).find(".EngreeingName").val();
+
+        var projectManagerId = distributeModel.ProjectManagerId;
+        var projectManagerName = distributeModel.ProjectManagerName;
+
+        var engreeingModel = {
+            EngreeingId: engreeingId,
+            EngreeingName: engreeingName,
+            ProjectManagerId: projectManagerId,
+            ProjectManagerName: projectManagerName,
+            ProfessionDistributionList: []
+        };
+
+        distributeModel.DistributionEngreeingList.push(engreeingModel);
+        return GetProfessonList(ele, engreeingModel);
+    }
+
+
+    function GetProfessonList(ele, engreeingModel) {
+        var professionalListEle = $(ele).find(".professionalLists");
+
+        for (var i = 0; i < professionalListEle.length; i++) {
+            if (!GetProfessonInfo(professionalListEle[i], engreeingModel)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    function GetProfessonInfo(ele, engreeingModel) {
+        var professionId = $(ele).find(".ProfessionId").val();
+        var professionName = $(ele).find(".ProfessionName").data("name");
+
+        var professionAuidtName = $(ele).find(".ProfessionAuidtId").val();
+        var professionAuidtId = $(ele).find(".ProfessionAuidtId").data("id");
+        var professionReAuidtName = $(ele).find(".ProfessionReAuidtId").val();
+        var professionReAuidtId = $(ele).find(".ProfessionReAuidtId").data("id");
+
+        console.log($(ele).find(".ProfessionReAuidtId").data("id"));
+        //validation the model role distribution  professionaudit professionreaudit auditprojectmanager  couldn't same a person.
+        if (professionAuidtId == professionReAuidtId && professionAuidtId != 0) {
+            //TODO:审核人不能和复核人重复 的弹框
+            errPromot("项目：" + engreeingModel.EngreeingName + " 专业：" + professionName + "审核人不能和复核人重复");
+            return false;
+        }
+
+        //if (professionAuidtId == engreeingModel.ProjectManagerId && professionAuidtId != 0) {
+        //    //TODO:项目经理不能和审核人重复 的弹框
+        //    errPromot("项目：" + engreeingModel.EngreeingName + " 专业：" + professionName + "项目经理不能和审核人重复");
+        //    return false;
+        //}
+
+        //if (engreeingModel.ProjectManagerId == professionReAuidtId && professionReAuidtId != 0) {
+        //    //TODO:项目经理不能和复核人重复 的弹框
+        //    errPromot("项目：" + engreeingModel.EngreeingName + " 专业：" + professionName + "项目经理不能和复核人重复");
+        //    return false;
+        //}
+
+        distributeModel.DistributionEngreeingList[currentIndex].ProfessionDistributionList.push(
+            {
+                ProfessionId: professionId,
+                ProfessionName: professionName,
+                ProfessionAuidtId: professionAuidtId,
+                ProfessionAuidtName: professionAuidtName,
+                ProfessionReAuidtId: professionReAuidtId,
+                ProfessionReAuidtName: professionReAuidtName
+            }
+            );
+
+        return true;
+    }
+
+    $(function () {
+        $(".submit").click(function () {
+            distributeModel.DistributionEngreeingList = [];
+            index = 0;
+            if ("@Model.OrganizationType" != "@TS.Core.Domain.Organizations.OrganizationType.Censorship") {
+                console.log($("#enterprise-type"));
+                console.log($("#enterprise-type").data("id"));
+                console.log($("#enterprise-type").val());
+                distributeModel.ProjectManagerId = $("#enterprise-type").data("id");
+                distributeModel.ProjectManagerName = $("#enterprise-type").val();
+            }
+            else {
+                try {
+                    if (!GetDistriutionList()) {
+                        return;
+                    }
+                } catch (e) {
+                    errPromot("分配信息失败！");
+                    return;
+                }
+            }
+
+            Ajax("@Url.Action("DistribteRoles", "Project")", "post", function (result) {
+                if (result.success) {
+                    errPromot("更新成功！");
+                    popUpHide();
+                    refresh(true);
+                } else {
+                    errPromot("更新失败！");
+                }
+            }, distributeModel);
+        });
+
+    });
+
+</script>

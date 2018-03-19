@@ -1,0 +1,63 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "declaration": false,
+    "removeComments": true,
+    "noLib": false,
+    "lib": ["es2016", "dom"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "pretty": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noImplicitUseStrict": false,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "../../node_modules/@types",
+      "../../node_modules"
+    ],
+    "types": [
+      "node",
+      "jasmine",
+      "systemjs"
+    ]
+  },
+  "files":[
+    "./app/frameworks/apis/services/bime.data.modelInfo.service.ts",
+    "./app/frameworks/apis/services/bime.element.data.service.ts",
+    "./app/frameworks/apis/services/bime.event.service.ts",
+    "./app/frameworks/apis/services/bime.hide.service.ts",
+    "./app/frameworks/apis/services/bime.isolate.service.ts",
+    "./app/frameworks/apis/services/bime.logic.service.ts",
+    "./app/frameworks/apis/services/bime.selector.service.ts",
+    "./app/frameworks/apis/services/bime.zoom.service.ts",
+    "./app/frameworks/apis/services/bime.utility.service.ts",
+    "./app/frameworks/apis/services/bime.model.view.service.ts",
+    "./app/frameworks/apis/services/bime.viewpoint.service.ts",
+    "./app/frameworks/apis/services/bime.annotation.service.ts",
+    "./app/frameworks/apis/services/bime.sheet.service.ts",
+    "./app/frameworks/apis/services/bime.element.property.service.ts",
+    "./app/frameworks/apis/services/bime.viewpoint.link.service.ts"
+  ],
+  "exclude": [
+    "desktop",
+    "shared",
+    "components",
+    "widget",
+    "**/*.module.ts",
+    "**/index.ts",
+    "class",
+    "**/*.spec.ts",
+    "nativescript",
+    "node_modules",
+    "dist",
+    "src"
+  ],
+  "compileOnSave":true
+}
+

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!--<script src="lib/jquery.min.js" type="text/javascript" charset="utf-8"></script>-->
+  <meta charset="utf-8">
+  <script src = './jquery.min.js' type="text/javascript" charset="utf-8"></script>
+  <script src='./jquery.easyui.min.js' type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" href="./easyui.css">
+  <title>BIMe</title>
+
+  <style type="text/css">
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .tt-inner {
+      display: inline-block;
+      line-height: 15px;
+      padding-top: 5px;
+    }
+
+    .tt-inner img {
+      border: 0;
+      height: 24px;
+      width: 24px;
+    }
+
+    /*属性显示*/
+    #property {
+      background: #F9FBFF;
+      border-right: 1px solid #D1D3D6;
+      border-left: 1px solid #D1D3D6;
+      border-bottom: 1px solid #D1D3D6;
+
+    }
+
+    #property h5 {
+      color: #444;
+      line-height: 28px;
+      padding: 0;
+      font-weight: bold;
+      text-align: center;
+      background: #E3EBF7;
+      margin: 0px;
+      border-top: 1px solid #D1D3D6;
+
+    }
+
+    #property span {
+      display: inline-block;
+      width: 129px;
+      line-height: 24px;
+      color: #555;
+      font-size: 12px;
+      padding: 0px 5px;
+      overflow: hidden;
+      vertical-align: middle;
+      box-sizing: content-box;
+    }
+
+    #property > div > div > div {
+      border-top: 1px solid #D1D3D6;
+    }
+
+    /*属性显示*/
+    .property {
+      background: #F9FBFF;
+      border-right: 1px solid #D1D3D6;
+      border-left: 1px solid #D1D3D6;
+      border-bottom: 1px solid #D1D3D6;
+
+    }
+
+    .property h5 {
+      color: #444;
+      line-height: 28px;
+      padding: 0;
+      font-weight: bold;
+      text-align: center;
+      background: #E3EBF7;
+      margin: 0px;
+      border-top: 1px solid #D1D3D6;
+
+    }
+
+    .property span {
+      display: inline-block;
+      width: 129px;
+      line-height: 24px;
+      color: #555;
+      font-size: 12px;
+      padding: 0px 5px;
+      overflow: hidden;
+      vertical-align: middle;
+      box-sizing: content-box;
+    }
+
+    .property > div > div > div {
+      border-top: 1px solid #D1D3D6;
+    }
+  </style>
+</head>
+
+<body onload="loadProperty()">
+<div class="easyui-tabs" data-options="tabWidth:55,tabHeight:50" style="width:480px;height:100%;position: absolute">
+  <div title="<span class='tt-inner'><br>模型</span>" style="padding:10px">
+    <div style="width:480px;height: 100%;">
+      <div id="property"></div>
+    </div>
+  </div>
+  <div title="<span class='tt-inner'><br>扩展</span>" style="padding:10px">
+    <div style="width:480px;height: 100%;">
+      <div id="exproperty" class="property"></div>
+    </div>
+  </div>
+  <div title="<span class='tt-inner'><br>链接</span>" style="padding:10px">
+    <div style="width:480px;height: 100%;">
+      <div id="linkProperty"  class="property"></div>
+    </div>
+  </div>
+  <div title="<span class='tt-inner'><br>文档</span>" style="padding:10px">
+    <div style="width:480px;height: 100%;">
+      <div id="documentProperty" class="property"></div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  var oldServer = false;
+  var projectID = GetQueryString("ProjectID") || 'e4430869-43a7-5983-722e-8a7fd9771156';
+  var modelID = GetQueryString("ModelID") || "c996582c-56e1-4526-b075-8ca8f75ec25e";
+  var versionNO = GetQueryString("VersionNO") || '';
+  var elementID = GetQueryString("ElementID") || '140056';
+  elementID = elementID.split('^')[1];
+  var url = 'http://40.125.208.83:81/api/';
+
+  var pURL = url + 'Model/GetElementProperty?ProjectID=' + projectID + '&ModelID=' + modelID + '&VersionNO=' + versionNO + '&ElementID=' + elementID;
+
+  var expURL = url + 'Prj/GetElementExternalProperty?ProjectID=' + projectID + '&ModelID=' + modelID + '&ElementID=' + elementID;
+
+  var linkURl = url + 'Prj/GetElementExternalLink?ProjectID=' + projectID + '&ModelID=' + modelID + '&ElementID=' + elementID;
+
+  var documentURL = 'http://40.125.208.83:81/api/Doc/GetFileRelationListBySTID';
+
+  var openURL = 'http://40.125.208.83:81/api/Doc/GetFile?ProjectID=' + projectID + '&FileKind=File&FileInfoVersionId=&keyValue=';
+  // 地址栏取参数
+  function GetQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null)return unescape(r[2]);
+    return null;
+  }
+
+  // 去掉数组中重复的项
+  function GetUnique(inputArray) {
+    var outputArray = [];
+    for (var i = 0; i < inputArray.length; i++) {
+            var flag = false;
+      for (var j = 0; j < outputArray.length; j++) {
+        if (outputArray[j] === inputArray[i]) {
+          flag = true;
+                break;
+        }
+      }
+      if(flag === false){
+        outputArray.push(inputArray[i]);
+      }
+    }
+
+    return outputArray;
+  }
+  // 动态加载属性方法
+  function addStr(m, dom) {
+    var divStr = '<div';
+    if (m.IsEdited) {
+      divStr += ' style="background:#e4e1b6" title=编辑者："' + m.EditBy + '"';
+    }
+    divStr += '>';
+    if (m.Value) {
+      if (m.Group == '附件') {
+        dom.innerHTML += divStr + '<span>' + m.Name + '</span>' + '<span style="border-left: 1px solid #D1D3D6;text-decoration:underline;cursor:pointer" onclick="openAttachment(\'' + m.Guid + '\',\'' + m.Value + '\')">' + m.Value + '</span>' + '</div>';
+      }
+      else {
+        dom.innerHTML += divStr + '<span>' + m.Name + '</span>' + '<span style="border-left: 1px solid #D1D3D6">' + m.Value + '</span>' + '</div>';
+      }
+    } else {
+      dom.innerHTML += divStr + '<span style="border-right: 1px solid #D1D3D6">' + m.Name + '</span>' + '<span>' + m.Value + '</span>' + '</div>';
+    }
+  }
+
+  function getPropertyForQRCode(projectID, modelID, versionNO, elementID) {
+    var idArr = elementID.split("^");
+    var eID = elementID;
+
+
+    return getJSON(pURL);
+  }
+
+  postJSON = function (_url, _formData) {
+    return new Promise(function (resolve, reject) {
+      var request = new XMLHttpRequest();
+      request.open("POST", _url, true);
+      request.onreadystatechange = function () {
+        if (this.readyState == 4 && (this.status == 200 || this.status == 0)) {
+
+          try {
+            if (request.responseText.indexOf('schemas.microsoft.com') >= 0) {
+              var parser = new DOMParser();
+              var resultDoc = parser.parseFromString(request.responseText,"text/xml");
+              var resText = request.responseText.split('Serialization/">')[1].split('</string')[0];
+              resolve(resText);
+            } else {
+              resolve(request.responseText);
+
+            }
+          } catch (e) {
+            reject({
+              e: e,
+              url: _url
+            })
+          }
+        }
+      }
+      request.send(_formData);
+    })
+  }
+
+
+  function getJSON(_url) {
+    return new Promise(function (resolve, reject) {
+      var request = new XMLHttpRequest();
+      request.open("GET", _url, true);
+      request.onreadystatechange = function () {
+        if (this.readyState == 4 && (this.status == 200 || this.status == 0)) {
+
+          try {
+            resolve(JSON.parse(request.responseText));
+          } catch (e) {
+            reject({
+              e: e,
+              url: _url
+            })
+          }
+        }
+      };
+      request.send();
+    })
+  }
+
+  function loadProperty() {
+    var pro = document.getElementById('property'),
+      proAObjrr = [],
+      proArr = [],
+      noReGroup = [];
+
+    getPropertyForQRCode(projectID, modelID, versionNO, elementID).then(function (propData) {
+      // 存储proArr中部不重复的项
+      noReGroup = [];
+      proAObjrr = [];
+      pro.innerHTML = '';
+      if (propData) {
+        propData.map(function (m) {
+          proAObjrr.push(m);
+          proArr.push(m.Group);
+        });
+      }
+
+      noReGroup = GetUnique(proArr);
+
+      for (var i = 0, len = noReGroup.length; i < len; i++) {
+        var str = '';
+        str = '<div>' +
+          '<h5>' + noReGroup[i] + '</h5>' +
+          '<div id="' + noReGroup[i] + '"></div>' +
+          '</div>'
+        pro.innerHTML += str;
+      }
+
+      for (var i = 0, len = noReGroup.length; i < len; i++) {
+        var curDom = document.getElementById(noReGroup[i]);
+        for (var k = 0, len = proAObjrr.length; k < len; k++) {
+          if (proAObjrr[k].Group === noReGroup[i]) {
+            addStr(proAObjrr[k], curDom);
+          }
+        }
+      }
+
+      getJSON(expURL).then(function (data) {
+
+        data = JSON.parse(data);
+        console.log(data);
+        var expro = document.getElementById('exproperty');
+        expro.innerHTML = '';
+        for(var i = 0; i < data.length; i++) {
+          var divStr = '<div';
+          divStr += '>';
+          expro.innerHTML += divStr + '<span>' + data[i].Name + '</span>' + '<span style="border-left: 1px solid #D1D3D6">' + data[i].Content + '</span>' + '</div>';
+        }
+
+        getJSON(linkURl).then(function (link) {
+          link = JSON.parse(link);
+          var linkpro = document.getElementById('linkProperty');
+          linkpro.innerHTML = '';
+          for(var i = 0; i < link.length; i++) {
+            if(link[i].Type === 4) {
+              continue;
+            }
+            if(link[i].Type === 3) {
+              var divStr = '<div';
+              divStr += '>';
+              linkpro.innerHTML += divStr + '<span>' + link[i].Name + '</span>' + '<span style="border-left: 1px solid #D1D3D6;text-decoration:underline;cursor:pointer" onclick="openPicture(\'' + link[i].Content + '\')">' +link[i].Content + '</span>' + '</div>';
+            } else {
+              var divStr = '<div';
+              divStr += '>';
+              linkpro.innerHTML += divStr + '<span>' + link[i].Name.split('|')[0] + '</span>' + '<span style="border-left: 1px solid #D1D3D6;text-decoration:underline;cursor:pointer" onclick="openPicture(\'' + link[i].Content + '\')">' +link[i].Name.split('|')[1] + '</span>' + '</div>';
+            }
+
+          }
+          let formData = new FormData();
+          formData.append('ProjectID', projectID);
+          formData.append('STID', elementID);
+          postJSON(documentURL, formData).then(function (documents) {
+            documents = JSON.parse(documents);
+            var documentProperty = document.getElementById('documentProperty');
+            documentProperty.innerHTML = '';
+            for(var i = 0; i < documents.length; i++) {
+              var divStr = '<div';
+              divStr += '>';
+              documentProperty.innerHTML += divStr + '<span>' + documents[i].SourceName + '</span>' + '<span style="border-left: 1px solid #D1D3D6;text-decoration:underline;cursor:pointer" onclick="openDocument(\'' + documents[i].TargetId + '\')">' +documents[i].TargetName + '</span>' + '</div>';
+            }
+          });
+
+        });
+
+      });
+
+    });
+
+
+  }
+  function openAttachment(id, name) {
+    var fileInfo = {
+      fileID: id,
+      fileName: name
+    };
+
+    window.open(url  + 'Project/GetAttachment?ProjectID=' + projectID + '&FileID=' + id + '&FileName=' + name);
+  }
+  function openPicture(base64) {
+    window.open(base64);
+  }
+
+  function openDocument(id) {
+    window.open(openURL + id);
+  }
+</script>
+
+</body>
+</html>

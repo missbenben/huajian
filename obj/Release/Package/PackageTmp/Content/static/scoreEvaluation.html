@@ -1,0 +1,451 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <title>分数评估</title>
+    <link href="../lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/HJcommon.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/drawingSign.css">
+    <!--  注意  要在http形式下打开 页面 才能正常使用下面两个文件-->
+    <!--[if lt IE 9]>
+    <script src="../lib/html5shiv/html5shiv.min.js"></script>
+    <script src="../lib/respond/respond.js"></script>
+    <![endif]-->
+    <script src="../lib/jquery/jquery.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.js"></script>
+    <script src="../js/echarts.common.min.js"></script>
+    <script src="../js/selectCommon.js"></script>
+</head>
+<body>
+    <!--头部-->
+    <div class="HJ-header">
+        <div class="HJ-header-tabs clearfix">
+            <div class="project-classification pull-left clearfix">
+                <div class="name pull-left">数字化审图平台</div>
+                <ul class="pull-left">
+                    <li class="manage-project">我管理的项目</li>
+                    <li class="reviewed-project">我审查的项目</li>
+                    <li class="review-project">我复核的项目</li>
+                </ul>
+            </div>
+            <div class="personal-center pull-right">
+                <ul>
+                    <li class="user">
+                        <div class="name">
+                            CCCC <i class="iconfont icon-arrLeft-fill"></i>
+                        </div>
+                        <div class="user-dropDown-box">
+                            <div class="company">文思海辉有限公司</div>
+                            <div class="personal-information clearfix">
+                                个人信息
+                                <span class="pull-right"><a href="personalInformation.html">编辑</a></span>
+                            </div>
+                            <div class="exit">
+                                <div class="exit-logo">
+                                    <img src="../image/exit.png" alt="">退出
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="main-sidebar scoreEvalution-sidebar active">
+        <ul class="sidebar-menu">
+            <li class="treeview">
+                <div class="floor active">
+                    1号教学楼
+                </div>
+            </li>
+            <li class="treeview">
+                <div class="floor">
+                    1号教学楼
+                </div>
+            </li>
+            <li class="treeview">
+                <div class="floor">
+                    1号教学楼
+                </div>
+            </li>
+            <li class="treeview">
+                <div class="floor">
+                    1号教学楼
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="content-box scoreEvalution-content">
+        <div class="evaluation-box">
+           <!-- <div class="back-previous-level">
+                <a href="javascript:;" onclick="history.back()">
+                    <img src="../image/ICON_FANHUI.png" alt="">
+                    返回上一级
+                </a>
+            </div>-->
+            <div class="score-evaluation-box">
+                <div class="top">
+                    <div class="title">分数评估</div>
+                    <select name="" id="">
+                        <option value="">一号楼四楼评估结果</option>
+                        <option value="">一号楼四楼评估结果</option>
+                        <option value="">一号楼四楼评估结果</option>
+                    </select>
+                </div>
+                <div class="main clearfix">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>专业</th>
+                                <th>审查人</th>
+                                <th>复核人</th>
+                                <th class="space"></th>
+                                <th>分数</th>
+                                <th>结果</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="professional">建筑</td>
+                                <td>wwq4</td>
+                                <td>wwq4</td>
+                                <td></td>
+                                <td class="score">12</td>
+                                <td class="qualified">合格</td>
+                            </tr>
+                            <tr>
+                                <td class="professional">建筑</td>
+                                <td>wwq4</td>
+                                <td>wwq4</td>
+                                <td></td>
+                                <td class="score">12</td>
+                                <td class="qualified">合格</td>
+                            </tr>
+                            <tr>
+                                <td class="professional">建筑</td>
+                                <td>wwq4</td>
+                                <td>wwq4</td>
+                                <td></td>
+                                <td class="score">12</td>
+                                <td class="unqualified">不合格</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                  <!--  <div id="pie" class="pull-right" style="width: 300px;height:300px;"></div>-->
+                </div>
+            </div>
+            <div class="problem-scale">
+                <div class="title">问题比例</div>
+                <div class="main">
+                    <div id="main" style="width: 100%;height:500px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="operation-btn">项目结束</div>
+    </div>
+    <script>
+        $(function() {
+            var height =  $(".evaluation-box").innerHeight();
+            $(".main-sidebar").height(height);
+
+
+            $(".treeview .floor").click(function() {
+                $(this).addClass("active");
+                var siblingLi =  $(this).parent().siblings();
+                siblingLi.find(".floor").removeClass("active");
+            });
+
+
+            //环形图
+          /*  var asd =echarts.init(document.getElementById('pie'));
+            var option = {
+                title: {
+                    show: true,
+                    text: '80',
+                    textStyle: {
+                        color: '#0078D7',
+                        fontSize: '30'
+                    },
+                    subtext: ['最终评分'],
+                    x:'center',
+                    y: 120,
+                    subtextStyle:{
+                        color: '#0078D7',
+                        fontSize: '16'
+                    }
+                },
+                tooltip: {
+                    trigger: 'item',
+                    show: false,
+                    formatter: "{a} <br/>{b}: {c} ({d}%)"
+                },
+                color: ['#0E81DD','#ECEEF4'],
+                series: [
+                    {
+                        type:'pie',
+                        radius: ['50%', '60%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '30',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data:[
+                            {value:70},
+                            {value:50}
+                        ]
+                    }
+                ]
+            };
+            asd.setOption(option);
+*/
+
+
+            var myChart = echarts.init(document.getElementById('main'));
+
+            function option(json) {
+                var CommentType = [];
+                var Profession = [];
+                var listArr = [];
+                for(var j in json[0].Comments) {
+                    Profession.push(json[0].Comments[j].Profession);
+                }
+                for(var i in json) {
+                    CommentType.push(json[i].CommentType);
+                    var data = [];
+                    for( var z in Profession){
+                        for(var j in json[i].Comments) {
+                            if(json[i].Comments[j].Profession == Profession[z]) {
+                                data.push(json[i].Comments[j].Amount);
+                            }
+                        }
+                    }
+                    var seriesNode = {
+                        name: json[i].CommentType,
+                        type: 'bar',
+                        data: data,
+                        barMaxWidth :20,
+                        barGap: '120%',
+                        itemStyle: {
+                            emphasis: {
+                                barBorderRadius: [50, 50, 0, 0]
+                            },
+                            normal: {
+                                barBorderRadius: [50, 50, 0, 0],
+                                label: {
+                                    show: true,
+                                    position: 'top',
+//                                    formatter: '{c}%',
+                                    textStyle: {
+                                        fontSize : '11',
+                                        color:'#393946'
+                                    }
+                                }
+                            }
+                        }
+                    };
+                    listArr.push(seriesNode);
+                }
+                var  option2 = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'line'
+                        }
+                    },
+                    color:['#8C62FF','#57C6F8','#6487F4','#5EDDCF'],
+                    legend: {
+                        x: 'right',
+                        data: CommentType,
+                        itemWidth: 10,
+                        itemHeight: 10,
+                        itemGap: 8,
+                        orient: '',
+                        width: 60,
+                        bottom: 40,
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#767A8A'
+                        }
+                    },
+                    grid: {
+                        left: '0',
+                        right: '10%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: Profession
+                    },
+                    yAxis: {
+                        type: 'value',
+//                        axisLabel : {formatter : '{value}%' },
+                        boundaryGap: [0, 0.01],
+                        data:{
+                            min:0,
+                            max:100
+                        },
+                        splitLine: {lineStyle:{type:'dashed'}}
+                    },
+                    series:listArr
+                    /*[
+                     {
+                     name: '关闭意见',
+                     type: 'bar',
+                     data: [10, 30, 29.5, 22.5, 30],
+                     barGap: '120%',
+                     itemStyle: {
+                     emphasis: {
+                     barBorderRadius: [50, 50, 0, 0]
+                     },
+                     normal: {
+                     barBorderRadius: [50, 50, 0, 0],
+                     label: {
+                     show: true,
+                     position: 'top',
+                     formatter: '{c}%',
+                     textStyle: {
+                     fontSize : '11',
+                     color:'#393946'
+                     }
+                     }
+                     }
+                     }
+                     },
+                     {
+                     name: 'A类意见',
+                     type: 'bar',
+                     data: [7.7, 20, 29.5, 22.5, 44],
+                     barGap: '100%',
+                     itemStyle: {
+                     emphasis: {
+                     barBorderRadius: [50, 50, 0, 0]
+                     },
+                     normal: {
+                     barBorderRadius: [50, 50, 0, 0],
+                     label: {
+                     show: true,
+                     position: 'top',
+                     formatter: '{c}%',
+                     textStyle: {
+                     fontSize : '11',
+                     color:'#393946'
+                     }
+                     }
+                     }
+                     }
+                     },
+                     {
+                     name: 'B类意见',
+                     type: 'bar',
+                     data: [8, 40, 29.5, 22.5, 23],
+                     barGap: '100%',
+                     itemStyle: {
+                     emphasis: {
+                     barBorderRadius:[50, 50, 0, 0]
+                     },
+                     normal: {
+                     barBorderRadius: [50, 50, 0, 0],
+                     label: {
+                     show: true,
+                     position: 'top',
+                     formatter: '{c}%',
+                     textStyle: {
+                     fontSize : '11',
+                     color:'#393946'
+                     }
+                     }
+                     }
+                     }
+                     },
+                     {
+                     name: 'C类意见',
+                     type: 'bar',
+                     data: [5, 37, 29.5, 22.5, 12],
+                     barGap: '100%',
+                     itemStyle: {
+                     emphasis: {
+                     barBorderRadius: [50, 50, 0, 0]
+                     },
+                     normal: {
+                     barBorderRadius: [50, 50, 0, 0],
+                     label: {
+                     show: true,
+                     position: 'top',
+                     formatter: '{c}%',
+                     textStyle: {
+                     fontSize : '11',
+                     color:'#393946'
+                     }
+                     }
+                     }
+                     }
+                     }
+                     ]*/
+                };
+                return option2;
+            }
+            var json = [
+                {
+                    CommentType: "A类意见",
+                    Comments: [{
+                        Profession: "建筑",
+                        Amount: 10,
+                    }, {
+                        Profession: "电气",
+                        Amount : 8,
+                    }]
+                },
+                {
+                    CommentType: "B类意见",
+                    Comments: [ {
+                        Profession: "电气",
+                        Amount: 7,
+                    },
+                        {
+                            Profession: "建筑",
+                            Amount: 9,
+                        }
+                    ]
+                },
+                {
+                    CommentType: "C类意见",
+                    Comments: [{
+                        Profession: "建筑",
+                        Amount: 6,
+                    }, {
+                        Profession: "电气",
+                        Amount: 5,
+                    }]
+                }
+            ];
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option(json));
+
+
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+﻿@using TS.Web.Models.EngineeringFiles
+@model ModelReviewedListModel
+
+@if (Model.OrganizationType == TS.Core.Domain.Organizations.OrganizationType.Censorship )
+{
+    <div class="score-evaluation">
+        <a href="@Url.Action("ModelEvaluate", "EngineeringFile",new { projectId = Model.ProjectId})">分数评估</a>
+    </div>
+}
+
+<div class="table-box">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="left-space"></th>
+                    <th>模型版本</th>
+                    <th>版本说明</th>
+                    <th>状态更新时间</th>
+                    <th>意见数量</th>
+                    <th class="space"></th>
+                    <th>操作</th>
+                    <th>专业审核列表</th>
+                    <th class="left-space"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var mdr in Model.ModelReviewedList)
+            {
+                    <tr>
+                        <td></td>
+                        <td>@mdr.ModelVersionNo</td>
+                        <td class="imprint model" data-uploadDes="@mdr.UploadDescription" data-rejectDes="@mdr.RejectDescription">
+                            <div>@mdr.UploadDescription</div>
+                        </td>
+                        <td>@mdr.UpdateTime</td>
+                        <td>@mdr.CommnetCount</td>
+                        <td></td>
+                        <td class="common-color">
+                            <a href="@Url.Action("ModelDetail", "BimModel",new { modelVersionId = mdr.ModelVersionId})">进入模型</a>
+                        </td>
+                        <td class="common-color">
+                            <a href="@Url.Action("CommentList","Comment",new { modelVersionId = mdr.ModelVersionId})">打开</a>
+                        </td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

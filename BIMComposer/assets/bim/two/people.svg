@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="55px" height="25px" viewBox="0 0 55 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M17,18.5121171 L17,8.5 C17,3.80557963 13.1944204,-8.62351033e-16 8.5,0 L8.5,0 L8.5,0 C3.80557963,8.62351033e-16 -5.74900688e-16,3.80557963 0,8.5 L0,8.5 L0,45.5 C5.74900688e-16,50.1944204 3.80557963,54 8.5,54 L8.5,54 L8.5,54 C13.1944204,54 17,50.1944204 17,45.5 L17,35.4878829 C16.0616632,35.8195373 15.0519063,36 14,36 C9.02943725,36 5,31.9705627 5,27 C5,22.0294373 9.02943725,18 14,18 C15.0519063,18 16.0616632,18.1804627 17,18.5121171 Z" id="path-1"></path>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="环视-copy" transform="translate(-29.000000, -74.000000)">
+            <g id="Group" transform="translate(56.500000, 87.000000) rotate(-90.000000) translate(-56.500000, -87.000000) translate(45.000000, 60.000000)">
+                <g id="Combined-Shape">
+                    <use fill="#08BB08" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <path stroke="#319AC6" stroke-width="2" d="M16,17.2002238 L16,8.5 C16,4.35786438 12.6421356,1 8.5,1 C4.35786438,1 1,4.35786438 1,8.5 L1,45.5 C1,49.6421356 4.35786438,53 8.5,53 C12.6421356,53 16,49.6421356 16,45.5 L16,36.7997762 C15.3470675,36.9323856 14.677908,37 14,37 C8.4771525,37 4,32.5228475 4,27 C4,21.4771525 8.4771525,17 14,17 C14.677908,17 15.3470675,17.0676144 16,17.2002238 Z"></path>
+                </g>
+                <circle id="Oval-2-Copy-2" stroke="#319AC6" stroke-width="2" fill="#08BB08" cx="14" cy="27" r="9"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

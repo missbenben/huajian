@@ -1,0 +1,19 @@
+﻿@using TS.Web.Models.SuperAdmin
+@model List<AdminAndCompanyModel>
+@foreach (var adminAndCom in Model)
+{
+    <tr>
+        <td></td>
+        <td>@adminAndCom.Account</td>
+        <td>@adminAndCom.AdminName</td>
+        <td>@adminAndCom.CompanyName</td>
+        <td>@adminAndCom.CompanyType</td>
+        <td>@adminAndCom.ApplyTime</td>
+        <td></td>
+        <td class="common-color check"><a href="@Url.Action("UnCheckedDetail","SuperAdmin",new { UnCheckedAdminId = adminAndCom.AdminId })">查看</a></td>
+        <td></td>
+    </tr>
+}
+
+
+

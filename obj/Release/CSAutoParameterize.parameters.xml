@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="HuaJiaContext-Web.config Connection String" description="HuaJiaContext Connection String used in web.config by the application to access the database." defaultValue="Server=tcp:bin.database.chinacloudapi.cn,1433;Initial Catalog=bim01;Persist Security Info=False;User ID=bimadmin;Password=HuajianBim@2017;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="G:\\HuaJian\\TS\\TS\.Web\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='HuaJiaContext']/@connectionString" />
+  </parameter>
+</parameters>

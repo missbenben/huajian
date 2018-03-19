@@ -1,0 +1,221 @@
+﻿@using TS.Web.Models.Comments
+@using TS.Core.Domain.Projects
+@model CommentDetailModel.CommentButtom
+
+
+@if (Model.Roles.Contains(Role.Checker))
+{
+    //审核人可以操作意见
+    if (Model.ProfessionStatus == FlowCode.Pre_AuditCompany_ProjectManager_Sign ||
+        Model.ProfessionStatus == FlowCode.Pre_AuditCompany_ProfessionReAudit_Back ||
+        Model.ProfessionStatus == FlowCode.Pre_AuditCompany_ProjectManager_ConformComplate ||
+        Model.ProfessionStatus == FlowCode.AuditCompany_ProfessionReaudit_Reject_ProfessionAudit ||
+        Model.ProfessionStatus == FlowCode.AuditCompany_ProjectManager_Sign_BuildCompany)
+    {
+        //初次待提交意见或意见被驳回
+        if (Model.Status == FlowCode.Pre_AuditCompany_ProfessionAudit_ProfessionalPerfectComment ||
+            Model.Status == FlowCode.Pre_AuditCompany_ProfessionReaudit_Reject_ProfessionalPerfect ||
+            Model.Status == FlowCode.AuditCompany_ProfessionAudit_Create_Comment ||
+            Model.Status == FlowCode.AuditCompany_ProfessionAudit_Update_Comment ||
+            Model.Status == FlowCode.AuditCompany_ProfessionReaudit_Disagree_ProfessionAuditComment ||
+            Model.Status == FlowCode.AuditCompany_ProfessionAudit_Undelete_Comment)
+        {
+            <div class="operation">
+                <div class="operation-iterms">
+                    @if (!Model.IsInCommentDetail)
+                    {
+                        <span class="updateComment" onclick="UpdateCommentPopUp('@Model.CommentId')">修改</span>
+                    }
+                    else
+                    {
+                        <a class="update_a" href="@Url.Action("ModelDetail", "BIMModel", new { modelVersionId = Model.CurrentModelVersionId, commentId = Model.CommentId, professionId = Model.ProfessionId })">修改</a>
+                    }
+                </div>
+                @if (Model.ProfessionStatus == FlowCode.Pre_AuditCompany_ProjectManager_Sign ||
+                                 Model.ProfessionStatus == FlowCode.Pre_AuditCompany_ProfessionReAudit_Back)
+                {
+                    <div class="nullify">
+                        <a data-uri="@Url.Action("AduitOperateComment", "Comment", new {commentId = Model.CommentId, operationType = AduitCommentOperationType.Pre_AuditDeleteComment})">作废</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="nullify">
+                        <a data-uri="@Url.Action("AduitOperateComment", "Comment", new {commentId = Model.CommentId, operationType = AduitCommentOperationType.DeleteComment})">作废</a>
+                    </div>
+                }
+            </div>
+        }
+        else if (Model.Status == FlowCode.DesignCompany_Repair_Comment)
+        {
+            <div class="operation">
+                <div class="operation-iterms"><a data-uri="@Url.Action("AduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = AduitCommentOperationType.AgreeRepaired })">同意</a></div>
+                <div class="reject"><a data-uri="@Url.Action("AduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = AduitCommentOperationType.DisagreeRepaired })">不同意</a></div>
+            </div>
+        }
+        else if (Model.Status == FlowCode.Pre_AuditCompany_ProfessionAudit_Delete_Comment ||
+                 Model.Status == FlowCode.AuditCompany_ProfessionAudit_Delete_Comment ||
+                 Model.Status == FlowCode.AuditCompany_ProfessionAudit_Agrees_DesignCompany_RePairComment ||
+                 Model.Status == FlowCode.AuditCompany_ProfessionAudit_Disagrees_DesignCompany_RePairComment)
+        {
+            <div class="operation">
+                <div class="operation-iterms"><a data-uri="@Url.Action("AduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = AduitCommentOperationType.Back })">撤销</a></div>
+            </div>
+        }
+    }
+}
+@if (Model.Roles.Contains(Role.Reviewer))
+{
+    //复核人复核阶段
+    if (Model.ProfessionStatus == FlowCode.Pre_AuditCompany_ProfessionAudit_Submit ||
+        Model.ProfessionStatus == FlowCode.AuditCompany_ProfessionAudit_Submit)
+    {
+        if (Model.ProfessionStatus == FlowCode.Pre_AuditCompany_ProfessionAudit_Submit &&
+            Model.Status == FlowCode.Pre_AuditCompany_ProfessionAudit_ProfessionalPerfectComment
+            )
+        {
+            <div class="operation">
+                <div class="operation-iterms"><a data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.Pre_AgreeComment })">同意</a></div>
+                @*<div class="reject"><a class="return-comment" data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.Pre_DisAgreeComment })">驳回</a></div>*@
+                @if (!Model.IsInCommentDetail)
+                {
+                    <div class="reject"><span onclick="RejectCommentPopUp('@Model.CommentId')">驳回</span></div>
+                }
+                <div class="nullify"><a data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.Pre_ReauditDeleteComment })">作废</a></div>
+            </div>
+        }
+        if (Model.ProfessionStatus == FlowCode.Pre_AuditCompany_ProfessionAudit_Submit &&
+            (Model.Status == FlowCode.Pre_AuditCompany_ProfessionReaudit_Approve_ProfessionalPerfect ||
+            Model.Status == FlowCode.Pre_AuditCompany_ProfessionReaudit_Reject_ProfessionalPerfect ||
+            Model.Status == FlowCode.Pre_AuditCompany_ProfessionReaudit_Delete_Comment))
+        {
+            <div class="operation">
+                <div class="operation-iterms"><a data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.Pre_Back })">撤销</a></div>
+            </div>
+        }
+        //审核人新建的，修改的意见
+        else if (Model.Status == FlowCode.AuditCompany_ProfessionAudit_Create_Comment ||
+            Model.Status == FlowCode.AuditCompany_ProfessionAudit_Update_Comment ||
+            Model.Status == FlowCode.AuditCompany_ProfessionAudit_Undelete_Comment)
+        {
+            <div class="operation">
+                <div class="operation-iterms"><a data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.PassComment })">同意</a></div>
+                <div class="reject"><a data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.ReturnComment })">重审</a></div>
+            </div>
+        }
+        //复核人自己新建和修改的意见
+        else if (Model.Status == FlowCode.Pre_AuditCompany_ProfessionReaudit_ProfessionalPerfectComment ||
+            Model.Status == FlowCode.AuditCompany_ProfessionReaudit_Create_Comment ||
+            Model.Status == FlowCode.AuditCompany_ProfessionReaudit_Update_Comment ||
+            Model.Status == FlowCode.AuditCompany_ProfessionReaudit_UnDelete_Comment)
+        {
+            <div class="operation">
+                <div class="operation-iterms">
+                    @if (!Model.IsInCommentDetail)
+                    {
+                        <span class="updateComment" onclick="UpdateCommentPopUp('@Model.CommentId')">修改</span>
+                    }
+                    else
+                    {
+                        <a class="update_a" href="@Url.Action("ModelDetail", "BIMModel", new { modelVersionId = Model.CurrentModelVersionId, commentId = Model.CommentId, professionId = Model.ProfessionId })">修改</a>
+                    }
+                </div>
+                @if (Model.Status == FlowCode.Pre_AuditCompany_ProfessionReaudit_ProfessionalPerfectComment)
+                {
+                    <div class="nullify"><a data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.Pre_ReauditDeleteComment })">作废</a></div>
+                }
+                else
+                {
+                    <div class="nullify"><a data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.DeleteComment })">作废</a></div>
+                }
+            </div>
+        }
+        //审核人审核已修复和未修复的意见
+        else if (Model.Status == FlowCode.AuditCompany_ProfessionAudit_Agrees_DesignCompany_RePairComment || Model.Status == FlowCode.AuditCompany_ProfessionAudit_Disagrees_DesignCompany_RePairComment)
+        {
+            <div class="operation">
+                <div class="operation-iterms"><a data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.AgreeRepaired })">同意</a></div>
+                <div class="reject"><a data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.DisagreeRepaired })">不同意</a></div>
+            </div>
+        }
+        //已删除的意见
+        else if (Model.Status == FlowCode.AuditCompany_ProfessionReaudit_Delete_Comment)
+        {
+            <div class="operation">
+                <div class="operation-iterms"><a data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.CancelDelete })">撤销</a></div>
+            </div>
+        }
+        else if (Model.Status == FlowCode.AuditCompany_ProfessionReaudit_Agrees_DesignCompany_NoRepair_Comment ||
+            Model.Status == FlowCode.AuditCompany_ProfessionReaudit_Disagrees_DesignCompany_NoRepair_Comment ||
+            Model.Status == FlowCode.AuditCompany_ProfessionReaudit_Disagrees_DesignCompany_RePairComment ||
+            Model.Status == FlowCode.AuditCompany_ProfessionReaudit_Agrees_DesignCompany_RePairComment ||
+            Model.Status == FlowCode.AuditCompany_ProfessionReaudit_Disagree_ProfessionAuditComment ||
+            Model.Status == FlowCode.AuditCompany_ProfessionReaudit_Agree_ProfessionAuditComment)
+        {
+            <div class="operation">
+                <div class="operation-iterms"><a data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.Back })">撤销</a></div>
+            </div>
+        }
+    }
+    //设计公司反馈有效的意见
+    else if (Model.ProfessionStatus == FlowCode.DesignCompany_Submit_AuditCompany_ProfessionReaudit)
+    {
+        //设计公司驳回的意见
+        if (Model.Status == FlowCode.DesignCompany_Disagree_AuditCompany_Comment)
+        {
+            <div class="operation">
+                <div class="operation-iterms"><a data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.DisagreeDesignReject })">保留</a></div>
+                <div class="nullify"><a data-uri="@Url.Action("ReAduitOperateComment", "Comment", new { commentId = Model.CommentId, operationType = ReAduitCommentOperationType.AgreeDesignReject })">作废</a></div>
+            </div>
+        }
+    }
+}
+@if (Model.Roles.Contains(Role.DesignCompanyManager))
+{
+    //设计公司收到建筑公司转发的意见
+    if (Model.ProfessionStatus == FlowCode.BuildCompany_Submit_DesignCompany)
+    {
+        //复核人通过，新增和修改的意见
+        if (Model.Status == FlowCode.AuditCompany_ProjectManager_Reject_NoRepair_Comment || Model.Status == FlowCode.DesignCompany_Undo_ArgeementOpration_AuditCompany_Comment)
+        {
+            <div class="operation">
+                <div class="operation-iterms"><a data-uri="@Url.Action("DesignManagerOperateComment", "Comment", new { commentId = Model.CommentId, operationType = DesignManagerCommentOperationType.Agree })">同意</a></div>
+                @*<div class="reject"><a class="return-comment" data-uri="@Url.Action("DesignManagerOperateComment", "Comment", new { commentId = Model.CommentId, operationType = DesignManagerCommentOperationType.Return })">驳回</a></div>*@
+                @if (!Model.IsInCommentDetail)
+                {
+                    <div class="reject"><span onclick="RejectCommentPopUp('@Model.CommentId')">驳回</span></div>
+                }
+            </div>
+        }
+        //设计同意和驳回的意见
+        if (Model.Status == FlowCode.DesignCompany_Agree_AuditCompany_Comment || Model.Status == FlowCode.DesignCompany_Disagree_AuditCompany_Comment)
+        {
+            <div class="operation">
+                <div class="operation-iterms"><a data-uri="@Url.Action("DesignManagerOperateComment", "Comment", new { commentId = Model.CommentId, operationType = DesignManagerCommentOperationType.Back })">撤销</a></div>
+            </div>
+        }
+    }
+    //TODO 初审待确认
+    //设计公司重新上传模型
+    else if (Model.ProfessionStatus == FlowCode.AuditCompany_ProjectManager_Confrim_CurrentProcess_End)
+    {
+        if (Model.ModelStatus == FlowCode.DesignCompany_Uploaded)
+        {
+            //设计公司同意的意见，设计公司驳回被拒绝的意见，复核人判断未修复的意见
+            if (Model.Status == FlowCode.AuditCompany_ProjectManager_Comprim_NeedRepair_Comment || Model.Status == FlowCode.DesignCompany_Undo_RepairAtiveOpration_Comment)
+            {
+                <div class="operation">
+                    <div class="operation-iterms"><a data-uri="@Url.Action("DesignManagerOperateComment", "Comment", new { commentId = Model.CommentId, operationType = DesignManagerCommentOperationType.Repaired })">已修复</a></div>
+                    <div class="reject"><a data-uri="@Url.Action("DesignManagerOperateComment", "Comment", new { commentId = Model.CommentId, operationType = DesignManagerCommentOperationType.UnRepaired })">未修复</a></div>
+                </div>
+            }
+            //设计已判断修复和未修复的意见
+            if (Model.Status == FlowCode.DesignCompany_Repair_Comment || Model.Status == FlowCode.DesignCompany_Unrepair_Comment)
+            {
+                <div class="operation">
+                    <div class="operation-iterms"><a data-uri="@Url.Action("DesignManagerOperateComment", "Comment", new { commentId = Model.CommentId, operationType = DesignManagerCommentOperationType.Back })">撤销</a></div>
+                </div>
+            }
+        }
+    }
+}

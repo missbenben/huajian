@@ -1,0 +1,13 @@
+﻿@using TS.Web.Models.EngineeringFiles
+@model List<ModelEvaluateModel.ProfessionEvaluateModel>
+@foreach (var profession in Model)
+{
+    <tr>
+        <td class="professional">@profession.ProfessionName</td>
+        <td>@profession.CheckerName</td>
+        <td>@profession.ReviewerName</td>
+        <td></td>
+        <td>@profession.Grade</td>
+        <td class="qualified">@profession.Result</td>
+    </tr>
+}

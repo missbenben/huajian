@@ -1,0 +1,121 @@
+﻿@model TS.Web.Models.CustomerLogin.LoginModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "登录";
+}
+
+    <div class="login-main">
+        <div class="top">
+            <div class="title">数字化审图平台</div>
+        </div>
+        <div class="login-wrapper clearfix">
+            <div class="left-img pull-left">
+                <img src="~/Content/image/IMG_DENGLUYONGTU.png" alt="">
+            </div>
+            <div class="login-content pull-left">
+                <div class="title">用户登录</div>
+                <div class="input-box">
+                    <div class="form-group">
+                        <label for="account" class="prompt">用户名</label>
+                        <div class="form-controls">
+                            <input id="account" type="text" class="control" placeholder="请输入用户名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="prompt">密码</label>
+                        <div class="form-controls">
+                            <input id="password" type="password" class="control" placeholder="请输入登录密码">
+                        </div>
+                    </div>
+                </div>
+                <div class="user-operation clearfix">
+                    <div class="remember-password pull-left">
+                        <input id="isremember" type="checkbox">
+                        <span>记住密码</span>
+                    </div>
+                    <div class="forgetPassword pull-right">
+                        <a href="/Customer/ForgetPassword">忘记密码</a>
+                    </div>
+                </div>
+                <div class="">
+                    <button type="button" id="loginButton" class="submit-btn">登录</button>
+                    @*<input type="submit" class="submit-btn" value="登录">*@
+                </div>
+                <div class="registration-btn">
+                    第一次注册审查信息平台？
+                    <a href="/Customer/Register">立即注册</a>
+                    <!--<a href="#">流程查询</a>-->
+                    <img src="~/Content/image/ICON_GENGDUO.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+        $('#loginButton').click(function () {
+            var isrem = false;
+            if ($('#isremember').is(':checked')) {
+                isrem = true;
+            }
+         //   $('#loginButton').attr('disabled', 'true');
+            $('#loginButton').html('正在登录');
+
+
+            var formData = new FormData();
+            formData.append('username', $('#account').val());
+            formData.append('password', $('#password').val());
+            formData.append('isremember', isrem);
+
+
+            $.ajax({
+                url: '@Html.Raw(Url.Action("PostLogin", "Customer"))',  // Different bucket zone has different upload url, you can get right url by the browser error massage when uploading a file with wrong upload url.
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+
+                success: function (res) {
+                    var obj = eval(res);
+                    var result = obj.Result;
+                    var mess = obj.Message;
+                    if (result) {
+                        if (mess == "User") {
+                            window.location.href = "/Project/ProjectIndex";
+                        }
+                        else if (mess == "Admin") {
+                            window.location.href = "/Project/RoleDistributionList";
+                        }
+                        else if (mess == "SuperAdmin") {
+                            window.location.href = "/SuperAdmin/SuperAdminchecklist";
+                        }                        
+                    }
+                    else {
+                        errPromot(mess);
+                    }                    
+             //       $('#loginButton').attr('disabled', 'false');
+                    $('#loginButton').html('登录');
+                },
+                error: function (res) {
+                    errPromot("登陆异常");
+               //     $('#loginButton').attr('disabled', 'false');
+                    $('#loginButton').html('登录');
+                }
+            });
+        });
+
+
+        $(document).ready(function(){
+
+                if("@Model.JustRegister"=="show")
+                {
+                    errPromot("请等待帐号审核通过，感谢您的注册！");
+                }
+            
+
+               
+        });
+
+
+    </script>

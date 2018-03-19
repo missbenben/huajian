@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <title>创建项目</title>
+    <link href="../lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/HJcommon.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/projectOverview.css">
+    <link rel="stylesheet" href="../css/popUp.css">
+    <!--  注意  要在http形式下打开 页面 才能正常使用下面两个文件-->
+    <!--[if lt IE 9]>
+    <script src="../lib/html5shiv/html5shiv.min.js"></script>
+    <script src="../lib/respond/respond.js"></script>
+    <![endif]-->
+    <script src="../lib/jquery/jquery.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.js"></script>
+    <script src="../js/popUp.js"></script>
+    <script src="../js/selectCommon.js"></script>
+
+</head>
+<body>
+    <!--头部-->
+    <div class="HJ-header">
+        <div class="HJ-header-tabs clearfix">
+            <div class="project-classification pull-left clearfix">
+                <div class="name pull-left">数字化审图平台</div>
+                <ul class="pull-left">
+                    <li class="manage-project"><a href="enterpriseAdminPM.html">项目管理</a></li>
+                    <li class="reviewed-project"><a href="enterpriseAdminMember.html">成员管理</a></li>
+                    <li class="review-project"><a href="enterpriseAdminEnterInfo.html">企业信息</a></li>
+                </ul>
+            </div>
+            <div class="personal-center pull-right">
+                <ul>
+                    <li class="user">
+                        <div class="name">
+                            CCCC <i class="iconfont icon-arrLeft-fill"></i>
+                        </div>
+                        <div class="user-dropDown-box">
+                            <div class="company">文思海辉有限公司</div>
+                            <div class="personal-information clearfix">
+                                个人信息
+                                <span class="pull-right"><a href="#">编辑</a></span>
+                            </div>
+                            <div class="exit">
+                                <div class="exit-logo">
+                                    <img src="../image/exit.png" alt="">退出
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="main-box">
+        <div class="admin-project-overview createProject-con">
+          <!--  <div class="back-previous-level">
+            <a href="index.html">
+                <img src="../image/ICON_FANHUI.png" alt="">
+                返回上一级
+            </a>
+            </div>-->
+            <div class="projectOverview-tabs">
+                <ul class="clearfix">
+                    <li class="active tabli">基本信息</li>
+                    <li class="tabli">单位信息</li>
+                    <li class="tabli">类目设置</li>
+                </ul>
+            </div>
+            <div class="basic-information active">
+                <div class="information-input-lists clearfix">
+                    <div class="left pull-left">
+                        <div class="form-group">
+                            <label  class="prompt">报建编号：</label>
+                            <div class="form-controls">
+                                <input  type="text" class="control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="prompt">项目名称：</label>
+                            <div class="form-controls">
+                                <input type="text" class="control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="prompt">建设单位：</label>
+                            <div class="form-controls">
+                                <input type="text" class="control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="prompt">建设单位联系人：</label>
+                            <div class="form-controls">
+                                <input type="text" class="control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="prompt">建设单位联系电话：</label>
+                            <div class="form-controls">
+                                <input type="text" class="control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="prompt">建设地点：</label>
+                            <div class="form-controls">
+                                <input type="text" class="control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="left pull-left">
+                        <div class="form-group">
+                            <label class="prompt">项目分类：</label>
+                            <div class="form-controls">
+                                <div class="select-control">
+                                    <input type="text" class="control select-input"  readonly>
+                                    <img src="../image/ICON_XIAOJIANTOU.png" alt="">
+                                </div>
+                            </div>
+                            <div class="select-lists">
+                                <ul>
+                                    <li>华建公司</li>
+                                    <li>文思海辉技术科技有限公司</li>
+                                    <li>华建公司</li>
+                                    <li>华建公司</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="prompt">总建筑面积：</label>
+                            <div class="form-controls">
+                                <input  type="text" class="control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="prompt">人防面积：</label>
+                            <div class="form-controls">
+                                <input  type="text" class="control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="prompt">是否装配式建筑：</label>
+                            <div class="form-controls">
+                                <input  type="checkbox" class="IsPrefabricatedBuilding">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="prompt">设计单位：</label>
+                            <div class="form-controls">
+                                <div class="select-control">
+                                    <input type="text" class="control select-input"  readonly>
+                                    <img src="../image/ICON_XIAOJIANTOU.png" alt="">
+                                </div>
+                            </div>
+                            <div class="select-lists">
+                                <ul>
+                                    <li>华建公司</li>
+                                    <li>文思海辉技术科技有限公司</li>
+                                    <li>华建公司</li>
+                                    <li>华建公司</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="prompt">审查机构：</label>
+                            <div class="form-controls">
+                                <div class="select-control">
+                                    <input type="text" class="control select-input"  readonly>
+                                    <img src="../image/ICON_XIAOJIANTOU.png" alt="">
+                                </div>
+                            </div>
+                            <div class="select-lists">
+                                <ul>
+                                    <li>华建公司</li>
+                                    <li>文思海辉技术科技有限公司</li>
+                                    <li>华建公司</li>
+                                    <li>华建公司</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="basic-information unitInformation">
+                <div class="unitInformationUl">
+                    <div class="unitInformation-lists">
+                        <div class="information-input-lists clearfix">
+                            <div class="left pull-left">
+                                <div class="form-group">
+                                    <label class="prompt">单位工程名称：</label>
+                                    <div class="form-controls">
+                                        <input type="text" class="control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="prompt">单位工程高度：</label>
+                                    <div class="form-controls">
+                                        <input type="text" class="control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="prompt">单位工程层数（地上）：</label>
+                                    <div class="form-controls">
+                                        <input type="text" class="control">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="left pull-left">
+                                <div class="form-group">
+                                    <label class="prompt">单位工程地下层数：</label>
+                                    <div class="form-controls">
+                                        <input type="text" class="control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="prompt">单位工程地上面积（平方米）：</label>
+                                    <div class="form-controls">
+                                        <input  type="text" class="control">
+                                    </div>
+                                </div>
+                               <!-- <div class="form-group">
+                                    <label  class="prompt">单位工程类型：</label>
+                                    <div class="form-controls">
+                                        <input  type="text" class="control">
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                        <div class="deleteUnit">删除</div>
+                    </div>
+                </div>
+                <div class="newGrop">新建分组</div>
+            </div>
+            <div class="basic-information category-setting">
+                <div class="category-input-lists clearfix">
+                    <div class="iterms clearfix">
+                        <div class="subprojectsName">
+                            <span>子项目名称1：</span>
+                            <input  type="text">
+                        </div>
+                        <div class="commonstyle">
+                            <span>地上层数：</span>
+                            <input  type="text">
+                        </div>
+                        <div class="commonstyle">
+                            <span>地上层数：</span>
+                            <input  type="text">
+                        </div>
+                        <div class="commonstyle clearfix">
+                            <span>其他：</span>
+                            <div class="otherInput clearfix">
+                                <ul>
+                                    <li class="hoverLi">
+                                        <div>3.5</div>
+                                        <img src="../image/ICON_DELETE.png" alt="" class="deleteOtherFloor">
+                                    </li>
+                                    <li class="hoverLi">
+                                        <div>4.5</div>
+                                        <img src="../image/ICON_DELETE.png" alt="" class="deleteOtherFloor">
+                                    </li>
+                                    <li class="addBtn">+</li>
+                                </ul>
+
+                            </div>
+                        </div>
+                        <div class="deleteOther">删除</div>
+                    </div>
+                    <div class="iterms clearfix">
+                        <div class="subprojectsName">
+                            <span>子项目名称1：</span>
+                            <input  type="text">
+                        </div>
+                        <div class="commonstyle">
+                            <span>地上层数：</span>
+                            <input  type="text">
+                        </div>
+                        <div class="commonstyle">
+                            <span>地上层数：</span>
+                            <input  type="text">
+                        </div>
+                        <div class="commonstyle clearfix">
+                            <span>其他：</span>
+                            <div class="otherInput clearfix">
+                                <ul>
+                                    <li class="hoverLi">
+                                        <div>3.5</div>
+                                        <img src="../image/ICON_DELETE.png" alt="" class="deleteOtherFloor">
+                                    </li>
+                                    <li class="hoverLi">
+                                        <div>4.5</div>
+                                        <img src="../image/ICON_DELETE.png" alt="" class="deleteOtherFloor">
+                                    </li>
+                                    <li class="addBtn">+</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deleteOther">删除</div>
+                    </div>
+                    <div class="iterms clearfix">
+                        <div class="subprojectsName">
+                            <span>子项目名称1：</span>
+                            <input  type="text">
+                        </div>
+                        <div class="commonstyle">
+                            <span>地上层数：</span>
+                            <input  type="text">
+                        </div>
+                        <div class="commonstyle">
+                            <span>地上层数：</span>
+                            <input  type="text">
+                        </div>
+                        <div class="commonstyle clearfix">
+                            <span>其他：</span>
+                            <div class="otherInput clearfix">
+                                <ul>
+                                    <li class="hoverLi">
+                                        <div>3.5</div>
+                                        <img src="../image/ICON_DELETE.png" alt="" class="deleteOtherFloor">
+                                    </li>
+                                    <li class="hoverLi">
+                                        <div>4.5</div>
+                                        <img src="../image/ICON_DELETE.png" alt="" class="deleteOtherFloor">
+                                    </li>
+                                    <li class="addBtn">+</li>
+                                </ul>
+
+                            </div>
+                        </div>
+                        <div class="deleteOther">删除</div>
+                    </div>
+                </div>
+                <div class="newGrop">新建分组</div>
+            </div>
+            <div class="save-information common-btn">保存</div>
+        </div>
+    </div>
+    <div class="wrap"></div>
+    <div class="popUp">
+        <!--新建分组-->
+        <div class="common-popUp  OtherLayers-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="../image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">其他层数</div>
+            <input type="text" class="textBox">
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+        <!--删除提示-->
+        <div class="common-popUp deletePrompt">
+        <div class="addProfession-popUp-con">
+            <img src="../image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">确认删除?</div>
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        $(function() {
+
+            //选择公司，选择所属公司类型
+            $(".form-group .select-control").click(function(e){
+                e.stopPropagation();
+                var selectLists = $(this).parent().siblings(".select-lists");
+                if(selectLists.hasClass("active")) {
+                    selectLists.removeClass("active");
+                } else {
+                    $(".select-lists").removeClass("active");
+                    selectLists.addClass("active");
+                }
+            });
+            $(".select-lists li").click(function(e) {
+                e.stopPropagation();
+                var html = $(this).html();
+                $(this).parent().parent().siblings(".form-controls").find(".select-input").val(html);
+                $(".select-lists").removeClass("active");
+            });
+
+            //切换tab
+            $(".projectOverview-tabs .tabli").click(function() {
+                var index = $(this).index();
+                $(this).addClass("active").siblings().removeClass("active");
+                $(".basic-information").eq(index).addClass("active").siblings().removeClass("active");
+            });
+
+            //新建单位信息
+            $(".unitInformation .newGrop").click(function() {
+               var html = '\
+                    <div class="unitInformation-lists">\
+                   <div class="information-input-lists clearfix">\
+                    <div class="left pull-left">\
+                    <div class="form-group"><label class="prompt">单位工程名称：</label><div class="form-controls"><input type="text" class="control"></div></div>\
+                    <div class="form-group"><label class="prompt">单位工程高度：</label> <div class="form-controls"><input type="text" class="control"> </div></div>\
+                    <div class="form-group"><label class="prompt">单位工程层数（地上）：</label><div class="form-controls"><input type="text" class="control"></div>\
+                    </div>\
+                    </div>\
+                    <div class="left pull-right">\
+                    <div class="form-group"><label class="prompt">单位工程地下层数：</label><div class="form-controls"><input type="text" class="control"></div></div>\
+                    <div class="form-group"><label  class="prompt">单位工程地上面积（平方米）：</label><div class="form-controls"><input  type="text" class="control"></div></div>\
+                    <div class="form-group"><label  class="prompt">单位工程类型：</label><div class="form-controls"><input  type="text" class="control"></div>\
+                    </div>\
+                    </div>\
+                    </div>\
+                    <div class="deleteUnit">删除</div>\
+                    </div>' ;
+               $(".unitInformationUl").append(html);
+            });
+
+            //新建子项目
+            $(".category-setting .newGrop").click(function() {
+               var html ='\
+                    <div class="iterms clearfix">\
+                   <div class="subprojectsName"><span>子项目名称1：</span><input  type="text"></div>\
+                    <div class="commonstyle"><span>地上层数：</span><input  type="text"></div>\
+                    <div class="commonstyle"><span>地上层数：</span><input  type="text"></div>\
+                    <div class="commonstyle clearfix"><span>其他：</span><div class="otherInput clearfix">\
+                    <ul>\
+                    <li class="addBtn">+</li>\
+                    </ul>\
+                    </div>\
+                    </div>\
+                    <div class="deleteOther">删除</div>\
+                    </div>';
+               $(".category-input-lists").append(html);
+            });
+
+            //添加其他层数
+            $(".category-input-lists").on("click", ".addBtn",function() {
+                $(".wrap").show();
+               setDivCenter(".OtherLayers-popUp");
+                $(".addBtn").removeAttr("addId");
+                $(this).attr("addId",1);
+            });
+
+            //确定添加层数
+            $(".OtherLayers-popUp .confirm-btn").click(function() {
+               var val =  $(".OtherLayers-popUp .textBox").val();
+               if(!val) return;
+               var html = '<li class="hoverLi"><div>'+val+'</div> <img src="../image/ICON_DELETE.png" alt="" class="deleteOtherFloor"></li>';
+               $(".addBtn[addId = '1']").before(html);
+                $(".wrap").hide();
+                $(".OtherLayers-popUp").hide();
+                $(".OtherLayers-popUp .textBox").val("");
+                $("body").css({
+                    'overflow':'auto'
+                });
+            });
+
+            //删除其他楼层
+            $(".category-input-lists").on("click", ".deleteOtherFloor", function() {
+               $(this).parent().remove();
+            });
+
+            //删除整个子项目
+            popUp(".category-input-lists .deleteOther",".deletePrompt");
+            popUp(".unitInformation-lists .deleteUnit",".deletePrompt");
+            $("body").on("click",".category-input-lists .deleteOther",function() {
+                $(this).parent().attr("deleteId",1);
+                $(".deletePrompt .confirm-btn").attr("deleteId",1);
+            });
+            //删除单位信息
+            $("body").on("click",".unitInformation-lists .deleteUnit", function() {
+                $(this).parent().attr("deleteId",2);
+                $(".deletePrompt .confirm-btn").attr("deleteId",2);
+            });
+            $(".deletePrompt .confirm-btn").click(function(){
+                var deleteId = $(this).attr("deleteId");
+                if(deleteId == 1) {
+                    $(".category-input-lists .iterms[deleteId='" + deleteId + "']").remove();
+                }
+                if(deleteId == 2) {
+                    $(".unitInformation-lists[deleteId='" + deleteId + "']").remove();
+                }
+                popUpHide();
+            });
+            $(".deletePrompt .close-icon").click(function(){
+                removeAttr();
+            });
+            $(".deletePrompt .cancle-btn").click(function(){
+                removeAttr();
+            });
+            $(".wrap").click(function(){
+                removeAttr();
+            });
+
+            function removeAttr() {
+                $(".category-input-lists .iterms").removeAttr("deleteId");
+                $(".unitInformation-lists").removeAttr("deleteId");
+                $(".deletePrompt .confirm-btn").removeAttr();
+            }
+
+
+        })
+    </script>
+</body>
+</html>

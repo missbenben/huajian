@@ -1,0 +1,75 @@
+﻿@using TS.Web.Models.Projects
+@model List<ProjectModel>
+@foreach (var project in Model)
+{
+    <tr>
+        <td></td>
+        <td>@project.DeliverNo</td>
+        <td>@project.ProjectName</td>
+        <td>@project.ConstructionCompany</td>
+        <td>@project.DesignCompany</td>
+        <td>@project.Censorship</td>
+        <td>@project.ProjectCatalogDes</td>
+        <td></td>
+
+        <td class="common-color">
+            @if (!project.IsFiled)
+            {
+                switch (project.PageLisgType)
+                {
+                    case ProjectPageListUserType.AdminDistribute:
+                        <a href="@Url.Action("AdminOverView", "Project", new { projectId = project.ProjectId })">概况</a>
+                        break;
+                    case ProjectPageListUserType.AdminResponsibleProjectList:
+                        break;
+                    case ProjectPageListUserType.UserProjectList:
+                        <a href="@Url.Action("ProjectDetail", "Project", new { projectId = project.ProjectId })">概况</a>
+                        break;
+                    default:
+                        break;
+                }
+            }
+        </td>
+        <td class="common-color view-progress">
+            <!--项目进度-->
+            <a href="javascript:;" onclick="checkProcess(@project.ProjectId)">查看进度</a>
+        </td>
+        @switch (project.PageLisgType)
+        {
+            case ProjectPageListUserType.AdminDistribute:
+                <td class="personnel-assignment">
+                    @Html.Hidden("ProjectId", project.ProjectId, new { @class = "ProjectId" })
+                    <span class="common-color">人员分配</span>
+                </td>
+                break;
+            case ProjectPageListUserType.AdminResponsibleProjectList:
+                break;
+            case ProjectPageListUserType.UserProjectList:
+                <td class="operation">
+                    <span class="common-color">
+                        <a href="@Url.Action("ProjectContent","Project",new { projectId = project.ProjectId })">打开</a>
+                        @if (project.NeedOperate)
+                        {
+                            <div class="img">
+                                <img src="~/Content/image/ICON_TISHI.png" alt="">
+                                <div class="reminder">此项目需要进行操作</div>
+                            </div>
+                        }
+                        
+                    </span>
+                    @if (project.IsFiled && project.Roles.Contains(TS.Core.Domain.Projects.Role.BuildingCompanyManager))
+                    {
+                        <span class="left-space common-color">
+                            <a href="javascript:void(0);" class="modify-information common-btn" data-des="确认是否还原？" data-uri="@Url.Action("RestoreProject", "Project", new { projectId = project.ProjectId })">还原</a>
+                        </span>
+                    }
+                    
+                </td>
+                break;
+            default:
+                break;
+        }
+
+        <td></td>
+    </tr>
+}

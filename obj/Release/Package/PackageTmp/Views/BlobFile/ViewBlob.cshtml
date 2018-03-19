@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <script src="~/Content/lib/jquery/jquery.min.js"></script>
+    <script src="~/Content/js/pdfobject.min.js"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            PDFObject.embed("@ViewBag.FileUrl", "#pdf");
+            boxheight(); //执行函数
+        };
+
+        //需求是，我需要通过浏览器内容可视化的高度来控制div的高度
+        function boxheight() { //函数：获取尺寸
+            //获取浏览器窗口高度
+            var winHeight = 0;
+            if (window.innerHeight)
+                winHeight = window.innerHeight;
+            else if ((document.body) && (document.body.clientHeight))
+                winHeight = document.body.clientHeight;
+            //通过Document对body进行检测，获取浏览器可视化高度
+            if (document.documentElement && document.documentElement.clientHeight)
+                winHeight = document.documentElement.clientHeight;
+            //DIV高度为浏览器窗口高度
+            $(".pdfobject-container").height(winHeight);
+
+        }
+        window.onresize = boxheight; //窗口或框架被调整大小时执行
+
+    </script>
+    <style>
+        .pdfobject {
+            border: 1px solid #666;
+        }
+    </style>
+</head>
+<body>
+    <div id="pdf">
+
+    </div>
+</body>
+</html>

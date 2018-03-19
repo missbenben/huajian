@@ -1,0 +1,102 @@
+﻿@using TS.Core.Domain.Customers
+
+@{
+    ViewBag.Title = "负责项目";
+    Layout = "~/Views/Shared/_ManagementLayout.cshtml";
+}
+
+<div class="product-lists-box responsible-project-content">
+    <div class="person clearfix">
+        <div class="staffName pull-right">姓名： @(((Customer)ViewBag.Customer).Name)</div>
+    </div>
+    <div class="table-box">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="first-space"></th>
+                        <th>报建编号</th>
+                        <th>项目名称</th>
+                        <th>建设单位</th>
+                        <th>设计单位</th>
+                        <th>审查机构</th>
+                        <th>项目分类</th>
+                        <th class="space"></th>
+                        <th>项目概况</th>
+                        <th class="first-space"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+    @*<div class="sssignedProject-btn">分配项目</div>*@
+    <!--分页-->
+    @Html.Partial("_PageFooter")
+</div>
+
+<script type="text/javascript">
+    
+    var page;
+    function initPageFooter(total, pageSize) {
+        var i = 1;
+        if (total % pageSize > 0) {
+            page = parseInt(total / pageSize) + 1;
+        } else {
+            page = parseInt(total / pageSize);
+        }
+        if (page == 1) {
+            $("#footer").hide();
+        } else {
+            $("#footer").show();
+        }
+        $(".pageIndex").each(function () {
+            $(this).text(i);
+            if (i <= page) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+            i++;
+        });
+    }
+
+    var searchData = {
+        pageSize: 10,
+        customerId: '@ViewBag.Customer.Id',
+        pageIndex: 1,
+        searchFuzzyInput: ""
+    };
+
+    $(function() {
+        //$(".project-classification .manage-project").addClass("active");
+        $(".project-classification .reviewed-project").addClass("active");
+
+        //获取取初始数据
+        getPageData(true, 1);
+
+        //设置页面变更时的数据刷新
+        $(".pageIndex").click(function () {
+            searchData.pageIndex = parseInt($(this).text());
+            getPageData(false, parseInt($(this).text()));
+        });
+
+    });
+
+    function getPageData(needUpdateFooter, pageInex) {
+        searchData.pageIndex = pageInex;
+        //searchData.searchFuzzyInput = $("#searchText").val();
+        Ajax("@Url.Action("GetResponsibleProjectList", "Project")", "Post", function (data) {
+            $("tbody").empty();
+            $("tbody").append(data.listHtml);
+
+            if (needUpdateFooter) {
+                initPageFooter(data.total, searchData.pageSize);
+            }
+        }, searchData);
+
+    }
+
+</script>

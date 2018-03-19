@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <title>模型</title>
+    <link href="../lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/HJcommon.css">
+    <link rel="stylesheet" href="../css/intoModel.css">
+    <!--  注意  要在http形式下打开 页面 才能正常使用下面两个文件-->
+    <!--[if lt IE 9]>
+    <script src="../lib/html5shiv/html5shiv.min.js"></script>
+    <script src="../lib/respond/respond.js"></script>
+    <![endif]-->
+    <script src="../lib/jquery/jquery.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.js"></script>
+    <script src="../js/loading.js"></script>
+    <script src="../js/selectCommon.js"></script>
+</head>
+<body>
+<div class="model-header">
+    <div class="top clearfix">
+        <div class="title pull-left">
+           <div class="topName">
+               鼎盛时代公馆项目-1号楼
+           </div>
+            <div class="character">
+                <ul class="clearfix">
+                    <li>项目经理: 3rftgtg</li>
+                    <li>当前角色: 3rftgtg</li>
+                    <li>当前状态: 3rftgtg</li>
+                </ul>
+            </div>
+        </div>
+        <div class="views-btn pull-right">
+            <div id="statusbox">
+                <div class="new-opinion">新建意见</div>
+                <div class="apply-review">申请复核</div>
+            </div>
+            <div class="select clearfix">
+                <select name="" id="">
+                    <option value="">全部</option>
+                    <option value="">全部</option>
+                    <option value="">全部</option>
+                </select>
+               <!-- <div class="select-con">
+                    <div class="name">
+                        <span>项目分类</span>
+                        <img src="../image/ICON_SANJIAOJIANTOU.png" alt="">
+                    </div>
+                    <div class="select-lists">
+                        <ul>
+                            <li class="active"><img src="../image/ICON_DUIGOU.png" alt="">1</li>
+                            <li><img src="../image/ICON_DUIGOU.png" alt="">2</li>
+                            <li><img src="../image/ICON_DUIGOU.png" alt="">34</li>
+                            <li><img src="../image/ICON_DUIGOU.png" alt="">4</li>
+                        </ul>
+                    </div>
+                </div>-->
+            </div>
+            <div class="select clearfix">
+                 <select name="" id="">
+                     <option value="">全部</option>
+                     <option value="">全部</option>
+                     <option value="">全部</option>
+                 </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="model-box">
+    <div class="modelcon">ssss</div>
+    <div class="spread-btn">
+        <img src="../image/ICON_BIMJIANTOU1.png" alt="" class="show-view-card">
+        <div>意见卡</div>
+    </div>
+    <div class="viewlistBox">
+        <div class="view-lists-main">
+            <div class="search-input clearfix">
+                <div class="operatorBtn"></div>
+                <div class="text">
+                    <input type="text" placeholder="输入意见关键字…">
+                    <div class="search-btn">
+                        <img src="../image/ICON_SOUSUO.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="view-lists-iterm">
+                <ul>
+                    <li class="preoperate viewLists">
+                        <div class="view-show">
+                            <div class="title clearfix">
+                                <div class="opinion-num pull-left">
+                                    <input type="checkbox">
+                                    <span class="serial-number">编号123</span>
+                                    <span class="status validity">意见完整</span>
+                                </div>
+                                <div class="view pull-right">展开</div>
+                            </div>
+                            <div class="date">2017-12-12 18:12:09</div>
+                            <div class="person clearfix">
+                                <ul>
+                                    <li>提出人：徐自达</li>
+                                    <li>意见类型：XXXX</li>
+                                    <li>楼层：XXX</li>
+                                </ul>
+                            </div>
+                            <div class="con">概述：讹误毮发哟认为一 阿里健康水淀粉百合网骗人粗发飓风哦额回复和俄方热入俄有无恶频道…</div>
+                            <div class="operation">
+                                <div class="modification"><a href="#">修改</a></div>
+                                <div class="reject"><a href="#">驳回</a></div>
+                                <div class="invalid"><a href="#">作废</a></div>
+                            </div>
+                        </div>
+                        <!--意见卡片展开-->
+                        <div class="comment-card-spread">
+                            <div class="title clearfix">
+                                <div class="opinion-num pull-left">
+                                    编号123
+                                    <span class="status validity">意见完整</span>
+                                </div>
+                                <div class="view pull-right">收起</div>
+                            </div>
+                            <div class="date">2017-12-12 18:12:09</div>
+                            <div class="person clearfix">
+                                <ul>
+                                    <li>提出人：徐自达</li>
+                                    <li>意见类型：XXXX</li>
+                                    <li>楼层：XXX</li>
+                                </ul>
+                            </div>
+                            <div class="spread-main">
+                                <div class="spread-con">
+                                    <div class="con">概述：讹误毮发哟认为一 阿里健康水淀粉百合网骗人粗发飓风哦额回复和俄方热入俄有无恶频道…</div>
+                                    <!--标注-->
+                                    <div class="annotation clearfix">
+                                        <div class="annotation-name pull-left">标注：</div>
+                                        <div class="annotation-lists pull-left">
+                                            <ul>
+                                                <li>
+                                                    <a href="#"> <img src="" alt=""></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"> <img src="" alt=""></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"> <img src="" alt=""></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"> <img src="" alt=""></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--构件-->
+                                    <div class="component-link clearfix">
+                                        <div class="type pull-left">构件：</div>
+                                        <div class="linkLists pull-left">
+                                            <ul class="clearfix">
+                                                <li class="linkLi">
+                                                    <span> <a href="#">窗户</a></span>
+                                                    <i class="iconfont icon-lianjie"></i>
+                                                </li>
+                                                <li class="linkLi">
+                                                    <span><a href="#">窗户</a></span>
+                                                    <i class="iconfont icon-lianjie"></i>
+                                                </li>
+                                                <li class="linkLi">
+                                                    <span> <a href="#">窗户</a></span>
+                                                    <i class="iconfont icon-lianjie"></i>
+                                                </li>
+                                                <li class="linkLi">
+                                                    <span> <a href="#">窗户</a></span>
+                                                    <i class="iconfont icon-lianjie"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spread-con">
+                                    <div class="con">概述：讹误毮发哟认为一 阿里健康水淀粉百合网骗人粗发飓风哦额回复和俄方热入俄有无恶频道…</div>
+                                    <!--标注-->
+                                    <div class="annotation clearfix">
+                                        <div class="annotation-name pull-left">标注：</div>
+                                        <div class="annotation-lists pull-left">
+                                            <ul>
+                                                <li>
+                                                    <a href="#"> <img src="" alt=""></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"> <img src="" alt=""></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"> <img src="" alt=""></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"> <img src="" alt=""></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--构件-->
+                                    <div class="component-link clearfix">
+                                        <div class="type pull-left">构件：</div>
+                                        <div class="linkLists pull-left">
+                                            <ul class="clearfix">
+                                                <li class="linkLi">
+                                                    <span> <a href="#">窗户</a></span>
+                                                    <i class="iconfont icon-lianjie"></i>
+                                                </li>
+                                                <li class="linkLi">
+                                                    <span><a href="#">窗户</a></span>
+                                                    <i class="iconfont icon-lianjie"></i>
+                                                </li>
+                                                <li class="linkLi">
+                                                    <span> <a href="#">窗户</a></span>
+                                                    <i class="iconfont icon-lianjie"></i>
+                                                </li>
+                                                <li class="linkLi">
+                                                    <span> <a href="#">窗户</a></span>
+                                                    <i class="iconfont icon-lianjie"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="operation">
+                                <div class="modification"><a href="#">修改</a></div>
+                                <div class="invalid"><a href="#">作废</a></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="operated viewLists">
+                        <div class="title clearfix">
+                            <div class="opinion-num pull-left">
+                                <input type="checkbox">
+                                <span class="serial-number">编号123</span>
+                                <span class="status first-trial">初审意见</span>
+                            </div>
+                            <div class="view pull-right">展开</div>
+                        </div>
+
+                        <div class="date">2017-12-12 18:12:09</div>
+                        <div class="person clearfix">
+                            <ul>
+                                <li>提出人：徐自达</li>
+                                <li>意见类型：XXXX</li>
+                                <li>楼层：XXX</li>
+                            </ul>
+                        </div>
+                        <div class="con">概述：讹误毮发哟认为一 阿里健康水淀粉百合网骗人粗发飓风哦额回复和俄方热入俄有无恶频道…</div>
+                        <div class="operation">
+                            <div class="invalid"><a href="#">撤回</a></div>
+                        </div>
+                    </li>
+                    <li class="operated viewLists">
+                        <div class="title clearfix">
+                            <div class="opinion-num pull-left">
+                                <input type="checkbox">
+                                <span class="serial-number">编号123</span>
+                                <span class="status closed">意见不完整</span>
+                            </div>
+                            <div class="view pull-right">展开</div>
+                        </div>
+
+                        <div class="date">2017-12-12 18:12:09</div>
+                        <div class="person clearfix">
+                            <ul>
+                                <li>提出人：徐自达</li>
+                                <li>意见类型：XXXX</li>
+                                <li>楼层：XXX</li>
+                            </ul>
+                        </div>
+                        <div class="con">概述：讹误毮发哟认为一 阿里健康水淀粉百合网骗人粗发飓风哦额回复和俄方热入俄有无恶频道…</div>
+                        <div class="operation">
+                            <div class="modification"><a href="#">修改</a></div>
+                            <div class="reject"><a href="#">驳回</a></div>
+                            <div class="invalid"><a href="#">作废</a></div>
+                        </div>
+                    </li>
+                    <li class="operated viewLists">
+                    <div class="title clearfix">
+                        <div class="opinion-num pull-left">
+                            <input type="checkbox">
+                            <span class="serial-number">编号123</span>
+                            <span class="status validity">有效意见</span>
+                        </div>
+                        <div class="view pull-right">展开</div>
+                    </div>
+
+                    <div class="date">2017-12-12 18:12:09</div>
+                    <div class="person clearfix">
+                        <ul>
+                            <li>提出人：徐自达</li>
+                            <li>意见类型：XXXX</li>
+                            <li>楼层：XXX</li>
+                        </ul>
+                    </div>
+                    <div class="con">概述：讹误毮发哟认为一 阿里健康水淀粉百合网骗人粗发飓风哦额回复和俄方热入俄有无恶频道…</div>
+                    <div class="operation">
+                        <div class="modification"><a href="#">修改</a></div>
+                        <div class="reject"><a href="#">驳回</a></div>
+                        <div class="invalid"><a href="#">作废</a></div>
+                    </div>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--模型树，属性-->
+<div class="model-tree-box">
+   <ul>
+       <li>模型树</li>
+       <li>属性</li>
+   </ul>
+    <img src="../image/ICON_ZHANKAI.png" alt="" class="show-model-tree">
+</div>
+<div class="model-tree-hide clearfix">
+    <div class="tabs pull-left">
+        <ul>
+            <li class="active">模型树</li>
+            <li>属性</li>
+        </ul>
+        <div class="packUp">收起</div>
+    </div>
+    <div class="tabs-content pull-left">
+        <div class="top-tab clearfix">
+            <div class="active">构件</div>
+            <div>源</div>
+        </div>
+        <div class="component-con active">
+            构件内容
+        </div>
+        <div class="component-con">
+            源内容
+        </div>
+    </div>
+</div>
+
+
+<div class="wrap"></div>
+<div class="new-opinion-content">
+    <img src="../image/ICON_GUANBI.png" alt="" class="close-icon">
+    <div class="opinion-number">
+        <div>意见编号：<span>34567</span></div>
+        <div>楼层：<span>2楼</span></div>
+        <div>专业：<span>建筑</span></div>
+    </div>
+    <!--意见类型-->
+    <div class="opinion-type clearfix">
+        <div class="name pull-left">意见类型：</div>
+        <div class="right  pull-left">
+           <div>
+               <select name="" class="pull-left" id="opinion-type-select">
+                   <option value="opt1">成果完整</option>
+                   <option value="opt2">模图对应</option>
+                   <option value="opt3">模型深度</option>
+               </select>
+           </div>
+        </div>
+    </div>
+    <div class="depth">
+        <ul>
+            <li>
+                <input type="checkbox">
+                <label for="">A类 缺少材质 缺少细节</label>
+            </li>
+            <li>
+                <input type="checkbox">
+                <label for="">B类 缺少材质 缺少细节</label>
+            </li>
+            <li>
+                <input type="checkbox">
+                <label for="">C类 缺少材质 缺少细节</label>
+            </li>
+        </ul>
+    </div>
+    <!--楼层-->
+    <div class="opinion-type clearfix selectFloor">
+        <div class="name pull-left">楼层：</div>
+        <div class="right  pull-left">
+            <div class="selectFloor-con">
+                <div class="name">
+                    <span>请选择楼层</span>
+                    <img src="../image/ICON_XIAOJIANTOU.png" alt="">
+                </div>
+                <div class="select-lists">
+                    <ul>
+                        <li class="active"><img src="../image/ICON_DUIGOU.png" alt="">1</li>
+                        <li><img src="../image/ICON_DUIGOU.png" alt="">2</li>
+                        <li><img src="../image/ICON_DUIGOU.png" alt="">34</li>
+                        <li><img src="../image/ICON_DUIGOU.png" alt="">4</li>
+                    </ul>
+                </div>
+            </div>
+            <input type="text" placeholder="请输入楼下信息">
+        </div>
+    </div>
+    <!--审查人意见-->
+    <div class="review-opinions clearfix">
+        <div class="left">审查人意见：</div>
+        <textarea  name=""  placeholder="请填写详细意见..."></textarea>
+    </div>
+    <!--标注-->
+    <div class="model-mark clearfix">
+        <div class="left">标注：</div>
+        <div class="imgLists clearfix">
+            <ul class="clearfix">
+                <li class="markList">
+                    <a href="#"><img src="" alt="" class="mark-img"></a>
+                    <img src="../image/ICON_DELETE.png" alt="" class="delete">
+                </li>
+                <li  class="markList">
+                    <a href="#"><img src="" alt="" class="mark-img"></a>
+                    <img src="../image/ICON_DELETE.png" alt="" class="delete">
+                </li>
+                <li  class="markList">
+                    <a href="#"><img src="" alt="" class="mark-img"></a>
+                    <img src="../image/ICON_DELETE.png" alt="" class="delete">
+                </li>
+                <li class="addBtn">
+                    <img src="../image/addmark.png" alt="" class="mark-img">
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--链接构件-->
+    <div class="component-link clearfix">
+        <div class="left">链接构件：</div>
+        <div class="linkLists">
+            <ul class="clearfix">
+                <li class="linkLi">
+                   <span> <a href="#">窗户</a></span>
+                    <i class="iconfont icon-lianjie"></i>
+                    <img src="../image/ICON_DELETE.png" alt="" class="delete">
+                </li>
+                <li class="linkLi">
+                    <span><a href="#">窗户</a></span>
+                    <i class="iconfont icon-lianjie"></i>
+                    <img src="../image/ICON_DELETE.png" alt="" class="delete">
+                </li>
+                <li class="linkLi">
+                    <span> <a href="#">窗户</a></span>
+                    <i class="iconfont icon-lianjie"></i>
+                    <img src="../image/ICON_DELETE.png" alt="" class="delete">
+                </li>
+                <li class="linkLi">
+                    <span> <a href="#">窗户</a></span>
+                    <i class="iconfont icon-lianjie"></i>
+                <img src="../image/ICON_DELETE.png" alt="" class="delete">
+                </li>
+                <li class="addLink">
+                    <img src="../image/addLink.png" alt="">
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <!--确认取消-->
+    <div class="confirm-box">
+        <div class="con">
+            <div class="confirm-btn">确认</div>
+            <div class="cancle-btn">取消</div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="loadingWrap"></div>
+<div class="Loading">
+    <img src="../image/loading.gif" height="32" width="32"/>
+</div>
+
+<script>
+    $(function() {
+        var height =  $(document).innerHeight()-89;
+        var viewheight =  $(document).innerHeight()-161;
+        $(".view-lists-iterm").height(viewheight);
+        $(".model-tree-hide").height(height);
+        $(".viewlistBox").height(height);
+
+
+        $(".viewlistBox li").hover(function() {
+            $(this).stop().animate({top:"-2px"}).addClass("show-shadow");
+        }, function() {
+            $(this).stop().animate({top:"0px"}).removeClass("show-shadow");
+        });
+
+        $("#opinion-type-select").change(function() {
+            var options=$("#opinion-type-select option:selected");  //获取选中的项
+            if(options.val() == "opt3") {
+                $(".depth").show();
+            } else {
+                $(".depth").hide();
+            }
+        });
+
+        //删除标注
+        $(".model-mark").on("click",".delete",function() {
+            var li = $(this).parent();
+            li.remove();
+        });
+        //删除构件
+        $(".component-link").on("click",".delete",function() {
+            var li = $(this).parent();
+            li.remove();
+        });
+
+        //新建意见
+        $("#statusbox").on("click",".new-opinion",function() {
+            $(".wrap").show();
+            $(".new-opinion-content").show();
+        });
+
+
+        var html = $("#statusbox").html();
+        $(".model-mark .addBtn").click(function() {
+            $("#statusbox").html("<div>继续添加</div>");
+        });
+        //取消
+        $(".confirm-box .cancle-btn,.new-opinion-content .close-icon").click(function () {
+            $(".wrap").hide();
+            $(".new-opinion-content").hide();
+            $("#statusbox").html(html);
+        });
+
+        //切换构件和源
+        $(".tabs-content .top-tab div").click(function() {
+            $(this).addClass("active").siblings().removeClass("active");
+            var index = $(this).index();
+            $(".component-con").eq(index).addClass("active").siblings().removeClass("active");
+        });
+
+        //展开模型树与属性
+        $(".show-model-tree").click(function() {
+           $(".model-tree-box").hide();
+           $(".model-tree-hide").animate({
+               width:"386px"
+           },500);
+        });
+
+        $(".model-tree-hide .tabs li").click(function() {
+            if($(this).hasClass("active")) {
+                $(".model-tree-box").show();
+                $(".model-tree-hide").animate({
+                    width:"0px"
+                },500);
+            }
+            $(this).addClass("active").siblings().removeClass("active");
+        });
+
+        //收起
+        $(".packUp").click(function() {
+            $(".model-tree-box").show();
+            $(".model-tree-hide").animate({
+                width:"0px"
+            },500);
+        });
+
+        //展开收起意见列表
+        $(".spread-btn .show-view-card").click(function() {
+            $(".viewlistBox").animate({
+                width:"400px"
+            },500);
+            $(".view-lists-iterm").css("overflow-y","auto");
+            $(".spread-btn").hide();
+        });
+        $(".viewlistBox .operatorBtn").click(function() {
+           /* if($(this).hasClass("active")) {
+                $(this).removeClass("active");
+                $(".viewlistBox").animate({
+                    width:"40px"
+                },500);
+                $(".view-lists-iterm").css("overflow-y","hidden");
+            } else {
+                $(this).addClass("active");
+                $(".viewlistBox").animate({
+                    width:"400px"
+                },500);
+                $(".view-lists-iterm").css("overflow-y","auto");
+            }*/
+            $(".viewlistBox").animate({
+                width:"0px"
+            },500);
+            $(".view-lists-iterm").css("overflow-y","hidden");
+            $(".spread-btn").show();
+        });
+
+       $(".model-box").on("click",".view-show .view", function() {
+           $(this).parents(".view-show").hide();
+           $(this).parents(".view-show").siblings(".comment-card-spread").slideDown("slow");
+       });
+
+        $(".model-box").on("click", ".comment-card-spread .view", function() {
+            $(this).parents(".comment-card-spread").slideUp();
+            $(this).parents(".comment-card-spread").siblings(".view-show").show();
+        });
+
+
+    })
+</script>
+</body>
+</html>

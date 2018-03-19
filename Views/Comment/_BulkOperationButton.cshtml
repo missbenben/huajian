@@ -1,0 +1,49 @@
+﻿@using TS.Core.Domain.Projects
+@using TS.Web.Models.Comments
+@model CommentBulkOperationButtonModel
+@if (Model.CustomerRole == Role.DesignCompanyManager)
+{
+    if (Model.ModelStatus == FlowCode.DesignCompany_Uploaded)
+    {
+        if (!Model.ProfessionStatus.HasValue || Model.ProfessionStatus.Value == FlowCode.AuditCompany_ProjectManager_Confrim_CurrentProcess_End)
+        {
+            <span>
+                <a class="bulkOperation" href="javascript:void(0)" data-type="@CommentBulkOperationType.DesignManagerRepaired">已修复</a>
+            </span>
+            <span>
+                <a class="bulkOperation" href="javascript:void(0)" data-type="@CommentBulkOperationType.DesignManagerUnrepaired">未修复</a>
+            </span>
+        }
+    }
+}
+else if (Model.CustomerRole == Role.Checker)
+{
+    if (Model.ModelStatus == FlowCode.AuditCompany_ProjectManager_Sign_BuildCompany)
+    {
+        if (Model.ProfessionStatus == FlowCode.AuditCompany_ProfessionReaudit_Reject_ProfessionAudit ||
+        Model.ProfessionStatus == FlowCode.AuditCompany_ProjectManager_Sign_BuildCompany)
+        {
+            <span>
+                <a class="bulkOperation" href="javascript:void(0)" data-type="@CommentBulkOperationType.CheckerAgreeRepaired">同意</a>
+            </span>
+            <span>
+                <a class="bulkOperation" href="javascript:void(0)" data-type="@CommentBulkOperationType.ChecherDisagreeRepaired">不同意</a>
+            </span>
+        }
+    }
+}
+else if (Model.CustomerRole == Role.Reviewer)
+{
+    if (Model.ModelStatus == FlowCode.AuditCompany_ProjectManager_Sign_BuildCompany)
+    {
+        if (Model.ProfessionStatus == FlowCode.AuditCompany_ProfessionAudit_Submit)
+        {
+            <span>
+                <a class="bulkOperation" href="javascript:void(0)" data-type="@CommentBulkOperationType.ReviewerAgreeRepaired">同意</a>
+            </span>
+            <span>
+                <a class="bulkOperation" href="javascript:void(0)" data-type="@CommentBulkOperationType.ReviewerDisagreeRepaired">不同意</a>
+            </span>
+        }
+    }
+}

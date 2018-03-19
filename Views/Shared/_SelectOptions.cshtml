@@ -1,0 +1,17 @@
+﻿@model List<SelectListItem>
+
+@foreach (var option in Model)
+{
+    if (option.Selected)
+    {
+        <option value="@option.Value" selected="selected">@option.Text</option>
+    }
+    else if (option.Disabled)
+    {
+        <option value="@option.Value" disabled="disabled">@option.Text</option>
+    }
+    else
+    {
+        <option value="@option.Value">@option.Text</option>
+    }
+}

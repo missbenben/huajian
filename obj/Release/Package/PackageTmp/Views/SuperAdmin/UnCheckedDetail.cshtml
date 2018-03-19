@@ -1,0 +1,120 @@
+﻿@model TS.Web.Models.SuperAdmin.DetailModel
+@{
+    ViewBag.Title = "企业信息";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/Content/css/enterpriseInformation.css">
+}
+
+    <div class="HJ-header">
+        <div class="HJ-header-tabs clearfix">
+            <div class="project-classification pull-left clearfix">
+                <div class="name pull-left"><a href="@Url.Action("Login", "Customer")">数字化审图平台</a></div>
+                <ul class="pull-left">
+                    <li class="manage-project"><a href="/SuperAdmin/SuperAdminCheckList">公司管理</a></li>
+                    <li class="reviewed-project"><a href="/SuperAdmin/SuperAdminHasCheckedList">人员管理</a></li>
+                    <li class="review-project"><a href="@Url.Action("InformationManager","SuperAdmin")">信息管理</a></li>
+                </ul>
+            </div>
+@Html.Action("GetUser", "Customer")
+        </div>
+    </div>
+
+    <div class="main-box">
+        <div class="enterpriseInformation-content">
+            <!--  <div class="back-previous-level">
+                  <a href="#">
+                      <img src="../image/ICON_FANHUI.png" alt="">
+                      返回上一级
+                  </a>
+              </div>-->
+            <div class="information-box">
+                <div class="enterprise-title clearfix">
+                    <div class="pull-left title">企业信息</div>
+                    <div class="pull-right">
+                        <ul class="clearfix">
+                            <li class="pass" onclick="Isapprove('approve')">审核通过</li>
+                            <li onclick="Isapprove('disapprove')">审核不通过</li>
+                            <!--冻结账户-->
+                            @*<li class="pass">冻结账户</li>*@
+                        </ul>
+                    </div>
+                </div>
+                <div class="enterprice-information clearfix">
+                    <table class="pull-left enterprice-information-table">
+                        <tbody>
+                            <tr>
+                                <td class="common">企业组织机构代码：</td>
+                                <td>@Model.CompanyID</td>
+                            </tr>
+                            <tr>
+                                <td class="common">专业类型：</td>
+                                <td>@Model.CompanyType</td>
+                            </tr>
+                            <tr>
+                                <td class="common">企业名称：</td>
+                                <td>@Model.CompanyName</td>
+                            </tr>
+                            <tr>
+                                <td class="common">企业电话：</td>
+                                <td>@Model.CompanyPhone</td>
+                            </tr>
+                            <tr>
+                                <td class="common">企业地址：</td>
+                                <td>@Model.Address</td>
+                            </tr>
+                            <tr>
+                                <td class="common">专业执照注册号：</td>
+                                <td>@Model.BusinessLicence</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="business-license pull-left">
+                        <div class="title">营业执照扫描件：</div>
+                        <img src="@Model.UploadLicenceUri" alt="">
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        function timer() {
+            window.location.href = "/SuperAdmin/SuperAdminCheckList";
+        }
+
+        function start() {
+            set_timer = setInterval(timer, 3000);
+
+        }
+        function Isapprove( postdata) {
+            var info = {
+                isapp: postdata,
+                orgId: @Model.comId,
+                adminId: @Model.AdminId};
+
+            $.ajax({
+                async: false,
+                data: info,
+                type: 'POST',
+                url: "@Url.Action("IsApprove", "SuperAdmin")",
+                success: function (data) {
+                    var obj = eval(data);
+                    var result = obj.Result;
+                    var mess = obj.Message;
+                    errPromot(mess);
+                    start();
+                                                          
+                },
+                error: function (res) {
+                    alert("异常");
+                }
+        });
+        }
+
+        $(function () {
+
+        })
+    </script>

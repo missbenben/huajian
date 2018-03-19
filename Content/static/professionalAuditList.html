@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <title>专业审核列表</title>
+    <link href="../lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/HJcommon.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/professionalAuditList.css">
+    <!--  注意  要在http形式下打开 页面 才能正常使用下面两个文件-->
+    <!--[if lt IE 9]>
+    <script src="../lib/html5shiv/html5shiv.min.js"></script>
+    <script src="../lib/respond/respond.js"></script>
+    <![endif]-->
+    <script src="../lib/jquery/jquery.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.js"></script>
+    <script src="../js/popUp.js"></script>
+    <script src="../js/selectCommon.js"></script>
+</head>
+<body>
+<!--头部-->
+<div class="HJ-header">
+    <div class="HJ-header-tabs clearfix">
+        <div class="project-classification pull-left clearfix">
+            <div class="name pull-left">数字化审图平台</div>
+            <ul class="pull-left">
+                <li class="manage-project"><a href="index.html">我管理的项目</a></li>
+                <li class="reviewed-project"><a href="index.html">我审查的项目</a></li>
+                <li class="review-project"><a href="index.html">我复核的项目</a></li>
+            </ul>
+        </div>
+        <div class="personal-center pull-right">
+            <ul>
+                <li class="user">
+                    <div class="name">
+                        CCCC <i class="iconfont icon-arrLeft-fill"></i>
+                    </div>
+                    <div class="user-dropDown-box">
+                        <div class="company">文思海辉有限公司</div>
+                        <div class="personal-information clearfix">
+                            个人信息
+                            <span class="pull-right"><a href="personalInformation.html">编辑</a></span>
+                        </div>
+                        <div class="exit">
+                            <div class="exit-logo">
+                                <img src="../image/exit.png" alt="">退出
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<div class="main-box">
+    <div class="professionalAuditList-content">
+        <div class="floors">
+            <div class="appellation commonDiv">晟昊府邸名苑楼盘1-6栋</div>
+            <div class="version commonDiv">
+                <div class="select-con">
+                    <div class="name">
+                        <span>模型版本1</span>
+                        <img src="../image/ICON_XIAOJIANTOU.png" alt="">
+                    </div>
+                    <div class="select-lists">
+                        <ul>
+                            <li class="active"><img src="../image/ICON_DUIGOU.png" alt="">1</li>
+                            <li><img src="../image/ICON_DUIGOU.png" alt="">2</li>
+                            <li><img src="../image/ICON_DUIGOU.png" alt="">34</li>
+                            <li><img src="../image/ICON_DUIGOU.png" alt="">4</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="sendBtn">
+                <span><a href="#">发送给建设公司</a></span>
+                <span><a href="#">发送给建设公司</a></span>
+            </div>
+        </div>
+        <div class="iterms clearfix">
+            <div class="left pull-left">
+                <div class="select">
+                    专业：
+                    <div class="taxonomic-selection">
+                        <div class="select-con">
+                            <div class="name">
+                                <span>建筑</span>
+                                <img src="../image/ICON_XIAOJIANTOU.png" alt="">
+                            </div>
+                            <div class="select-lists">
+                                <ul>
+                                    <li class="active"><img src="../image/ICON_DUIGOU.png" alt="">1</li>
+                                    <li><img src="../image/ICON_DUIGOU.png" alt="">2</li>
+                                    <li><img src="../image/ICON_DUIGOU.png" alt="">34</li>
+                                    <li><img src="../image/ICON_DUIGOU.png" alt="">4</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="review-progress">
+                    审核进度：<span class="review-completed">审核完成</span>
+                </div>
+                <div class="review-progress">
+                    意见数量：<span>20</span>
+                </div>
+                <div class="review-progress">
+                    当前角色：<span>项目经理</span>
+                </div>
+                <div class="audit-status-btn">查看专业审核状态</div>
+            </div>
+            <div class="right pull-right">
+                <div class="review-progress">
+                    状态更新时间：<span>2017-12-20 </span>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="first-space"></th>
+                        <th><input type="checkbox"></th>
+                        <th>意见编号</th>
+                        <th>楼层</th>
+                        <th>审查人</th>
+                        <th>复核人</th>
+                        <th>创建版本</th>
+                        <th>意见类型</th>
+                        <th class="drawingStatus">
+                            <div class="drawingStatus-con">
+                                <div class="name">
+                                    <span>意见状态</span>
+                                    <img src="../image/ICON_XIAOJIANTOU.png" alt="">
+                                </div>
+                                <div class="select-lists">
+                                    <ul>
+                                        <li class="active"><img src="../image/ICON_DUIGOU.png" alt="">全部</li>
+                                        <li><img src="../image/ICON_DUIGOU.png" alt="">有效意见</li>
+                                        <li><img src="../image/ICON_DUIGOU.png" alt="">初审意见</li>
+                                        <li><img src="../image/ICON_DUIGOU.png" alt="">已驳回</li>
+                                        <li><img src="../image/ICON_DUIGOU.png" alt="">已关闭</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </th>
+                        <th>操作</th>
+                        <th>状态更新时间</th>
+                        <th class=""></th>
+                        <th>意见查看</th>
+                        <th class="first-space"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                        <td></td>
+                        <td><input type="checkbox"></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>徐自达</td>
+                        <td>徐自达</td>
+                        <td>模型版本1</td>
+                        <td>成果完整</td>
+                        <td class="effective-advice">有效意见</td>
+                        <td>- -</td>
+                        <td>2017-12-12 12:22:23</td>
+                        <td></td>
+                        <td class="common-color"><a href="viewsDetail.html">查看</a></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="checkbox"></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>徐自达</td>
+                        <td>徐自达</td>
+                        <td>模型版本1</td>
+                        <td>成果完整</td>
+                        <td class="preliminary-examination">初审意见</td>
+                        <td>- -</td>
+                        <td>2017-12-12 12:22:23</td>
+                        <td></td>
+                        <td class="common-color"><a href="viewsDetail.html">查看</a></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="checkbox"></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>徐自达</td>
+                        <td>模型版本1</td>
+                        <td>徐自达</td>
+                        <td>成果完整</td>
+                        <td class="rejected">已驳回</td>
+                        <td>- -</td>
+                        <td>2017-12-12 12:22:23</td>
+                        <td></td>
+                        <td class="common-color"><a href="viewsDetail.html">查看</a></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="checkbox"></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>徐自达</td>
+                        <td>徐自达</td>
+                        <td>模型版本1</td>
+                        <td>成果完整</td>
+                        <td>已关闭</td>
+                        <td>- -</td>
+                        <td>2017-12-12 12:22:23</td>
+                        <td></td>
+                        <td class="common-color"><a href="viewsDetail.html">查看</a></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="checkbox"></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>徐自达</td>
+                        <td>徐自达</td>
+                        <td>模型版本1</td>
+                        <td>成果完整</td>
+                        <td class="effective-advice">有效意见</td>
+                        <td>- -</td>
+                        <td>2017-12-12 12:22:23</td>
+                        <td></td>
+                        <td class="common-color"><a href="viewsDetail.html">查看</a></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="checkbox"></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>徐自达</td>
+                        <td>徐自达</td>
+                        <td>模型版本1</td>
+                        <td>成果完整</td>
+                        <td class="effective-advice">有效意见</td>
+                        <td>- -</td>
+                        <td>2017-12-12 12:22:23</td>
+                        <td></td>
+                        <td class="common-color"><a href="viewsDetail.html">查看</a></td>
+                        <td></td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+        <div class="batch-operation">
+            <span><a href="#">同意所选</a></span>
+            <span><a href="#">不同意所选</a></span>
+        </div>
+        <!--分页-->
+
+        <div class="list-footer">
+            <nav id="footer" aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a id="previous" href="#" aria-label="Previous">
+                            <span aria-hidden="true"><</span>
+                        </a>
+                    </li>
+                    <li><a class="pageIndex" href="javascript:;">1</a></li>
+                    <li><a class="pageIndex" href="javascript:;">2</a></li>
+                    <li><a class="pageIndex" href="javascript:;">3</a></li>
+                    <li><a class="pageIndex" href="javascript:;">4</a></li>
+                    <li><a class="pageIndex" href="javascript:;">5</a></li>
+                    <li>
+                        <a id="next" href="#" aria-label="Next">
+                            <span aria-hidden="true">></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="wrap"></div>
+<div class="audit-status-popup">
+    <div class="popup-content">
+        <img src="../image/ICON_GUANBI.png" alt="" class="close-icon">
+       <!-- <div class="top-title">
+            <ul class="clearfix">
+                <li class="major">专业</li>
+                <li class="scorespoint">分数评定</li>
+                <li class="progressAudit">审核进度</li>
+            </ul>
+        </div>-->
+        <div class="tableCon">
+            <table>
+                <thead>
+                <th class="professional">专业</th>
+                <th>分数评定</th>
+                <th>审核进度</th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="major-name">
+                        <i class="iconfont icon-jianzhu"></i>
+                        <span>建筑</span>
+                    </td>
+                    <td  class="score-iterm">
+                        <div>
+                            <div class="line line1"></div>
+                            <div>80</div>
+                            <div class="line line2"></div>
+                        </div>
+                    </td>
+                    <td class="audit-status waite-trial">等待初审…</td>
+                </tr>
+                <tr>
+                    <td class="major-name">
+                        <i class="iconfont icon-jiegouqueren"></i>
+                        <span>结构</span>
+                    </td>
+                    <td  class="score-iterm">
+                        <div>
+                            <div class="line line1"></div>
+                            <div>80</div>
+                            <div class="line line2"></div>
+                        </div>
+                    </td>
+                    <td class="audit-status reviewing">审查中…</td>
+                </tr>
+                <tr>
+                    <td class="major-name">
+                        <i class="iconfont icon-shui"></i>
+                        <span>给排水</span>
+                    </td>
+                    <td  class="score-iterm">
+                        <div>
+                            <div class="line line1"></div>
+                            <div>80</div>
+                            <div class="line line2"></div>
+                        </div>
+                    </td>
+                    <td class="audit-status reviewing">审查中…</td>
+                </tr>
+                <tr>
+                    <td class="major-name">
+                        <i class="iconfont icon-dian"></i>
+                        <span>电气</span>
+                    </td>
+                    <td  class="score-iterm">
+                        <div>
+                            <div class="line line1"></div>
+                            <div>80</div>
+                            <div class="line line2"></div>
+                        </div>
+                    </td>
+                    <td class="audit-status checkIn">核对中…</td>
+                </tr>
+                <tr>
+                    <td class="major-name">
+                        <i class="iconfont icon-nuantong"></i>
+                        <span>暖通</span>
+                    </td>
+                    <td  class="score-iterm">
+                        <div>
+                            <div class="line line1"></div>
+                            <div>80</div>
+                            <div class="line line2"></div>
+                        </div>
+                    </td>
+                    <td class="audit-status review-completed">审查单位已签收</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $(".project-classification .manage-project").addClass("active");
+
+        //查看专业审核状态
+        $(".audit-status-btn").click(function() {
+            $(".wrap").show();
+            setDivCenter(".audit-status-popup");
+        });
+        //关闭关闭审核状态
+        $(".audit-status-popup .close-icon").click(function() {
+            $(".audit-status-popup").hide();
+            $(".wrap").hide();
+            $("body").css({
+                'overflow':'auto'
+            });
+        });
+
+
+
+        var page;
+        function initPageFooter(total, pageSize) {
+            var i = 1;
+            if (total % pageSize > 0) {
+                page = parseInt(total / pageSize) + 1;
+            } else {
+                page = parseInt(total / pageSize)
+            }
+            if (page == 1) {
+                $("#footer").hide();
+            } else {
+                $("#footer").show();
+            }
+            $(".pageIndex").each(function () {
+                $(this).text(i);
+                if (i <= page) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+                i++;
+            });
+        }
+        initPageFooter(24,4);
+
+        $("#previous").click(function () {
+            if ($(".pageIndex").first().text() == "1") {
+                return false;
+            }
+            if (page > 0) {
+                $(".pageIndex").each(function () {
+                    var num = parseInt($(this).text());
+                    num -= 5;
+                    $(this).text(num);
+                    if (num <= page) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+
+        $("#next").click(function () {
+
+            if (parseInt($(".pageIndex").last().text()) >= page) {
+                return false;
+            }
+            if (page > 0) {
+                $(".pageIndex").each(function () {
+                    var num = parseInt($(this).text());
+                    num += 5;
+                    $(this).text(num);
+                    if (num <= page) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+
+
+       /* var totalCount = 9;
+        var index = 0;
+        var pages = totalCount%5;
+        if(pages !=0) {
+            pages = parseInt(totalCount/5)+1;
+        } else {
+            pages =  parseInt(totalCount/5);
+        }
+        $(".page-box").attr("index",index);
+        var first = totalCount;
+        if(first<5) {
+            first = totalCount;
+        } else {
+            first = 5;
+        }
+        function showHtml(begin,end) {
+            var html = '';
+            for(var i = begin; i < end; i++){
+                html += ' \
+            <li class="page_li">\
+            <button class="page_btn">'+(i+1)+'</button>\
+            </li>\
+            </li>';
+            }
+            $(".page-box ul").html(html);
+        }
+        showHtml(0,first);
+
+
+        $("#sufPage").click(function() {
+            var pageIndex = $(".page-box").attr("index");
+            pageIndex++;
+            if(pageIndex > pages-1) return;
+            $(".page-box").attr("index",pageIndex);
+            var last =  pageIndex*5 + 1;
+            var number;
+            var nowCount = pageIndex *5;
+            if(totalCount - nowCount <5) {
+                number = totalCount - nowCount -1;
+            } else {
+                number = 4;
+            }
+            var step = last + number;
+            var html ='';
+            for(var i = last; i <= step; i++){
+                html += ' \
+            <li class="page_li">\
+            <button class="page_btn">'+(i)+'</button>\
+            </li>\
+            </li>';
+            }
+            $(".page-box ul").html(html);
+        });
+
+        $("#prePage").click(function() {
+            var pageIndex = $(".page-box").attr("index");
+            pageIndex--;
+            if(pageIndex < 0) return;
+            $(".page-box").attr("index",pageIndex);
+            var last =  pageIndex*5 + 1;
+            var html ='';
+            for(var i = last; i < last+5; i++){
+                html += ' \
+            <li class="page_li">\
+            <button class="page_btn">'+(i)+'</button>\
+            </li>\
+            </li>';
+            }
+            $(".page-box ul").html(html);
+
+        })
+*/
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+﻿@using TS.Web.Models.EngineeringFiles
+@using TS.Core.Domain.Projects;
+@model ModelProfessionOperateModel
+@if (Model != null)
+{
+    if (Model.Status == FlowCode.Pre_AuditCompany_ProjectManager_ConformComplate || Model.Status == FlowCode.AuditCompany_ProfessionReaudit_Reject_ProfessionAudit || Model.Status == FlowCode.AuditCompany_ProjectManager_Sign_BuildCompany)
+    {
+        if (Model.CanCheckerSubmit)
+        {
+        <div class="sendBtn">
+            <span>
+                <a href="#" data-des="确认将意见发送给复核人确认？" data-uri="@Url.Action("OperateModelProfession", "EngineeringFile", new { modelProfessionId = Model.ModelProfessionId, type = ModelProfessionOperationType.CheckerApplyForReview })">申请复核</a>
+            </span>
+        </div>
+        }
+    }
+    else if (Model.Status == FlowCode.AuditCompany_ProfessionAudit_Submit)
+    {
+        <div class="sendBtn">
+            @if (Model.CanReviewerSubmit)
+            {
+                <span>
+                    <a href="#" data-des="确认将意见转发给项目经理确认？" data-uri="@Url.Action("OperateModelProfession", "EngineeringFile", new { modelProfessionId = Model.ModelProfessionId, type = ModelProfessionOperationType.ReviewerPassCheckerApply })">申请提交</a>
+                </span>
+            }
+            @if (Model.CanReviewerReturn)
+            {
+                <span>
+                    <a href="#" data-des="确认将意见驳回给审核人修改？" data-uri="@Url.Action("OperateModelProfession", "EngineeringFile", new { modelProfessionId = Model.ModelProfessionId, type = ModelProfessionOperationType.ReviewerSendBackCheckerApply })">申请驳回</a>
+                </span>
+            }
+        </div>
+    }
+    else if (Model.Status == FlowCode.DesignCompany_Submit_AuditCompany_ProfessionReaudit)
+    {
+        if (Model.CanReviewerSubmit)
+        {
+            <div class="sendBtn">
+                <span>
+                    <a href="#" data-des="确认将设计公司驳回的意见转发给项目经理确认？" data-uri="@Url.Action("OperateModelProfession", "EngineeringFile", new { modelProfessionId = Model.ModelProfessionId, type = ModelProfessionOperationType.ReviewerHandledDesignManagerReject })">申请提交</a>
+                </span>
+            </div>
+        }
+    }
+}

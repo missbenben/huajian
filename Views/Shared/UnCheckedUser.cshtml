@@ -1,0 +1,68 @@
+﻿@using TS.Web.Models.SuperAdmin
+@model List<AdminAndCompanyModel>
+
+<thead>
+    <tr>
+        <th class="first-space"></th>
+        <th>账号</th>
+        <th>姓名</th>
+        <th>邮箱</th>
+        <th>手机号</th>
+        <th>所属公司类型</th>
+        <th>公司名称</th>
+        <th class="space"></th>
+        @if (Model.Count > 0 && (Model[0].PageType == "Checked" || Model[0].PageType == "Freeze"))
+        {
+            <th>负责项目</th>
+        }
+        <th>操作</th>
+        <th class="first-space"></th>
+    </tr>
+</thead>
+<tbody>
+    @foreach (var adminAndCom in Model)
+    {
+        <tr>
+            <td></td>
+            <td>@adminAndCom.Account</td>
+            <td>@adminAndCom.AdminName</td>
+            <td>@adminAndCom.ApplyEmail</td>
+            <td>@adminAndCom.ApplyPhone</td>
+            <td>@adminAndCom.CompanyType</td>
+            <td>@adminAndCom.CompanyName</td>
+            <td></td>
+            @if (adminAndCom.PageType == "UnChecked")
+            {
+                <td>
+                    <a class="common-color open-project model-operate" data-des="确认通过该账户验证？" data-uri="@Url.Action("ApproveUser", "Organization", new { adminId = adminAndCom.AdminId })">通过</a>
+                    <a class="common-color model-operate" data-des="确认拒绝该账户验证？" data-uri="@Url.Action("DisApproveUser", "Organization", new { adminId = adminAndCom.AdminId })">拒绝</a>
+                </td>
+            }
+            else if (adminAndCom.PageType == "Checked" || adminAndCom.PageType == "Freeze")
+            {
+
+                <td class="common-color"><a href="@Url.Action("ResponsibleProjectList","Project", new { customerid = adminAndCom.AdminId })">查看</a></td>
+                <td>
+                    <span class="common-color open-project modify-account" data-userid="@adminAndCom.AdminId">修改</span>
+                    @if (adminAndCom.PageType == "Checked")
+                    {
+                        <a class="common-color model-operate" data-des="确认冻结该用户？" data-uri="@Url.Action("FreezeUser", "Organization", new { UserId = adminAndCom.AdminId })">冻结</a>
+                    }
+                    else
+                    {
+                        <a class="common-color model-operate" data-des="确认解冻该用户？" data-uri="@Url.Action("UnFreezeUser", "Organization", new { UserId = adminAndCom.AdminId })">解冻</a>
+                    }
+
+                </td>
+            }
+            <td></td>
+        </tr>
+    }
+
+</tbody>
+
+
+
+
+
+

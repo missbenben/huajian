@@ -1,0 +1,171 @@
+﻿@using TS.Web.Models.EngineeringFiles
+@using TS.Core.Domain.Organizations
+@using TS.Core.Domain.Projects
+@model ModelListModel
+
+@if (Model.Roles.Contains(Role.DesignCompanyManager))
+{
+    if (Model.CanUploadModel)
+    {
+        <div class="drawimg-action-btn">
+            <div id="addNewModelBtn" class="uploadDrawings">新增模型</div>
+        </div>
+        @Html.Partial("_AddOrUpdateModel")
+    }
+    else
+    {
+        <div class="drawimg-action-btn">
+            <div class="uploadDrawings">当前不可新增模型</div>
+        </div>
+    }
+}
+@if (Model.Roles.Contains(Role.CensorshipManager) || Model.Roles.Contains(Role.CensorshipEngreeingManager) || Model.Roles.Contains(Role.Checker) || Model.Roles.Contains(Role.Reviewer))
+{
+    <div class="score-evaluation">
+        <a href="@Url.Action("ModelEvaluate", "EngineeringFile", new { projectId = Model.ProjectId })">分数评估</a>
+    </div>
+}
+    @* 模型更新 *@
+    <div class="table-box">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="left-space"></th>
+                        <th>模型版本</th>
+                        <th>提交说明</th>
+                        <th class="modelStatus">
+                            <div class="drawingStatus-con">
+                                <div class="name">
+                                    <span>@(string.IsNullOrWhiteSpace(Model.SelectedStatus) ? "模型状态" : Model.SelectedStatus)</span>
+                                    <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                                </div>
+                                <div class="select-lists">
+                                    <ul>
+                                        @foreach (var status in Model.AvaliableStatus)
+                                        {
+                                            <li data-state="@status.Value" class="selectedStatus @(status.Selected ? "active" : null)"><img src="~/Content/image/ICON_DUIGOU.png" alt="">@status.Text</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </th>
+                        <th>状态更新时间</th>
+                        <th class="space"></th>
+                        <th>进入模型</th>
+                        @if (Model.Roles.Contains(Role.Checker) || Model.Roles.Contains(Role.Reviewer) && (!Model.Roles.Contains(Role.CensorshipManager) && !Model.Roles.Contains(Role.CensorshipEngreeingManager)))
+                        {
+                            <th>专业审核列表</th>
+                        }
+                        else
+                        {
+                            <th>操作</th>
+                        }
+                        <th class="left-space"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var md in Model.ModelList)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@md.ModelVersionNo</td>
+                            <td class="imprint model" data-uploadDes="@md.UploadDescription" data-rejectDes="@md.RejectDescription">
+                                <div>
+                                    @md.UploadDescription
+                                </div>
+                            </td>
+                            <td class="wait-sign">@md.ModelStatusDes</td>
+                            <td>@md.UpdateTime</td>
+                            <td></td>
+                            <td class="common-color">
+                                <a href="@Url.Action("ModelDetail", "BimModel",new { modelVersionId = md.ModelVersionId})" target="_blank">进入模型</a>
+                            </td>
+                            <td class="common-color">                               
+                                @if (Model.Roles.Contains(Role.Checker) || Model.Roles.Contains(Role.Reviewer) && (!Model.Roles.Contains(Role.CensorshipManager) && !Model.Roles.Contains(Role.CensorshipEngreeingManager)))
+                                {
+                                    <a href="@Url.Action("CommentList", "Comment", new { modelVersionId = md.ModelVersionId })">打开</a>
+                                }
+                                else
+                                {
+                                    if (!Model.ProjectIsFiled)
+                                    {
+                                        if (Model.Roles.Contains(Role.BuildingCompanyManager))
+                                        {
+                                            if (md.ModelStatus == FlowCode.Pre_BuildCompany_Sign_DesignCompany || md.ModelStatus == FlowCode.BuildCompany_Sign_DesignCompany)
+                                            {
+                                                <span class="open-project">
+                                                    <a class="model-operate" data-des="确认转发模型及相关信息至审图公司？" data-uri="@Url.Action("BuildingCompanyManagerOperateModel", "EngineeringFile", new { modelVersionId = md.ModelVersionId,type = BuildingModelOperationType.Transpond })">转发</a>
+                                                </span>
+                                                <span>
+                                                    <a class="reject-model" data-uri="@Url.Action("BuildingCompanyManagerOperateModel", "EngineeringFile",new { modelVersionId = md.ModelVersionId,type = BuildingModelOperationType.SendBack })">退回</a>
+                                                </span>
+                                            }
+                                            else if (md.ModelStatus == FlowCode.Pre_DesignCompany_Submit || md.ModelStatus == FlowCode.DesignCompany_Submit_BuildCompany || md.ModelStatus == FlowCode.AuditCompany_ProjectManager_Reject_BuildCompany_Comment)
+                                            {
+                                                <a class="model-operate" data-des="确认签收模型及相关信息？" data-uri="@Url.Action("BuildingCompanyManagerOperateModel", "EngineeringFile", new { modelVersionId = md.ModelVersionId ,type = BuildingModelOperationType.Sign})">签收</a>
+                                            }
+                                            else if (md.ModelStatus == FlowCode.BuildCompany_Sign_AuditCompany)
+                                            {
+                                                <a class="model-operate" data-des="确认将意见转发给设计单位？" data-uri="@Url.Action("BuildingCompanyManagerOperateModel", "EngineeringFile", new { modelVersionId = md.ModelVersionId,type = BuildingModelOperationType.Transpond })">转发</a>
+                                            }
+                                        }
+                                        if (Model.Roles.Contains(Role.DesignCompanyManager))
+                                        {
+                                            if (md.ModelStatus == FlowCode.Pre_DesignCompany_Uploaded || md.ModelStatus == FlowCode.DesignCompany_Uploaded)
+                                            {
+                                                <span class="open-project">
+                                                    <a class="model-operate" data-des="确认将模型发送给建设单位" data-uri="@Url.Action("DesignCompanyMangerOperateModel", "EngineeringFile",new { modelVersionId = md.ModelVersionId,type = DesignModelOperationType.Submit})">提交</a>
+                                                </span>
+                                                <span>
+                                                    <a class="model-operate" data-des="确认将此模型删除？" data-uri="@Url.Action("DesignCompanyDeleteModel", "EngineeringFile",new { modelVersionId = md.ModelVersionId})">删除</a>
+                                                </span>
+                                            }
+                                            if (md.ModelStatus == FlowCode.BuildCompany_Submit_DesignCompany)
+                                            {
+                                                <a class="model-operate" data-des="确认将意见回复发送给审查机构？" data-uri="@Url.Action("DesignCompanyMangerOperateModel", "EngineeringFile",new { modelVersionId = md.ModelVersionId,type=DesignModelOperationType.Submit})">提交</a>
+                                            }
+                                        }
+                                        if (Model.Roles.Contains(Role.CensorshipManager) || Model.Roles.Contains(Role.CensorshipEngreeingManager))
+                                        {
+                                            if (md.ModelStatus == FlowCode.Pre_BuildCompany_Submit_AuditCompany || md.ModelStatus == FlowCode.BuildCompany_Submit_AuditCompany)
+                                            {
+                                                <a class="model-operate" data-des="确认通过验收？" data-uri="@Url.Action("CensorshipManagerOperateModel", "EngineeringFile", new { modelVersionId = md.ModelVersionId ,type= CensorshipModelOperationType.Sign})">签收</a>
+                                            }
+                                            else if (md.ModelStatus == FlowCode.Pre_AuditCompany_ProfessionReaudit_Submit_Imperfect)
+                                            {
+                                                <a class="model-operate" data-des="确认退回所选模型？" data-uri="@Url.Action("CensorshipManagerOperateModel", "EngineeringFile", new { modelVersionId = md.ModelVersionId ,type=CensorshipModelOperationType.AcceptanceBack})">验收退回</a>
+                                            }
+                                            else if (md.ModelStatus == FlowCode.Pre_AuditCompany_ProfessionReaudit_Submit_Perfect)
+                                            {
+                                                <a class="model-operate" data-des="确认通过验收？" data-uri="@Url.Action("CensorshipManagerOperateModel", "EngineeringFile", new { modelVersionId = md.ModelVersionId ,type = CensorshipModelOperationType.AcceptancePass})">验收</a>
+                                            }
+                                            else if (md.ModelStatus == FlowCode.AuditCompany_ProfessionReaudit_Submit_ProjectManager)
+                                            {
+                                                <span class="open-project">
+                                                    <a class="model-operate" data-des="确认将意见发送给建设单位？" data-uri="@Url.Action("CensorshipManagerOperateModel", "EngineeringFile", new { modelVersionId = md.ModelVersionId,type = CensorshipModelOperationType.Send })">发送</a>
+                                                </span>
+                                                @*<span>
+                                                    <a class="model-operate" data-des="确认此版本模型已完全通过？" data-uri="@Url.Action("CensorshipManagerOperateModel", "EngineeringFile", new { modelVersionId = md.ModelVersionId ,type = CensorshipModelOperationType.AduitPass})">审核通过</a>
+                                                </span>*@
+                                            }
+                                            else if (md.ModelStatus == FlowCode.AuditCompany_ProfessionReaudit_Submit_ProjectManager_Comments)
+                                            {
+                                                <span class="open-project">
+                                                    <a class="model-operate" data-des="确认本次版本模型已审核完毕，准备下一版本审核？" data-uri="@Url.Action("CensorshipManagerOperateModel", "EngineeringFile", new { modelVersionId = md.ModelVersionId ,type = CensorshipModelOperationType.CurrrentAuditCompleted})">审核完成</a>
+                                                </span>
+                                                @*<span>
+                                                    <a class="model-operate" data-des="确认此版本模型已完全通过？" data-uri="@Url.Action("CensorshipManagerOperateModel", "EngineeringFile", new { modelVersionId = md.ModelVersionId,type = CensorshipModelOperationType.AduitPass })">审核通过</a>
+                                                </span>*@
+                                            }
+                                        }
+                                    }
+                                }
+                            </td>
+                            <td></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>

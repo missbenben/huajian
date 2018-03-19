@@ -1,0 +1,35 @@
+﻿@using TS.Web.Models.EngineeringFiles
+@using TS.Core.Domain.Projects
+
+@model DrawingListModel
+@foreach (var drawing in Model.Drawings)
+{
+    <tr>
+        <td></td>
+        <td>
+            @drawing.DrawingName
+        </td>
+        <td>@drawing.DrawingVersion</td>
+        <td>@drawing.DrawingCatalog</td>
+        <td class="haveSign">@drawing.StatusDes</td>
+        <td class="imprint" data-fileName="@drawing.DrawingName" data-fileSize="@drawing.FileSize" data-des="@drawing.Description">
+            <div>
+                @drawing.Description
+            </div>
+        </td>
+        <td>@drawing.UpdateTime</td>
+        <td>@drawing.FileSize</td>
+        <td></td>
+        <td class="common-color">            
+            <span class="open-project common-color"><a href="/BlobFile/ViewBlob?blobName=@drawing.Uri" target="_blank">打开</a></span>
+            @if (!Model.ProjectIsFiled)
+            {
+                if (Model.Roles.Contains(Role.DesignCompanyManager))
+                {
+                    <span class="common-color deleteDrawing" data-des="是否删除此图纸" data-uri="@Url.Action("DeleteBlob","BlobFile",new { drawingBlobId = drawing.DrawingId})">删除</span>
+                }
+            }          
+        </td>
+        <td></td>
+    </tr>
+}

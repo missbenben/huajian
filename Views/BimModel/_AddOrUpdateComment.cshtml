@@ -1,0 +1,266 @@
+﻿@model TS.Web.Models.BimModel.ModelDetailModel
+
+@{
+    Layout = null;
+}
+
+<!--新建/修改意见弹窗-->
+<div class="new-opinion-content newComment">
+    <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+    <div class="opinion-number">
+    </div>
+    <!--意见类型-->
+    <div class="opinion-type clearfix">
+        <div class="name pull-left">意见类型：</div>
+        <div class="right  pull-left">
+            <div>
+                <select id="opinion-type-select" name="" class="pull-left">
+                    @foreach (var ct in Model.CommentTypes)
+                    {
+                        <option value=@ct.Value>@ct.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <!--手动输入楼层-->
+    <div class="opinion-type clearfix">
+        @*<div class="left">楼层：</div>
+                <input type="text" id="floor" name="floor" placeholder="请填写楼层信息..." />*@
+        <div class="name pull-left">楼层：</div>
+        <div class="right pull-left">
+            <div>
+                <select id="floor-select" name="" class="pull-left">
+                    @foreach (var ct in Model.AvailableFloors)
+                    {
+                        <option value=@ct.Value>@ct.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <!--审查人意见-->
+    <div class="review-opinions clearfix">
+        <div class="left">审查人意见：</div>
+        <textarea id="description" name="description" cols="30" rows="10" placeholder="请填写详细意见..."></textarea>
+    </div>
+    <!--标注-->
+    <div class="model-mark clearfix">
+        <div class="left">标注：</div>
+        <div class="imgLists clearfix">
+            <ul id="addAnnotationList" class="clearfix">
+                <li id="addAnnotation">
+                    <a href="javascript:void(0);"><img src="~/Content/image/addmark.png" alt="" class="addnewmark-img"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--链接构件-->
+    <div class="component-link clearfix">
+        <div class="left">链接构件：</div>
+        <div class="linkLists">
+            <ul id="addStructureList" class="clearfix">
+                <li id="addStructure" class="addLink">
+                    <a href="javascript:void(0);">添加</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--确认取消-->
+    <div class="confirm-box">
+        <div class="con">
+            <div id="add-comment-comfirm" class="confirm-btn">确认</div>
+            <div id="add-comment-cancle" class="cancle-btn">取消</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //清除模态框
+    function cleanContentBox() {
+        //恢复新建button框
+        getOperationButton();
+
+        $('#commentId').val("0");
+
+        //关掉框子
+        $(".wrap").hide();
+        $(".new-opinion-content").hide();
+
+        //清空新建意见的输入框
+        //清空选择项
+        $('#description').val(""); //清空描述
+        $('#floor-select').val("通用"); //清空楼层
+        //清空批注
+        $('#addAnnotationList .markList').each(function () { $(this).remove() });
+        //清空构件
+        $('#addStructureList .linkLi').each(function () { $(this).remove() });
+        addNewCommentModel.BIMElements = [];
+    };
+
+    //准备更新意见前弹框内内容
+    function UpdateCommentPopUp(id) {
+        loading();
+        cleanContentBox();
+
+        var getCommentModel = new FormData();
+        getCommentModel.append('CommentId', id);
+
+        $.ajax({
+            url: '@Html.Raw(Url.Action("GetComment", "BimModel"))',  // Different bucket zone has different upload url, you can get right url by the browser error massage when uploading a file with wrong upload url.
+            type: 'POST',
+            data: getCommentModel,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                //console.log("得到结果:" + JSON.stringify(res));
+                if (!res.Result) {
+                    errPromot(JSON.stringify(res));
+                } else {
+                    //console.log(res.Comment);
+
+                    //更改操作按钮
+                    $("#statusbox").html("<div id = 'continueEditComment'>继续修改</div><div id = 'cancelModifyComment'>取消修改</div>");
+
+                    $('#commentId').val(res.Comment.Id);
+                    //填充输入框
+                    $('#opinion-type-select').val(res.Comment.CommentTypeId);//类型
+                    $('#floor-select').val(res.Comment.Floor); //楼层
+                    $('#description').val(res.Comment.Description); //描述
+
+                    for (var i = 0; i < res.Comment.BimElements.length; i++) {
+                        if (res.Comment.BimElements[i].BIMElementType == 0) {
+                            //批注
+                            var html = '<li id="' + res.Comment.BimElements[i].Id + '" class="markList"><a href="javascript:void(0);" onclick="viewAnnotation(\'' + res.Comment.BimElements[i].BIMId + '\');"><img src="' + res.Comment.BimElements[i].BimThumb + '" alt="' + res.Comment.BimElements[i].BIMId + '" class="mark-img"></a><img src="/Content/image/ICON_DELETE.png" alt="" class="delete"></li>';
+                            $(html).insertBefore('#addAnnotation');
+                            addNewCommentModel.BIMElements.push({
+                                Id: res.Comment.BimElements[i].Id,
+                                BIMElementType: "0",
+                                IsDelete: res.Comment.BimElements[i].IsDelete,
+                                BIMId: res.Comment.BimElements[i].BIMId,
+                                BimThumb: res.Comment.BimElements[i].BimThumb
+                            });
+                        } else {
+                            //构件
+                            var html = '<li id="' + res.Comment.BimElements[i].Id + '" class="linkLi"><span> <a href="javascript:void(0);" onclick="viewStructure(\'' + res.Comment.BimElements[i].BIMId + '\');">' + res.Comment.BimElements[i].Name + '</a></span><i class="iconfont icon-lianjie"></i><img src="/Content/image/ICON_DELETE.png" alt="" class="delete"></li>';
+                            window.parent.$(html).insertBefore('#addStructure');
+                            addNewCommentModel.BIMElements.push({
+                                Id: res.Comment.BimElements[i].Id,
+                                BIMElementType: "1",
+                                IsDelete: res.Comment.BimElements[i].IsDelete,
+                                BIMId: res.Comment.BimElements[i].BIMId,
+                                Name: res.Comment.BimElements[i].Name
+                            });
+                        }
+                    }
+
+                    $(".wrap").show();
+                    $(".newComment").show();
+                    loadingSuccess();
+                }
+            },
+            error: function (res) {
+                console.log("失败:" + JSON.stringify(res));
+            }
+        });
+    };
+
+    //取消修改意见
+    $("#statusbox").on("click", "#cancelModifyComment", function () {
+        cleanContentBox();
+    });
+
+    //意见提交
+    $createNewCommentButton = $('#add-comment-comfirm');
+    $createNewCommentButton.click(function () {
+        //防止重复请求
+        if ($createNewCommentButton.hasClass("clicked")) {
+            return false;
+        }
+        $createNewCommentButton.addClass("clicked");
+        $createNewCommentButton.html('正在操作');
+
+        //组装Model
+        addNewCommentModel.Comment.Id = $('#commentId').val();
+        addNewCommentModel.Comment.Description = $('#description').val();
+        addNewCommentModel.Comment.ProfessionId = $('#modelprofession').val();
+        addNewCommentModel.Comment.CommentTypeId = $('#opinion-type-select').val();
+        addNewCommentModel.Comment.Floor = $('#floor-select').val();
+
+        if ($('#opinion-type-select').val() == "" || $('#opinion-type-select').val() == null)
+        //|| $('#floor-select').val() == "" || $('#floor-select').val() == null)
+        {
+            alert("请选择意见分类信息！");
+            $createNewCommentButton.removeClass("clicked");
+            $createNewCommentButton.html('确认');
+            return false;
+        }
+
+        //if (addNewCommentModel.BIMElements.length == 0 ) {
+        //    alert("请完善意见信息！");
+        //    $createNewCommentButton.removeClass("clicked");
+        //    $createNewCommentButton.html('确认');
+        //    return false;
+        //}
+        loading();
+        $.ajax({
+            url: '@Html.Raw(Url.Action("CreateComment", "BimModel"))',  // Different bucket zone has different upload url, you can get right url by the browser error massage when uploading a file with wrong upload url.
+            type: 'Post',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(addNewCommentModel),
+            success: function (res) {
+                //console.log("得到结果:" + JSON.stringify(res));
+                if (!res.Result) {
+                    errPromot(res.Message);
+
+                    //恢复新建button框
+                    $("#statusbox").html(html);
+                    //恢复btn
+                    $createNewCommentButton.removeClass("clicked");
+                    $createNewCommentButton.html('确认');
+
+                    loadingSuccess();
+                } else {
+                    errPromot(res.Message);
+
+                    //恢复新建button框
+                    $("#statusbox").html(html);
+
+                    //关掉框子
+                    $(".wrap").hide();
+                    $(".new-opinion-content").hide();
+
+                    //清空新建意见的输入框
+                    //清空选择项
+                    $('#description').val(""); //清空描述
+                    $('#floor-select').val(""); //清空楼层
+                    //清空批注
+                    $('#addAnnotationList .markList').each(function () { $(this).remove() });
+                    //清空构件
+                    $('#addStructureList .linkLi').each(function () { $(this).remove() });
+                    addNewCommentModel.BIMElements = [];
+
+                    //重新获取意见列表
+                    getCommentsData();
+                    //重新获取button
+                    getOperationButton();
+
+                    //恢复btn
+                    $createNewCommentButton.removeClass("clicked");
+                    $createNewCommentButton.html('确认');
+
+                    $('#commentId').val("0");
+                    loadingSuccess();
+                }
+            },
+            error: function (res) {
+                console.log("失败:" + JSON.stringify(res));
+                $createNewCommentButton.removeClass("clicked");
+                $createNewCommentButton.html('确认');
+                loadingSuccess();
+            }
+        });
+    });
+
+</script>

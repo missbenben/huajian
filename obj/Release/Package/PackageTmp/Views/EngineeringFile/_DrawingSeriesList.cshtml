@@ -1,0 +1,93 @@
+﻿@using TS.Core.Domain.Organizations
+@using TS.Web.Models.EngineeringFiles
+@using TS.Core.Domain.Projects
+
+@model DrawingSeriesListModel
+
+@if (Model.Roles.Contains(Role.DesignCompanyManager))
+{
+    <div class="drawimg-action-btn">
+        <div id="addNewDrawingSeriesBtn" class="uploadDrawings">新增图纸</div>
+    </div>
+    @Html.Action("AddOrUpdateDrawing", "BlobFile")
+}
+
+<div class="table-box">
+    @* 新增图纸系列 *@
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="left-space"></th>
+                    <th>图纸名称</th>
+                    <th>图纸版本</th>
+                    <th>版本说明</th>
+                    <th>图纸目录</th>
+                    <th class="drawingStatus">
+                        <div class="drawingStatus-con">
+                            <div class="name">
+                                <span>图纸状态</span>
+                                <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                            </div>
+                            <div class="select-lists">
+                                <ul>
+                                    @foreach (var status in Model.AvaliableStatus)
+                                    {
+                                        <li data-state="@status.Value" class="selectedStatus @(status.Selected ? "active" : null)"><img src="~/Content/image/ICON_DUIGOU.png" alt="">@status.Text</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </th>
+                    <th>状态更新时间</th>               
+                    <th>版本管理</th>
+                    <th>打开图纸</th>
+                    @if (Model.Roles.Contains(Role.BuildingCompanyManager) || Model.Roles.Contains(Role.CensorshipManager) || Model.Roles.Contains(Role.DesignCompanyManager) || Model.Roles.Contains(Role.CensorshipEngreeingManager))
+                    {
+                        <th>操作</th>
+                    }   
+                    <th class="left-space"></th>    
+                                
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var drawing in Model.DrawingSeriesList)
+                {
+                    <tr>
+                        <td></td>
+                        <td>
+                            @drawing.DrawingName
+                        </td>
+                        <td>@drawing.DrawingVersion</td>
+                        <td class="imprint drawingSeries" data-fileName="@drawing.DrawingName" data-fileSize="@drawing.FileSize" data-des="@drawing.Description">
+                            <div>
+                                @drawing.Description
+                            </div>
+                        </td>
+                        <td>@drawing.DrawingCategory</td>
+                        <td class="signed">@drawing.DrawingStatusDes</td>
+                        <td>@drawing.UpdateTime</td>                     
+                        <td class="common-color">
+                            <a href="@Url.Action("DrawingList", "EngineeringFile", new { drawingSeriesId = drawing.DrawingSeriesId })">查看</a>
+                        </td>
+                        <td class="common-color show-drawing"><a href="/BlobFile/ViewBlob?blobName=@drawing.PicUri" target="_blank">打开</a></td>
+                        <td class="common-color uploadDrawings">
+                            @if (!Model.ProjectIsFiled)
+                            {
+                                //TODO二期 添加图纸的操作流程
+                                if (Model.Roles.Contains(Role.DesignCompanyManager))
+                                {
+                                    <a href="javascript:void(0);" onclick="UpdateDrawingSeries(@drawing.DrawingSeriesId, '@drawing.DrawingName', '@drawing.DrawingProfessionId', '@drawing.DrawingCategoryId');">
+                                        更新
+                                    </a>
+
+                                }
+                            }
+                        </td>         
+                        <td></td>            
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

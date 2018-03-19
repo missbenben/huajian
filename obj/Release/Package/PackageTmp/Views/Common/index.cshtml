@@ -1,0 +1,28 @@
+﻿@using TS.Web.Models.EngineeringFiles
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="~/Content/BimComposer/lib/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="~/Content/js/bootstrap.min.js" ></script>
+
+    <link rel="stylesheet" type="text/css" href="~/Content/css/bootstrap.min.css" />
+
+</head>
+<body>
+    
+    @Html.Partial("_UploadModel", new UploadModelModel
+    {
+        EngineeringFileId = 1
+    } )
+    
+    @*@Html.Partial("_UploadBlobFile", new UploadModelModel
+    {
+        EngineeringFileId = 2
+    } )*@
+
+</body>
+</html>

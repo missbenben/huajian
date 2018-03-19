@@ -1,0 +1,438 @@
+﻿@model TS.Web.Models.CustomerLogin.CompanyRegisterModel
+
+@{
+    ViewBag.Title = "企业信息";
+    Layout = "~/Views/Shared/_ManagementLayout.cshtml";
+}
+
+
+
+@section styles{
+    <link rel="stylesheet" href="~/Content/css/enterpriseInformation.css">
+    <style>
+    </style>
+}
+
+<div class="enterpriseInformation-content">
+    <div class="information-box">
+        <div class="enterprise-title clearfix">
+            <div class="pull-left title">企业信息</div>
+        </div>
+        <div class="enterprice-information clearfix">
+            <table class="pull-left enterprice-information-table">
+                <tbody>
+                    <tr>
+                        <td class="common">企业组织机构代码：</td>
+                        <td>@Model.CompanyID</td>
+                    </tr>
+                    <tr>
+                        <td class="common">专业类型：</td>
+                        <td>@Model.CompanyType</td>
+                    </tr>
+                    <tr>
+                        <td class="common">企业名称：</td>
+                        <td>@Model.CompanyName</td>
+                    </tr>
+                    <tr>
+                        <td class="common">企业电话：</td>
+                        <td>@Model.CompanyPhone</td>
+                    </tr>
+                    <tr>
+                        <td class="common">企业地址：</td>
+                        <td>@Model.Address</td>
+                    </tr>
+                    <tr>
+                        <td class="common">专业执照注册号：</td>
+                        <td>@Model.BusinessLicence</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="business-license pull-left">
+                <div class="title">营业执照扫描件：</div>
+                <img src="@Model.UploadLicenceUri" alt="">
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modify-information">修改信息</div>
+<div class="wrap"></div>
+<div class="popUp">
+    <!--修改企业信息弹窗-->
+    <div class="common-popUp modify-enterprise-information">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">修改企业信息</div>
+            <div class="choose-person">
+                <div class="form-group">
+                    <label for="enterprise-organization-code" class="prompt">企业组织机构代码</label>
+                    <div class="form-controls">
+                        <input id="enterprise-organization-code" onblur="checkOrganizationCode()" type="text" class="control" placeholder="请输入企业组织机构代码" value="@Model.CompanyID">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="enterprise-name" class="prompt">企业名称</label>
+                    <div class="form-controls">
+                        <input id="enterprise-name" onblur="checkEnterpriseName()" type="text" class="control" placeholder="请输入企业名称" value="@Model.CompanyName">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="enterprise-address" class="prompt">企业地址</label>
+                    <div class="form-controls">
+                        <input id="enterprise-address" onblur="checkEnterpriseAddress()" type="text" class="control" placeholder="请输入企业地址" value="@Model.Address">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="enterprise-telephone" class="prompt">企业电话</label>
+                    <div class="form-controls">
+                        <input id="enterprise-telephone" onblur="checkEnterpriseTelephone()" type="text" class="control" placeholder="请输入企业电话" value="@Model.CompanyPhone">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="enterprise-telephone" class="prompt">营业执照注册号</label>
+                    <div class="form-controls">
+                        <input id="enterprise-licenumber" onblur="checkLicenseNumber()" type="text" class="control" placeholder="请填写营业执照注册号" value="@Model.BusinessLicence">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="business-license">营业执照扫描：</div>
+            <div class="business-license-box">
+                <div class="upload-license">
+
+
+                    <div class="upload-picture-wrapper">
+                        <img class="upload-picture" src="@Model.UploadLicenceUri" data-id="file1" data-index="0">
+                        <span class="modify">修改</span>
+                    </div>
+
+
+                    @*<label for="file1" class="add-picture">
+                            <img src="~/Content/image/upload.png" alt="" class="add-icon">
+                        </label>
+                        <input type="file" id="file1" class="upload-file">*@
+                    <div class="loading">
+                        <img src="~/Content/image/loading.gif" height="32" width="32" />
+                    </div>
+                </div>
+                <input id="uploadPictureUri" type="text" name="UploadLicenceUri" style="display:none" value="@Model.UploadLicenceUri">
+                <div class="error-reminder"></div>
+            </div>
+
+
+
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function uploadthispicture() {
+        //up
+        var $userfile = $('#file1');  // the file you selected
+
+        // upload info
+        var selectedFile = $userfile.val();
+        if (!selectedFile) {
+            return false;
+        }
+        var formData = new FormData();
+        formData.append('licencePicture', $userfile[0].files[0]);
+
+
+        $.ajax({
+            url: '@Html.Raw(Url.Action("PostPicture", "Customer"))',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+
+            success: function (res) {
+                var obj = eval(res);
+                var result = obj.Result;
+                var mess = obj.Message;
+                if (result) {
+                    $('#uploadPictureUri').val(mess);
+                    $('.loading').hide();
+                    $('.business-license-box .error-reminder').hide();
+                }
+                else {
+                    errPromot(mess);
+                    $('.loading').hide();
+                    $('.modify').click();
+                }
+                //       $('#loginButton').attr('disabled', 'false');
+                // $('#loginButton').html('登陆');
+            },
+            error: function (res) {
+                errPromot("上传异常");
+                //     $('#loginButton').attr('disabled', 'false');
+            }
+        });
+    }
+</script>
+
+
+<script type="text/javascript">
+    function checkOrganizationCode() {
+        var enterpriseOrganizationCode = $("#enterprise-organization-code").val();
+        if ((!regs.organizationCode.test(enterpriseOrganizationCode)) && (enterpriseOrganizationCode)) {
+            errPromotShow($("#enterprise-organization-code"), "企业组织机构代码应为9位数字");
+            return false;
+        }
+    }
+    function checkEnterpriseName() {
+        var enterpriseName = $("#enterprise-name").val();
+        if ((!regs.enterpriseName(enterpriseName)) && (enterpriseName)) {
+            errPromotShow($("#enterprise-name"), "企业名称应为25字以内");
+            return false;
+        }
+        var isExixtCompany = false;
+        if (enterpriseName != "@Model.CompanyName") {
+            $.ajax({
+                url: '@Html.Raw(Url.Action("IsCompanyNameExist", "Customer"))',
+                type: 'POST',
+                data: { comName: enterpriseName },
+                async: false,
+                success: function (res) {
+                    var obj = eval(res);
+                    var result = obj.Result;
+                    var mess = obj.Message;
+                    if (!result) {
+                        errPromotShow($("#enterprise-name"), mess);
+                        isExixtCompany = true;
+                    }
+                },
+                error: function (res) {
+                    errPromot("异常");
+                    //     $('#loginButton').attr('disabled', 'false');
+                }
+            });
+        }
+        if (isExixtCompany) {
+            return false;
+        }
+    }
+    function checkEnterpriseAddress() {
+        var enterpriseAddress = $("#enterprise-address").val();
+        if ((!regs.address(enterpriseAddress)) && (enterpriseAddress)) {
+            errPromotShow($("#enterprise-address"), "企业地址应为50位以内");
+            return false;
+        }
+    }
+    function checkEnterpriseTelephone() {
+        var enterpriseTelephone = $("#enterprise-telephone").val();
+        if ((!regs.telephone.test(enterpriseTelephone)) && (enterpriseTelephone)) {
+            errPromotShow($("#enterprise-telephone"), "请填写有效的企业电话(例如区号-电话号码)");
+            return false;
+        }
+    }
+    function checkLicenseNumber() {
+        var licenseNumber = $("#enterprise-licenumber").val();
+        if ((!regs.licenseNumber.test(licenseNumber)) && (licenseNumber)) {
+            errPromotShow($("#enterprise-licenumber"), "营业执照注册号应为15位数字");
+            return false;
+        }
+    }
+    $(".form-controls .control").on("focus", function () {
+        removeErr($(this));
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        popUp(".modify-information", ".modify-enterprise-information");
+
+        $('.modify-information').click(function () {
+            $("#enterprise-organization-code").val("@Model.CompanyID");
+            $('#enterprise-name').val("@Model.CompanyName");
+            $('#enterprise-address').val("@Model.Address");
+            $('#enterprise-telephone').val("@Model.CompanyPhone");
+            $('#enterprise-licenumber').val("@Model.BusinessLicence");
+            $('.upload-picture-wrapper .upload-picture').attr('src', "@Model.UploadLicenceUri");
+            $('#uploadPictureUri').val("@Model.UploadLicenceUri");
+        });
+
+        var pictureGroups = {};
+        $('.upload-license').on('change', '.upload-file', function () {
+            var file = $(this).get(0);
+            var files = file.files;
+            var addPic = $(this).siblings('.add-picture');
+            var parent = $(this).parent();
+            var id = $(this).attr('id');
+            if (!pictureGroups[id]) pictureGroups[id] = [];
+            var len = pictureGroups[id].length;
+            for (var i in files) {
+                if (!isNaN(i)) {
+                    pictureGroups[id].push({
+                        index: len,
+                        file: files[i]
+                    });
+                    len++;
+                }
+            }
+            if (pictureGroups[id].length >= 1) addPic.remove();
+            pictureGroups[id].forEach(function (item) {
+                reads(item.file, item.index, parent, id);
+            })
+
+            $('.loading').show();
+            uploadthispicture();
+            $(this).remove();
+
+            /* var html = '\
+             <input type="file" id="file1" class="upload-file">\
+             <div class="loading">\
+             <img src="../image/loading.gif" height="32" width="32"/>\
+             </div>';
+             $(".upload-license").html(html);*/
+            //执行上传操作
+        });
+        function reads(fil, index, parent, id) {
+            var reader = new FileReader();
+            reader.readAsDataURL(fil);
+            reader.onload = function () {
+                if ($('.upload-picture[data-index="' + index + '"]').length > 0) return;
+                parent.prepend('<div class="upload-picture-wrapper"><img class="upload-picture" src="' + this.result + '" data-id="' + id + '" data-index="' + index + '"/> <span class="modify">修改</span></div>');
+            };
+        }
+        //重新上传
+        $(".business-license-box").on("click", ".modify", function () {
+            $(".upload-picture-wrapper").remove();
+            var html = '\
+                <label for="file1" class="add-picture"><img src= \"/Content/image/upload.png\" alt="" class="add-icon"></label>\
+                <input type="file" id="file1" class="upload-file">\
+                <div class="loading"><img src="~/Content/image/loading.gif" height="32" width="32"/></div>';
+            $(".upload-license").append(html);
+            pictureGroups = {};
+
+            $('#uploadPictureUri').val("");
+
+        });
+
+        //确认
+        $(".modify-enterprise-information .confirm-btn").click(function () {
+            var enterpriseOrganizationCode = $("#enterprise-organization-code").val();
+            var enterpriseName = $("#enterprise-name").val();
+            var enterpriseAddress = $("#enterprise-address").val();
+            var enterpriseTelephone = $("#enterprise-telephone").val();
+            var licenseNumber = $("#enterprise-licenumber").val();
+            var picuri = $("#uploadPictureUri").val();
+            if (!enterpriseOrganizationCode) {
+                errPromotShow($("#enterprise-organization-code"), "企业组织机构代码不能为空");
+                return false;
+            }
+            if (!regs.organizationCode.test(enterpriseOrganizationCode)) {
+                errPromotShow($("#enterprise-organization-code"), "企业组织机构代码应为9位数字");
+                return false;
+            }
+            if (!enterpriseName) {
+                errPromotShow($("#enterprise-name"), "企业名称不能为空");
+                return false;
+            }
+            if (!regs.enterpriseName(enterpriseName)) {
+                errPromotShow($("#enterprise-name"), "企业名称应为25字以内");
+                return false;
+            }
+            var isExixtCompany = false;
+            if (enterpriseName != "@Model.CompanyName") {
+                $.ajax({
+                    url: '@Html.Raw(Url.Action("IsCompanyNameExist", "Customer"))',
+                    type: 'POST',
+                    data: { comName: enterpriseName },
+                    async: false,
+                    success: function (res) {
+                        var obj = eval(res);
+                        var result = obj.Result;
+                        var mess = obj.Message;
+                        if (!result) {
+                            errPromotShow($("#enterprise-name"), mess);
+                            isExixtCompany = true;
+                        }
+                    },
+                    error: function (res) {
+                        errPromot("异常");
+                        //     $('#loginButton').attr('disabled', 'false');
+                    }
+                });
+            }
+            if (isExixtCompany) {
+                return false;
+            }
+            if (!enterpriseAddress) {
+                errPromotShow($("#enterprise-address"), "企业地址不能为空");
+                return false;
+            }
+            if (!regs.address(enterpriseAddress)) {
+                errPromotShow($("#enterprise-address"), "企业地址应为50位以内");
+                return false;
+            }
+            if (!enterpriseTelephone) {
+                errPromotShow($("#enterprise-telephone"), "企业电话不能为空");
+                return false;
+            }
+            if (!regs.telephone.test(enterpriseTelephone)) {
+                errPromotShow($("#enterprise-telephone"), "请填写有效的企业电话(例如区号-电话号码)");
+                return false;
+            }
+            if (!licenseNumber) {
+                errPromotShow($("#enterprise-licenumber"), "营业执照注册号不能为空");
+                return false;
+            }
+            if (!regs.licenseNumber.test(licenseNumber)) {
+                errPromotShow($("#enterprise-licenumber"), "营业执照注册号应为15位数字");
+                return false;
+            }
+            if (!picuri) {
+                errPromotShow($("#uploadPictureUri"), "营业执照图片不能为空");
+                return false;
+            }
+
+            var formData = new FormData();
+            formData.append('orgNumber', $('#enterprise-organization-code').val());
+            formData.append('name', $('#enterprise-name').val());
+            formData.append('address', $('#enterprise-address').val());
+            formData.append('tel', $('#enterprise-telephone').val());
+            formData.append('licence', $('#enterprise-licenumber').val());
+            formData.append('licenceuri', $('#uploadPictureUri').val());
+
+
+
+            $.ajax({
+                url: '@Html.Raw(Url.Action("AdminEditCompany", "Organization"))',  // Different bucket zone has different upload url, you can get right url by the browser error massage when uploading a file with wrong upload url.
+                type: 'Post',
+                data: formData,
+                processData: false,
+                contentType: false,
+
+                success: function (res) {
+                    var obj = eval(res);
+                    var result = obj.Result;
+                    var mess = obj.Message;
+                    if (result) {
+                        errPromot(mess);
+                        popUpHide();
+                    }
+                    else {
+                        errPromot(mess);
+                    }
+                },
+                error: function (res) {
+                    errPromot("异常");
+                }
+            });
+        })
+
+    })
+</script>
+<script>
+
+    $(function () {
+        $(".project-classification .review-project").addClass("active");
+    });
+</script>

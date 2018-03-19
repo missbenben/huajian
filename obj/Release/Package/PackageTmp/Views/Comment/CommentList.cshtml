@@ -1,0 +1,332 @@
+﻿@using TS.Web.Models.Comments
+@model CommentListModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.ProjectName + "-" + Model.EngineeringName + "-意见列表";
+}
+
+<link rel="stylesheet" href="~/Content/css/professionalAuditList.css">
+
+@Html.Action("ProjectHeader", "Project")
+<div class="main-box">
+    <div class="professionalAuditList-content">
+        <div class="floors">
+            <div class="appellation commonDiv">@Model.EngineeringName</div>
+            <div class="version commonDiv">
+                @Html.DropDownListFor(Model => Model.SelectedVersionId, Model.AvaliableVersions)
+            </div>
+        </div>
+        <div class="iterms clearfix">
+            <div class="left pull-left">
+                <div class="select">
+                    专业：
+                    <div class="taxonomic-selection">
+                        @Html.DropDownListFor(Model => Model.SelectedProfessionId, Model.AvaliableProfessions)
+                    </div>
+                </div>
+                <div class="select">
+                    意见类型：
+                    <div class="taxonomic-selection">
+                        @Html.DropDownListFor(Model => Model.SelectedCommentType, Model.AvaliableCommentType)
+                    </div>
+                </div>
+                <div class="review-progress">
+                    审核进度：<span id="ModelVersionStatus" class="review-completed">@Model.ModelStatusDes</span>
+                </div>
+                <div class="review-progress">
+                    意见数量：<span id="commentCount">0</span>
+                </div>
+                <div class="review-progress">
+                    当前角色：<span id="roleDes"></span>
+                </div>
+                @if (Model.OrganizationType == TS.Core.Domain.Organizations.OrganizationType.Censorship)
+                {
+                    <div class="audit-status-btn">查看专业审核状态</div>
+                }
+            </div>
+            <div class="right pull-right">
+                <div class="review-progress">
+                    状态更新时间：<span>@Model.StatusUpdateTime </span>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="first-space"></th>
+                        <th><input type="checkbox" id="all_select"></th>
+                        <th>意见编号</th>
+                        <th>楼层</th>
+                        <th>审查人</th>
+                        <th>复核人</th>
+                        <th>创建版本</th>
+                        <th>意见类型</th>
+                        <th class="drawingStatus">
+                            <div class="drawingStatus-con">
+                                <div class="name">
+                                    <span>意见状态</span>
+                                    <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                                </div>
+                                <div class="select-lists">
+                                    <ul>
+                                        @foreach (var state in Model.AvaliableStatus)
+                                        {
+                                            <li class="selectStatus @(state.Selected ? "active" : null)" data-state="@state.Value"><img src="~/Content/image/ICON_DUIGOU.png" alt="">@state.Text</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </th>
+                        <th>操作</th>
+                        <th>状态更新时间</th>
+                        <th>意见查看</th>
+                        <th class="first-space"></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="batch-operation">
+        </div>
+        <!--分页-->
+        @Html.Partial("_PageFooter")
+    </div>
+</div>
+<div class="wrap"></div>
+<div class="audit-status-popup">
+    <div class="popup-content">
+        <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+        <div class="tableCon">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="professional">专业</th>
+                        <th>分数评定</th>
+                        <th>审核进度</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    var searchData = {
+        pageSize: 10,
+        pageIndex: 1,
+        totalCount: 0,
+        SelectedCommentType: "0",
+        SelectedProfessionId: "0",
+        SelectedVersionId: "@Model.SelectedVersionId",
+        SelectedState: "",
+        ModelId: "@Model.ModelId",
+    };
+
+    function initPageFooter() {
+        var divhtml = '<div class="mypagenation" id="mypagenation"></div>'
+        $('.list-footer').empty();
+        $('.list-footer').append(divhtml);
+        $('#mypagenation').initPagenation({
+            totalCount: searchData.totalCount,      //数据总个数,
+            showBtnFirst: true,   //是否显示 首页按钮
+            showCount: 10,        //每页显示多少个,默认10个
+            showBtnsCount: 5,     //数字按钮数量,最多10个,默认10个
+            callback: function (pageIndex) {
+                $("#all_select").prop("checked", false);
+                searchData.pageIndex = pageIndex;
+                getPageData(false);
+            }
+        });
+    }
+
+    function getPageData(needInitFooter) {
+        if (needInitFooter) {
+            searchData.pageIndex = 1;
+        }
+
+        ajaxGetPageData("@Url.Action("CommentModelPageData", "Comment")", searchData, function (data) {
+            if (!data.result) {
+                errPromot(data.errmsg);
+            } else {
+                $("tbody").empty();
+                $("tbody").append(data.listHtml);
+                $("#roleDes").text(data.roleDes);
+                $("#ModelVersionStatus").text(data.statusDescription);
+                $("#commentCount").text(data.total);
+
+                searchData.totalCount = data.total;
+
+                if (needInitFooter) {
+                    initPageFooter();
+                }
+            }
+        });
+    }
+
+    $(function () {
+        //获取取初始数据
+        getPageData(true);
+
+        //变更过滤条件
+        $("#@Html.IdFor(e => e.SelectedProfessionId),#@Html.IdFor(e => e.SelectedVersionId),#@Html.IdFor(e => e.SelectedCommentType)").change(function () {
+            searchData.SelectedProfessionId = $("#@Html.IdFor(e => e.SelectedProfessionId)").val();
+            searchData.SelectedVersionId = $("#@Html.IdFor(e => e.SelectedVersionId)").val();
+            searchData.SelectedCommentType = $("#@Html.IdFor(e => e.SelectedCommentType)").val();
+
+            getPageData(true);
+        });
+
+        $(".selectStatus").click(function () {
+            searchData.SelectedState = $(".selectStatus.active").attr("data-state");
+
+            getPageData(true);
+        });
+
+        $("#@Html.IdFor(e => e.SelectedProfessionId)").change(function () {
+            updateSelectedProfession();
+        });
+
+        function updateSelectedProfession() {
+            var modelVersionId = $("#@Html.IdFor(e => e.SelectedVersionId)").val();
+            var professionId = $("#@Html.IdFor(e => e.SelectedProfessionId)").val();
+
+            ajaxGet("@Url.Action("GetModelProfessionState", "EngineeringFile")", { modelVersionId: modelVersionId, professionId: professionId }, function (data) {
+                if (!data.result) {
+                    errPromot(data.errmsg);
+                } else {
+                    $("#roleDes").text(data.roleDes);
+                    $(".sendBtn").remove();
+                    $(".version.commonDiv").after(data.htmlStr);
+                };
+            }, function () {
+                errPromot("获取所选专业信息失败");
+            });
+
+            ajaxGet("@Url.Action("GetBulkOperationButton","Comment")", { modelVersionId: modelVersionId, professionId: professionId }, function (data) {
+                if (data.htmlStr.length > 0) {
+                    $(".batch-operation").append(data.htmlStr);
+                }
+            });
+        }
+
+        ajaxGet("@Url.Action("GetBulkOperationButton","Comment")", { modelVersionId: $("#@Html.IdFor(e => e.SelectedVersionId)").val(), professionId: $("#@Html.IdFor(e => e.SelectedProfessionId)").val() }, function (data) {
+            if (data.htmlStr.length > 0) {
+                $(".batch-operation").append(data.htmlStr);
+            }
+        });
+
+        $("body").delegate(".sendBtn a", "click",function () {
+            var uri = $(this).attr("data-uri");
+            var des = $(this).attr("data-des");
+
+            operatePrompt(des, uri, function (data) {
+                if (!data.result) {
+                    errPromot("操作失败")
+                } else {
+                    getPageData(false);
+                    updateSelectedProfession();
+                }
+            });
+        });
+
+        $("#all_select").click(function () {
+            if($(this).prop("checked") == true) {
+                $(".selectedComment").prop("checked", true);
+                $(".batch-operation").show();
+            } else {
+                $(".selectedComment").prop("checked", false);
+                $(".batch-operation").hide();
+            }
+        });
+
+        $("body").on("click", ".selectedComment", function () {
+            if ($(".selectedComment:checked").length > 0) {
+                $(".batch-operation").show();
+
+                if ($(".selectedComment:checked").length == $(".selectedComment").length) {
+                    $("#all_select").prop("checked", true);
+                } else {
+                    $("#all_select").prop("checked", false);
+                }
+            } else {
+                $(".batch-operation").hide();
+                $("#all_select").prop("checked", false);
+            }
+        });
+
+        $("body").on("click", ".bulkOperation", function () {
+            var des = "确认进行此批量操作？";
+            var uri = "@Url.Action("BulkOperation","Comment")";
+
+            var ids = "";
+            $(".selectedComment:checked").each(function(){
+                ids += $(this).val() + ",";
+            });
+
+            ids = ids.substring(0, ids.length - 1);
+
+            uri += "?strCommentIds=" + ids;
+            uri +=  "&type=" + $(this).attr("data-type");
+
+            operatePrompt(des,
+                uri,
+                function (data) {
+                    if (!data.result) {
+                        errPromot("操作失败");
+                        getPageDate(false);
+                    } else {
+                        getPageDate(false);
+                    }
+                });
+        });
+    });
+</script>
+@if (Model.OrganizationType == TS.Core.Domain.Organizations.OrganizationType.Censorship)
+{
+    <script>
+        //查看专业审核状态
+        $(".audit-status-btn").click(function () {
+            var modelVserionId = $("#@Html.IdFor(e => e.SelectedVersionId)").val();
+            if (modelVserionId == "0")
+                return false;
+
+            ajaxGet("@Url.Action("GetAllModelProfessionState", "EngineeringFile")", { modelVersionId: modelVserionId }, function (data) {
+                if (!data.result && !data.list) {
+                    errPromot(data.errmsg);
+                } else {
+                    $(".audit-status-popup tbody").empty();
+
+                    var htmlStr = "";
+                    for (var i in data.list) {
+                        htmlStr += ' <tr><td class="major-name"><i class="iconfont ';
+                        htmlStr += data.list[i].IconClass;
+                        htmlStr += '"></i><span>';
+                        htmlStr += data.list[i].ProfessionName;
+                        htmlStr += '</span></td><td class="score-iterm"><div><div class="line line1"></div><div>';
+                        htmlStr += data.list[i].Grade;
+                        htmlStr += '</div><div class="line line2"></div></div></td><td class="audit-status review-completed">';
+                        htmlStr += data.list[i].StatusDes;
+                        htmlStr += '</td></tr>';
+                    }
+                    $(".audit-status-popup tbody").append(htmlStr);
+
+                    $(".wrap").show();
+                    setDivCenter(".audit-status-popup");
+                }
+            }, function () {
+                errPromot("获取专业审核状态数据失败");
+            });
+        });
+
+        //关闭关闭审核状态
+        $(".audit-status-popup .close-icon, .wrap").click(function () {
+            $(".audit-status-popup").hide();
+            $(".wrap").hide();
+            $("body").css({
+                'overflow': 'auto'
+            });
+        });
+    </script>
+}
+

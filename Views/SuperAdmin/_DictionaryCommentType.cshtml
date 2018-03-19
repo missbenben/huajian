@@ -1,0 +1,34 @@
+﻿@using TS.Web.Models.SuperAdmin
+@model List<CommentTypeModel>
+
+@foreach (var commentType in Model)
+{
+    <div id="dictionary_@commentType.commentId" class="view-type-box">
+        <div class="form-group">
+            <label class="prompt">意见类型：</label>
+            <div class="form-controls">
+                <div class="select-control">
+                    <input type="text" class="control select-input" value="@commentType.BaseCommentTypeDes" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="prompt">名称：</label>
+            <div class="form-controls">
+                <input type="text" class="control" value="@commentType.FirstCommentTypeName" readonly>
+            </div>
+        </div>
+        @if (commentType.BaseCommentType == BaseCommentType.DesignCommentType)
+        {
+            <div class="options clearfix">
+                <div class="optionlabel pull-left">选项：</div>
+                <ul class="pull-left optionUl clearfix">
+                    @Html.Partial("_DictionaryItem", commentType.SecondCommentTypes)
+                    <li data-id="@commentType.commentId" class="add-btn">+</li>
+                </ul>
+            </div>
+        }        
+        <div class="delete-option" data-des="@(commentType.BaseCommentType == BaseCommentType.DesignCommentType ? "确认删除该意见类型，包括归属于它的二级意见类型吗？" :"确认删除该意见类型？")" data-uri="@Url.Action("DeleteDictionary","SuperAdmin",new { type = commentType.type , dictionaryId = commentType.commentId})" >删除</div>
+    </div>
+}
+

@@ -1,0 +1,5 @@
+{
+  "BIMCOMPOSER_SERVER":"http://123.57.69.5:81/api",
+  "BIMCOMPOSER_SERVER_DOCUMENT":"http://182.92.228.8:8073/api",
+  "QRCODE_SERVER":"http://123.57.69.5:80"
+}

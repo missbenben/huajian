@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <title>信息管理</title>
+    <link href="../lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/HJcommon.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/superAdminInforManage.css">
+    <link rel="stylesheet" href="../css/popUp.css">
+    <!--  注意  要在http形式下打开 页面 才能正常使用下面两个文件-->
+    <!--[if lt IE 9]>
+    <script src="../lib/html5shiv/html5shiv.min.js"></script>
+    <script src="../lib/respond/respond.js"></script>
+    <![endif]-->
+    <script src="../lib/jquery/jquery.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.js"></script>
+    <script src="../js/popUp.js"></script>
+    <script src="../js/selectCommon.js"></script>
+</head>
+<body>
+<!--头部-->
+<div class="HJ-header">
+    <div class="HJ-header-tabs clearfix">
+        <div class="project-classification pull-left clearfix">
+            <div class="name pull-left">数字化审图平台</div>
+            <ul class="pull-left">
+                <li class="manage-project"><a href="superAdminCheckPending.html">待审核</a></li>
+                <li class="reviewed-project"><a href="superAdminChecked.html">已审核</a></li>
+                <li class="review-project"><a href="superAdminInforManage.html">信息管理</a></li>
+            </ul>
+        </div>
+        <div class="personal-center pull-right">
+            <ul>
+                <li class="user">
+                    <div class="name">
+                        CCCC <i class="iconfont icon-arrLeft-fill"></i>
+                    </div>
+                    <div class="user-dropDown-box">
+                        <div class="company">文思海辉有限公司</div>
+                        <div class="personal-information clearfix">
+                            个人信息
+                            <span class="pull-right"><a href="personalInformation.html">编辑</a></span>
+                        </div>
+                        <div class="exit">
+                            <div class="exit-logo">
+                                <img src="../image/exit.png" alt="">退出
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<div class="main-box">
+    <div class="adminInformationManagement-content">
+        <div class="title">信息管理</div>
+        <div class="InformationManagement-tabs">
+            <ul class="clearfix">
+                <li class="active tabli">图模管理</li>
+                <li class="tabli">意见等级</li>
+                <li class="tabli">意见类型</li>
+            </ul>
+        </div>
+        <div class="profession-box tabcon active">
+            <div class="drawing-professional drawing-list">
+                <div class="profession-type">图纸目录：</div>
+                <ul class="clearfix professional-lists">
+                    <li class="professional-listsLi">
+                        建筑
+                        <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                    </li>
+                    <li class="professional-listsLi">
+                        建筑
+                        <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                    </li>
+                    <li class="professional-listsLi">
+                        建筑
+                        <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                    </li>
+                    <li class="add-btn">+</li>
+                </ul>
+            </div>
+            <div class="drawing-professional common-drawing">
+                <div class="profession-type">图纸专业：</div>
+                <ul class="clearfix professional-lists">
+                    <li class="professional-listsLi">
+                        建筑
+                        <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                    </li>
+                    <li class="professional-listsLi">
+                        建筑
+                        <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                    </li>
+                    <li class="professional-listsLi">
+                        建筑
+                        <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                    </li>
+                    <li class="add-btn">+</li>
+                </ul>
+            </div>
+            <div class="drawing-professional model-lists">
+                <div class="profession-type">模型专业：</div>
+                <ul class="clearfix professional-lists">
+                    <li class="professional-listsLi">
+                        建筑
+                        <img  class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                    </li>
+                    <li class="professional-listsLi">
+                        建筑
+                        <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                    </li>
+                    <li class="professional-listsLi">
+                        建筑
+                        <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                    </li>
+                    <li class="add-btn">+</li>
+                </ul>
+            </div>
+        </div>
+        <div class="profession-box tabcon">
+            <div class="drawing-professional opinion-lists">
+                <div class="profession-type">意见等级：</div>
+                <ul class="clearfix professional-lists">
+                    <li class="professional-listsLi">
+                        A级
+                        <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                    </li>
+                    <li class="professional-listsLi">
+                        A级
+                        <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                    </li>
+                    <li class="professional-listsLi">
+                        A级
+                        <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                    </li>
+                    <li class="add-btn">+</li>
+                </ul>
+            </div>
+        </div>
+        <div class="view-type-con tabcon">
+            <div class="increased">新增</div>
+            <div class="view-type-box">
+                <div class="form-group">
+                    <label class="prompt">意见类型：</label>
+                    <div class="form-controls">
+                        <div class="select-control">
+                            <input type="text" class="control select-input" placeholder="请选择类型" readonly >
+                            <img src="../image/ICON_XIAOJIANTOU.png" alt="">
+                        </div>
+                    </div>
+                    <div class="select-lists">
+                        <ul>
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">名称：</label>
+                    <div class="form-controls">
+                        <input type="text" class="control">
+                    </div>
+                </div>
+                <div class="options clearfix">
+                    <div class="optionlabel pull-left">选项：</div>
+                    <ul class="pull-left optionUl clearfix">
+                        <li class="professional-listsLi">
+                            A级：吧啦吧啦吧啦吧啦
+                            <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                        </li>
+                        <li class="professional-listsLi">
+                            A级：吧啦吧啦吧啦吧啦
+                            <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                        </li>
+                        <li class="add-btn">+</li>
+                    </ul>
+                </div>
+                <div class="delete-option">删除</div>
+            </div>
+            <div class="view-type-box">
+                <div class="form-group">
+                    <label class="prompt">意见类型：</label>
+                    <div class="form-controls">
+                        <div class="select-control">
+                            <input type="text" class="control select-input" placeholder="请选择类型" readonly >
+                            <img src="../image/ICON_XIAOJIANTOU.png" alt="">
+                        </div>
+                    </div>
+                    <div class="select-lists">
+                        <ul>
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">名称：</label>
+                    <div class="form-controls">
+                        <input type="text" class="control">
+                    </div>
+                </div>
+                <div class="options clearfix">
+                    <div class="optionlabel pull-left">选项：</div>
+                    <ul class="pull-left optionUl clearfix">
+                        <li class="professional-listsLi">
+                            A级：吧啦吧啦吧啦吧啦
+                            <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                        </li>
+                        <li class="professional-listsLi">
+                            A级：吧啦吧啦吧啦吧啦
+                            <img class="closeBtn" src="../image/ICON_DELETE.png" alt="">
+                        </li>
+                        <li class="add-btn">+</li>
+                    </ul>
+                </div>
+                <div class="delete-option">删除</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="wrap"></div>
+<div class="popUp">
+    <!--图纸专业弹窗-->
+    <div class="common-popUp drawing-model-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="../image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">新增图纸专业</div>
+            <div class="choose-person">
+                <div class="form-group">
+                    <label class="prompt">目录名称</label>
+                    <div class="form-controls">
+                        <input type="text" class="control profession-input" placeholder="请输入目录名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">图标编号</label>
+                    <div class="form-controls">
+                        <input type="text" class="control" placeholder="请输入图标编号">
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+    <!--图纸目录-->
+    <div class="common-popUp drawing-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="../image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">新增图纸目录</div>
+            <div class="choose-person">
+                <div class="form-group">
+                    <label class="prompt">目录名称</label>
+                    <div class="form-controls">
+                        <input type="text" class="control profession-input" placeholder="请输入目录名称">
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+    <!--模型专业弹窗-->
+    <div class="common-popUp model-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="../image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">新增模型专业</div>
+            <div class="choose-person">
+                <div class="form-group">
+                    <label class="prompt">专业名称</label>
+                    <div class="form-controls">
+                        <input type="text" class="control profession-input" placeholder="请输入模型名称">
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+    <!--意见等级弹窗-->
+    <div class="common-popUp opinion-grade">
+        <div class="addProfession-popUp-con">
+            <img src="../image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">新增意见等级</div>
+            <div class="choose-person">
+                <div class="form-group">
+                    <label class="prompt">意见等级</label>
+                    <div class="form-controls">
+                        <input type="text" class="control profession-input" placeholder="请输入意见等级">
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+    <!--添加选项弹窗-->
+    <div class="common-popUp opinionType-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="../image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">添加选项</div>
+            <div class="choose-person">
+                <div class="form-group">
+                    <label class="prompt">意见等级</label>
+                    <div class="form-controls">
+                        <div class="select-control">
+                            <input id="grade-input" type="text" class="control select-input" placeholder="请选择意见等级" readonly >
+                            <img src="../image/ICON_XIAOJIANTOU.png" alt="">
+                        </div>
+                    </div>
+                    <div class="select-lists">
+                        <ul>
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group option-information">
+                    <label class="prompt">选项信息</label>
+                    <div class="form-controls">
+                        <textarea name="" id="option-input" class="control" placeholder="请输入选项信息..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+    <!--删除提示-->
+    <div class="common-popUp deletePrompt">
+        <div class="addProfession-popUp-con">
+            <img src="../image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">确认删除?</div>
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+    <!--新增意见类型弹窗-->
+    <div class="common-popUp new-opinion-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="../image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">新增意见类型</div>
+            <div class="choose-person">
+                <div class="form-group">
+                    <label class="prompt">意见类型</label>
+                    <div class="form-controls">
+                        <div class="select-control">
+                            <input  type="text" class="control select-input" placeholder="请选择意见类型" readonly >
+                            <img src="../image/ICON_XIAOJIANTOU.png" alt="">
+                        </div>
+                    </div>
+                    <div class="select-lists">
+                        <ul>
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">名称</label>
+                    <div class="form-controls">
+                        <input type="text" class="control" placeholder="请输入名称...">
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $(".HJ-header .review-project").addClass("active").siblings().removeClass("active");
+
+
+        $("body").on("click",".form-group .select-control",function(e){
+            e.stopPropagation();
+            var selectLists = $(this).parent().siblings(".select-lists");
+            if(selectLists.hasClass("active")) {
+                selectLists.removeClass("active");
+            } else {
+                $(".select-lists").removeClass("active");
+                selectLists.addClass("active");
+            }
+        });
+        $("body").on("click",".select-lists li",function(e) {
+            e.stopPropagation();
+            var html = $(this).html();
+            $(this).parent().parent().siblings(".form-controls").find(".select-input").val(html);
+            $(".select-lists").removeClass("active");
+        });
+
+
+        $(".drawing-professional ").on("click",".closeBtn",function() {
+            $(this).parent().remove();
+        });
+        $(".view-type-con").on("click",".closeBtn",function() {
+            $(this).parent().remove();
+        });
+
+        $(".InformationManagement-tabs .tabli").click(function(){
+            var index = $(this).index();
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".tabcon").eq(index).addClass("active").siblings().removeClass("active");
+        });
+
+        popUp(".drawing-list .add-btn",".drawing-popUp");
+        popUp(".common-drawing .add-btn",".drawing-model-popUp");
+        popUp(".model-lists .add-btn",".model-popUp");
+        popUp(".opinion-lists .add-btn",".opinion-grade");
+        popUp(".view-type-box .add-btn",".opinionType-popUp");
+        popUp(".view-type-con .increased",".new-opinion-popUp");
+
+        function addPopUp(popup,lists) {
+            $(popup+" .confirm-btn").click(function() {
+                var professionInput = $(popup+" .profession-input");
+                var html =  professionInput.val();
+                if(!html) return;
+                var dom = '<li class="professional-listsLi">'+html+'<img class="closeBtn" src="../image/ICON_DELETE.png" alt=""></li>';
+                $(lists+" .professional-lists .add-btn").before(dom);
+                popUpHide();
+                professionInput.val("");
+            });
+        }
+        addPopUp(".drawing-popUp",".drawing-list");
+        addPopUp(".model-popUp",".model-lists");
+        addPopUp(".opinion-grade",".opinion-lists");
+
+        //添加选项
+        $(".view-type-box").on("click", ".add-btn",function() {
+            $(".add-Btn").removeAttr("addId");
+            $(this).attr("addId",1);
+        });
+        $(".opinionType-popUp .confirm-btn").click(function() {
+            var grade =  $("#grade-input").val();
+            var option =  $("#option-input").val();
+            var html = ' <li class="professional-listsLi">'+grade+'：'+option+' <img class="closeBtn" src="../image/ICON_DELETE.png" alt=""> </li>';
+            $(".view-type-box .add-btn[addId = '1']").before(html);
+            popUpHide();
+            $("#grade-input").val("");
+            $("#option-input").val("");
+        });
+
+        //删除意见类型
+        popUp(".view-type-con .delete-option",".deletePrompt");
+        $(".view-type-con").on("click",".delete-option",function() {
+            $(this).parent().attr("deleteId",1);
+            $(".deletePrompt .confirm-btn").attr("deleteId",1);
+        });
+        $(".deletePrompt .confirm-btn").click(function(){
+            var deleteId = $(this).attr("deleteId");
+            if(deleteId == 1) {
+                $(".view-type-box[deleteId='" + deleteId + "']").remove();
+            }
+            popUpHide();
+        });
+        $(".deletePrompt .close-icon").click(function(){
+            removeAttr();
+        });
+        $(".deletePrompt .cancle-btn").click(function(){
+            removeAttr();
+        });
+        $(".wrap").click(function(){
+            removeAttr();
+        });
+
+        function removeAttr() {
+            $(".view-type-box").removeAttr("deleteId");
+
+        }
+
+
+
+
+
+
+
+    })
+</script>
+</body>
+</html>

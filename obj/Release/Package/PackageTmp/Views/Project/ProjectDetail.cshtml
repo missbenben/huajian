@@ -1,0 +1,23 @@
+﻿@using TS.Web.Models.Projects
+@model ProjectDetailModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.ProjectName + "-项目概况";
+}
+
+<link rel="stylesheet" href="~/Content/css/projectOverview.css">
+
+@Html.Action("ProjectHeader", "Project")
+<div class="main-box">
+    @Html.Partial("_ProjectDetail", Model)
+</div>
+<script>
+    $(function () {
+        $(".projectOverview-tabs .tabli").click(function () {
+            var index = $(this).index();
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".basic-information").eq(index).addClass("active").siblings().removeClass("active");
+        });
+    })
+</script>

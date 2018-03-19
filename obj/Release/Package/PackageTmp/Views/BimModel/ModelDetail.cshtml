@@ -1,0 +1,1217 @@
+﻿@using TS.Core.Domain.Projects
+@using TS.Data.Extensions
+@model TS.Web.Models.BimModel.ModelDetailModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <title>模型</title>
+    <link rel="stylesheet" href="~/Content/lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="~/Content/css/iconfont.css">
+    <link rel="stylesheet" href="~/Content/css/HJcommon.css">
+    <link rel="stylesheet" href="~/Content/css/header.css">
+    <link rel="stylesheet" href="~/Content/css/popUp.css">
+    <link rel="stylesheet" href="~/Content/css/login.css">
+    <link rel="stylesheet" href="~/Content/css/professionalAuditList.css">
+    <link rel="stylesheet" href="~/Content/css/intoModel.css">
+    <!--  注意  要在http形式下打开 页面 才能正常使用下面两个文件-->
+    <!--[if lt IE 9]>
+        <script src="~/Content/lib/html5shiv/html5shiv.min.js"></script>
+        <script src="~/Content/lib/respond/respond.js"></script>
+    <![endif]-->
+    <script src="~/Content/lib/jquery/jquery.js"></script>
+    <script src="~/Content/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Content/js/selectCommon.js"></script>
+    <script src="~/Content/js/loading.js"></script>
+    <script src="~/Content/js/common.js"></script>
+    <script src="~/Content/js/popUp.js"></script>
+</head>
+<body>
+    <div class="model-header">
+        <div class="top clearfix">
+            <div class="title pull-left">
+                <div class="topName">
+                    @Model.ProjectName
+                </div>
+                <div class="character">
+                    <ul>
+                        @if (Model.CurrentCustomer.CurrentRole != null && Model.CurrentCustomer.CurrentRole != Role.DesignCompanyManager && Model.CurrentCustomer.CurrentRole != Role.BuildingCompanyManager)
+                        {
+                            <li>项目经理：@Model.ProjectManagerName</li>
+                        }
+                        <li id="currentRole"></li>
+                        <li id="currentStatus"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="views-btn pull-right">
+                <div id="statusbox" class="statusbox">
+
+                </div>
+                <div class="select clearfix">
+                    <select id="activityRoles">
+                        @foreach (var r in Model.AvailableRoles)
+                        {
+                            <option value="@r.Value">@r.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="select clearfix">
+                    <select id="modelprofession" name="modelprofession">
+                        @foreach (var p in Model.ModelProfessions)
+                        {
+                            <option value="@p.Value">@p.Text</option>
+                        }
+                    </select>
+                </div>
+                <input name="roleid" id="roleid" type="hidden" value="0" />
+            </div>
+        </div>
+    </div>
+
+    <div class="model-box">
+        <div class="modelcon">
+            <div id="bimiframe" style="width: 100%;">
+                <iframe style="width: 100%; height: 100%" id="iframemodel" src="~/Bimcomposer/index.html?projectId=@Model.ProjectGuid&model=@Model.ModelGuid"></iframe>
+            </div>
+        </div>
+        <div class="spread-btn">
+            <img src="/Content/image/ICON_BIMJIANTOU1.png" alt="" class="show-view-card">
+            <div>意见卡</div>
+        </div>
+        <div class="viewlistBox">
+            <div class="view-lists-main">
+                <div class="search-input clearfix">
+                    <div class="operatorBtn">
+
+                    </div>
+
+                    <div class="text">
+                        <input id="searchCommentsText" type="text" placeholder="输入意见关键字…">
+                        <div id="searchComments" class="search-btn">
+                            <img src="~/Content/image/ICON_SOUSUO.png" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="commentList" class="view-lists-iterm">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <input name="commentId" id="commentId" type="hidden" value="0" />
+    
+    <!--新建/修改意见弹窗-->
+    <div class="new-opinion-content newComment">
+        <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+        <div class="opinion-number">
+        </div>
+        <!--意见类型-->
+        <div class="opinion-type clearfix">
+            <div class="name pull-left">意见类型：</div>
+            <div class="right  pull-left">
+                <div>
+                    <select id="opinion-type-select" name="" class="pull-left">
+                        @foreach (var ct in Model.CommentTypes)
+                        {
+                            <option value=@ct.Value>@ct.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!--手动输入楼层-->
+        <div class="opinion-type clearfix">
+            @*<div class="left">楼层：</div>
+                <input type="text" id="floor" name="floor" placeholder="请填写楼层信息..." />*@
+            <div class="name pull-left">楼层：</div>
+            <div class="right pull-left">
+                <div>
+                    <select id="floor-select" name="" class="pull-left">
+                        @foreach (var ct in Model.AvailableFloors)
+                        {
+                            <option value=@ct.Value>@ct.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!--审查人意见-->
+        <div class="review-opinions clearfix">
+            <div class="left">审查人意见：</div>
+            <textarea id="description" name="description" cols="30" rows="10" placeholder="请填写详细意见..."></textarea>
+        </div>
+        <!--标注-->
+        <div class="model-mark clearfix">
+            <div class="left">标注：</div>
+            <div class="imgLists clearfix">
+                <ul id="addAnnotationList" class="clearfix">
+                    <li id="addAnnotation">
+                        <a href="javascript:void(0);"><img src="~/Content/image/addmark.png" alt="" class="addnewmark-img"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--链接构件-->
+        <div class="component-link clearfix">
+            <div class="left">链接构件：</div>
+            <div class="linkLists">
+                <ul id="addStructureList" class="clearfix">
+                    <li id="addStructure" class="addLink">
+                        <a href="javascript:void(0);">添加</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--确认取消-->
+        <div class="confirm-box">
+            <div class="con">
+                <div id="add-comment-comfirm" class="confirm-btn">确认</div>
+                <div id="add-comment-cancle" class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrap"></div>
+
+    <div class="popUp">
+        <div class="common-popUp operatePrompt">
+            <div class="addProfession-popUp-con">
+                <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+                <div class="title"></div>
+                <div class="confirm-box">
+                    <div class="confirm-btn">确认</div>
+                    <div class="cancle-btn">取消</div>
+                </div>
+            </div>
+        </div>
+        <div class="dynamic">
+
+        </div>
+        
+        <div class="common-popUp myOperatePrompt">
+            <div class="addProfession-popUp-con">
+                <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+                <div class="title"></div>
+                <div class="confirm-box">
+                    <div class="confirm-btn">确认</div>
+                    <div class="cancle-btn">取消</div>
+                </div>
+            </div>
+        </div>
+        <div class="dynamic">
+
+        </div>
+    </div>
+
+    <!--意见驳回弹窗-->
+    <div class="new-opinion-content rejectComment">
+        <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+        <div class="opinion-number">
+        </div>
+        <!--审查人意见-->
+        <div class="review-opinions clearfix">
+            <div class="left">驳回说明：</div>
+            <textarea id="rejectDescription" name="description" cols="30" rows="10" placeholder="请填写详细意见..."></textarea>
+        </div>
+        <!--标注-->
+        <div class="model-mark clearfix">
+            <div class="left">标注：</div>
+            <div class="imgLists clearfix">
+                <ul id="rejectAnnotationList" class="clearfix">
+                    <li id="addRejectAnnotation">
+                        <a href="javascript:void(0);"><img src="~/Content/image/addmark.png" alt="" class="addnewmark-img"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--链接构件-->
+        <div class="component-link clearfix">
+            <div class="left">链接构件：</div>
+            <div class="linkLists">
+                <ul id="rejectStructureList" class="clearfix">
+                    <li id="addRejectStructure" class="addLink">
+                        <a href="javascript:void(0);">添加</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--确认取消-->
+        <div class="confirm-box">
+            <div class="con">
+                <div id="add-reject-comfirm" class="confirm-btn">确认</div>
+                <div id="add-reject-cancle" class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="err-prompt"></div>
+
+    <div class="loadingWrap"></div>
+    <div class="Loading">
+        <img src="~/Content/image/loading.gif" height="32" width="32" />
+    </div>
+    
+    <!--意见-->
+    <script>
+        var html = $("#statusbox").html();
+        //新增意见data
+        var addNewCommentModel = {
+            RoleId: $('#activityRoles').val(),
+            Comment: {
+                Id: "0",
+                Description: "",
+                ProfessionId: "",
+                Floor: "",
+                CommentTypeId: "",
+                EngineeringFileId: "@Model.EngineeringFile.Id",
+                CreateVersionId: "@Model.CurrentFileVersionId"
+            },
+            BIMElements: []
+        };
+
+        //搜索意见data
+        var searchCommentsData = {
+            //pageIndex: 1,
+            //pageSize: 10,
+            roleId: $('#activityRoles').val(),
+            keyword: "",
+            searchModelFileVersionId: @Model.CurrentFileVersionId,
+            searchProfessionId: "0"
+        }
+
+        var searchCurrentRoleData = {
+            roleId: $('#activityRoles').val(),
+            fileVersionId: @Model.CurrentFileVersionId,
+            professionId: $('#modelprofession').val()
+        }
+
+        //获取角色并更换按钮
+        //getOperationButton();
+        function getOperationButton() {
+            var url = "@Url.Action("GetOperationButton", "BimModel")";
+            searchCurrentRoleData.roleId = $('#activityRoles').val();
+            searchCurrentRoleData.professionId = $('#modelprofession').val();
+
+            ajaxGetPageData(url, searchCurrentRoleData, function (data) {
+                if (!data.result) {
+                    errPromot(data.errmsg);
+                } else {
+                    $('#statusbox').empty();
+                    $('#statusbox').append(data.listHtml);
+                    //重新显示角色
+                    $('#currentRole').html(data.roleName);
+                    $('#currentStatus').html(data.currentStatus);
+                    //重新纪录右上角按钮
+                    html = $("#statusbox").html();
+                }
+            });
+        };
+
+        //获取意见数据
+        //getCommentsData();
+        function getCommentsData() {
+            var url = "@Url.Action("GetComments", "BimModel")";
+            searchCommentsData.searchProfessionId = $('#modelprofession').val();
+
+            ajaxGetPageData(url, searchCommentsData, function (data) {
+                if (!data.result) {
+                    errPromot(data.errmsg);
+                } else {
+                    $('#commentList').empty();
+                    $('#commentList').append(data.listHtml);
+
+                    $(".update_a").unbind();
+
+                    //$("#return-comment").unbind();
+                }
+            });
+        };
+
+        //清除模态框
+        function cleanContentBox() {
+            //恢复新建button框
+            getOperationButton();
+
+            $('#commentId').val("0");
+
+            //关掉框子
+            $(".wrap").hide();
+            $(".new-opinion-content").hide();
+
+            //清空新建意见的输入框
+            //清空选择项
+            $('#description').val(""); //清空描述
+            $('#floor-select').val("通用"); //清空楼层
+            //清空批注
+            $('#addAnnotationList .markList').each(function() { $(this).remove() });
+            //清空构件
+            $('#addStructureList .linkLi').each(function() { $(this).remove() });
+            addNewCommentModel.BIMElements = [];
+        };
+
+        //搜索意见列表
+        $('#searchComments').click(function() {
+            searchCommentsData.keyword = $('#searchCommentsText').val(),
+                getCommentsData();
+        });
+
+        //准备更新意见前弹框内内容
+        function UpdateCommentPopUp(id) {
+            loading();
+            cleanContentBox();
+
+            var getCommentModel = new FormData();
+            getCommentModel.append('CommentId', id);
+
+            $.ajax({
+                url: '@Html.Raw(Url.Action("GetComment", "BimModel"))',  // Different bucket zone has different upload url, you can get right url by the browser error massage when uploading a file with wrong upload url.
+                type: 'POST',
+                data: getCommentModel,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    //console.log("得到结果:" + JSON.stringify(res));
+                    if (!res.Result) {
+                        errPromot(JSON.stringify(res));
+                    } else {
+                        //console.log(res.Comment);
+
+                        //更改操作按钮
+                        $("#statusbox").html("<div id = 'continueEditComment'>继续修改</div><div id = 'cancelModifyComment'>取消修改</div>");
+
+                        $('#commentId').val(res.Comment.Id);
+                        //填充输入框
+                        $('#opinion-type-select').val(res.Comment.CommentTypeId);//类型
+                        $('#floor-select').val(res.Comment.Floor); //楼层
+                        $('#description').val(res.Comment.Description); //描述
+
+                        for(var i= 0;i<res.Comment.BimElements.length;i++){
+                            if (res.Comment.BimElements[i].BIMElementType == 0) {
+                                //批注
+                                var html = '<li id="'+ res.Comment.BimElements[i].Id +'" class="markList"><a href="javascript:void(0);" onclick="viewAnnotation(\'' + res.Comment.BimElements[i].BIMId + '\');"><img src="' + res.Comment.BimElements[i].BimThumb + '" alt="' + res.Comment.BimElements[i].BIMId + '" class="mark-img"></a><img src="/Content/image/ICON_DELETE.png" alt="" class="delete"></li>';
+                                $(html).insertBefore('#addAnnotation');
+                                addNewCommentModel.BIMElements.push({
+                                    Id: res.Comment.BimElements[i].Id,
+                                    BIMElementType: "0",
+                                    IsDelete: res.Comment.BimElements[i].IsDelete,
+                                    BIMId: res.Comment.BimElements[i].BIMId,
+                                    BimThumb: res.Comment.BimElements[i].BimThumb
+                                });
+                            } else {
+                                //构件
+                                var html = '<li id="'+ res.Comment.BimElements[i].Id +'" class="linkLi"><span> <a href="javascript:void(0);" onclick="viewStructure(\'' + res.Comment.BimElements[i].BIMId + '\');">' + res.Comment.BimElements[i].Name + '</a></span><i class="iconfont icon-lianjie"></i><img src="/Content/image/ICON_DELETE.png" alt="" class="delete"></li>';
+                                window.parent.$(html).insertBefore('#addStructure');
+                                addNewCommentModel.BIMElements.push({
+                                    Id: res.Comment.BimElements[i].Id,
+                                    BIMElementType: "1",
+                                    IsDelete: res.Comment.BimElements[i].IsDelete,
+                                    BIMId: res.Comment.BimElements[i].BIMId,
+                                    Name: res.Comment.BimElements[i].Name
+                                });
+                            }
+                        }
+
+                        $(".wrap").show();
+                        $(".newComment").show();
+                        loadingSuccess();
+                    }
+                },
+                error: function (res) {
+                    console.log("失败:" + JSON.stringify(res));
+                }
+            });
+        };
+
+        //取消修改意见
+        $("#statusbox").on("click", "#cancelModifyComment", function () {
+            cleanContentBox();
+        });
+
+        //意见提交
+        $createNewCommentButton = $('#add-comment-comfirm');
+        $createNewCommentButton.click(function () {
+            //防止重复请求
+            if ($createNewCommentButton.hasClass("clicked")) {
+                return false;
+            }
+            $createNewCommentButton.addClass("clicked");
+            $createNewCommentButton.html('正在操作');
+
+            //组装Model
+            addNewCommentModel.Comment.Id = $('#commentId').val();
+            addNewCommentModel.Comment.Description = $('#description').val();
+            addNewCommentModel.Comment.ProfessionId = $('#modelprofession').val();
+            addNewCommentModel.Comment.CommentTypeId = $('#opinion-type-select').val();
+            addNewCommentModel.Comment.Floor = $('#floor-select').val();
+
+            if ($('#opinion-type-select').val() == "" || $('#opinion-type-select').val() == null)
+            //|| $('#floor-select').val() == "" || $('#floor-select').val() == null)
+            {
+                alert("请选择意见分类信息！");
+                $createNewCommentButton.removeClass("clicked");
+                $createNewCommentButton.html('确认');
+                return false;
+            }
+
+            //if (addNewCommentModel.BIMElements.length == 0 ) {
+            //    alert("请完善意见信息！");
+            //    $createNewCommentButton.removeClass("clicked");
+            //    $createNewCommentButton.html('确认');
+            //    return false;
+            //}
+            loading();
+            $.ajax({
+                url: '@Html.Raw(Url.Action("CreateComment", "BimModel"))',  // Different bucket zone has different upload url, you can get right url by the browser error massage when uploading a file with wrong upload url.
+                type: 'Post',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(addNewCommentModel),
+                success: function (res) {
+                    //console.log("得到结果:" + JSON.stringify(res));
+                    if (!res.Result) {
+                        errPromot(res.Message);
+
+                        //恢复新建button框
+                        $("#statusbox").html(html);
+                        //恢复btn
+                        $createNewCommentButton.removeClass("clicked");
+                        $createNewCommentButton.html('确认');
+
+                        loadingSuccess();
+                    } else {
+                        errPromot(res.Message);
+
+                        //恢复新建button框
+                        $("#statusbox").html(html);
+
+                        //关掉框子
+                        $(".wrap").hide();
+                        $(".new-opinion-content").hide();
+
+                        //清空新建意见的输入框
+                        //清空选择项
+                        $('#description').val(""); //清空描述
+                        $('#floor-select').val(""); //清空楼层
+                        //清空批注
+                        $('#addAnnotationList .markList').each(function() { $(this).remove() });
+                        //清空构件
+                        $('#addStructureList .linkLi').each(function() { $(this).remove() });
+                        addNewCommentModel.BIMElements = [];
+
+                        //重新获取意见列表
+                        getCommentsData();
+                        //重新获取button
+                        getOperationButton();
+
+                        //恢复btn
+                        $createNewCommentButton.removeClass("clicked");
+                        $createNewCommentButton.html('确认');
+
+                        $('#commentId').val("0");
+                        loadingSuccess();
+                    }
+                },
+                error: function (res) {
+                    console.log("失败:" + JSON.stringify(res));
+                    $createNewCommentButton.removeClass("clicked");
+                    $createNewCommentButton.html('确认');
+                    loadingSuccess();
+                }
+            });
+        });
+
+        //批量操作
+        $("#statusbox").on("click", ".bulkOperation", function () {
+            var des = "确认进行此批量操作？";
+            var uri = "@Url.Action("BulkOperation","Comment")";
+
+            var ids = "";
+            $(".selectedComment:checked").each(function(){
+                ids += $(this).val() + ",";
+            });
+
+            ids = ids.substring(0, ids.length-1);
+
+            if (ids == "" || ids == null) {
+                alert("请勾选意见！");
+                return false;
+            }
+
+            uri += "?strCommentIds=" + ids;
+            uri +=  "&type=" + $(this).attr("data-type");
+
+            myOperatePrompt(des,
+                uri,
+                function (data) {
+                    if (!data.result) {
+                        //loadingSuccess();
+                        errPromot("操作失败");
+                        getCommentsData();
+                        getOperationButton();
+                    } else {
+                        //loadingSuccess();
+                        errPromot("成功");
+                        getCommentsData();
+                        getOperationButton();
+                    }
+                });
+        });
+
+        function myOperatePrompt(con, uri,callback) {
+            $(".wrap").show();
+            setDivCenter(".myOperatePrompt");
+            $("body").css({
+                'overflow': 'hidden'
+            });
+            $(".myOperatePrompt .title").html(con);
+            $(".myOperatePrompt .confirm-btn").removeClass("sent");
+            $(".myOperatePrompt .confirm-btn").unbind();
+            $(".myOperatePrompt .confirm-btn").attr("data-uri", uri);
+            $(".myOperatePrompt").on("click", ".confirm-btn", function () {
+                $(".wrap").hide();
+                $(".common-popUp").hide();
+                $(".audit-status-popup").hide();
+                $("body").css({
+                    'overflow': 'auto'
+                });
+            });
+            $(".myOperatePrompt").on("click", ".confirm-btn", function () {
+                if ($(this).hasClass("sent"))
+                    return false;
+
+                $(this).addClass("sent");
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: $(this).attr("data-uri"),
+                    success: callback,
+                    error: function () {
+                        errPromot("操作失败");
+                    },
+                    beforeSend: function () {
+                        loading();
+                    },
+                    complete: function () {
+                        loadingSuccess();
+                    }
+                });
+            });
+        }
+
+    </script>
+
+    <!--Bim引擎相关交互-->
+    <script>
+        //添加批注
+        $("#addAnnotation").click(function () {
+            ////更换右上角button
+            //if ($('#commentId').val() == 0) {
+            //    $("#statusbox").html("<div id = 'continueEditComment'>继续新建</div>");
+            //} else {
+            //    $("#statusbox").html("<div id = 'continueEditComment'>继续修改</div>");
+            //}
+
+            //关掉新建意见的弹框
+            $('#add-comment-cancle').click();
+            alert("请在模型操作界面点击左键以确定视角，然后开始标注");
+            //开启Bim批注
+            //$("#iframemodel").contents().find(".ui-annotation-button[_ngcontent-c17]")[0].click();//粗暴的方法
+            window.BIMe.view.BIMeAnnotation.getAnnotationPosition().then(function(position) {
+                var modelId = '@Model.ModelGuid';
+                var annotationName = Date.parse(new Date());
+                var viewId = window.BIMe.modelData.BIMeModelData.currentViewId();
+                var annotationCategory = '';
+                var annotationDescription = '';
+                //页面进入等待
+                loading();
+                window.BIMe.view.BIMeAnnotation.addAnnotation(modelId, annotationName, viewId, annotationCategory,annotationDescription, position).then(function(annotation){
+                    //console.log(annotation);
+                    var html = '<li class="markList"><a href="javascript:void(0);" onclick="viewAnnotation(\'' + annotation.ID + '\');"><img src="' + annotation.Snapshot + '" alt="' + annotation.ID + '" class="mark-img"></a><img src="/Content/image/ICON_DELETE.png" alt="" class="delete"></li>';
+                    $(html).insertBefore('#addAnnotation');
+                    $(".wrap").show();
+                    $(".newComment").show();
+                    loadingSuccess();
+
+                    var HDimgurl = api.resource.getViewpointSnapshot(annotation.ID);
+                    addNewCommentModel.BIMElements.push({
+                        Id: "0",
+                        BIMElementType: "0",
+                        IsDelete: "0",
+                        BIMId: annotation.ID,
+                        BimThumb: annotation.Snapshot,
+                        HDBimThumbUrl: HDimgurl
+                    });
+                });
+            });
+        });
+
+        //驳回时添加批注
+        $("#addRejectAnnotation").click(function () {
+            //隐藏弹框
+            $(".wrap").hide();
+            $(".rejectComment").hide();
+            alert("请在模型操作界面点击左键以确定视角，然后开始标注");
+            
+            //开启Bim批注
+            //$("#iframemodel").contents().find(".ui-annotation-button[_ngcontent-c17]")[0].click();//粗暴的方法
+            window.BIMe.view.BIMeAnnotation.getAnnotationPosition().then(function(position) {
+                var modelId = '@Model.ModelGuid';
+                var annotationName = Date.parse(new Date());
+                var viewId = window.BIMe.modelData.BIMeModelData.currentViewId();
+                var annotationCategory = '';
+                var annotationDescription = '';
+                //页面进入等待
+                loading();
+                window.BIMe.view.BIMeAnnotation.addAnnotation(modelId, annotationName, viewId, annotationCategory,annotationDescription, position).then(function(annotation){
+                    //console.log(annotation);
+                    var html = '<li class="markList"><a href="javascript:void(0);" onclick="viewAnnotation(\'' + annotation.ID + '\');"><img src="' + annotation.Snapshot + '" alt="' + annotation.ID + '" class="mark-img"></a><img src="/Content/image/ICON_DELETE.png" alt="" class="delete"></li>';
+                    $(html).insertBefore('#addRejectAnnotation');
+                    $(".wrap").show();
+                    $(".rejectComment").show();
+                    loadingSuccess();
+
+                    var HDimgurl = api.resource.getViewpointSnapshot(annotation.ID);
+                    addNewCommentModel.BIMElements.push({
+                        Id: "0",
+                        BIMElementType: "0",
+                        IsDelete: "0",
+                        BIMId: annotation.ID,
+                        BimThumb: annotation.Snapshot,
+                        HDBimThumbUrl: HDimgurl
+                    });
+                });
+            });
+        });
+
+        //添加构件
+        $("#addStructure").click(function () {
+            //更换右上角button
+            html = $("#statusbox").html();
+            console.log(html);
+            $("#statusbox").html("<div id = 'confirmAddStructure'>确认选择</div>");
+            //关掉新建意见的弹框
+            $('#add-comment-cancle').click();
+            alert("请在模型操作界面选择构件，然后按右上角的确认选择");
+        });
+
+        //驳回时添加构件
+        $("#addRejectStructure").click(function () {
+            //更换右上角button
+            html = $("#statusbox").html();
+            $("#statusbox").html("<div id = 'confirmAddRejectStructure'>确认选择</div>");
+            //关掉新建意见的弹框
+            $('#add-comment-cancle').click();
+            alert("请在模型操作界面选择构件，然后按右上角的确认选择");
+        });
+
+
+        //确认选择构件
+        $("#statusbox").on("click", "#confirmAddStructure", function () {
+            //更换右上角button
+            $("#statusbox").html(html);
+
+            //当前选择的构件
+            var selections = api.selector.collections;
+            if (selections.length == 0) {
+                alert("请选择构件");
+            }
+            //找到构件的名字
+            var modelId = selections[0].split('^')[0];
+            var strutureId = selections[0].split('^')[1];
+
+            var items = api.resource.modelStructure.get(modelId).file[0];
+            var name = getStructureName(strutureId, items);
+            //构件加入弹框
+            var _html = '<li class="linkLi"><span> <a href="javascript:void(0);" onclick="viewStructure(\'' + selections[0] + '\');">' + strutureId + name + '</a></span><i class="iconfont icon-lianjie"></i><img src="/Content/image/ICON_DELETE.png" alt="" class="delete"></li>';
+            window.parent.$(_html).insertBefore('#addStructure');
+            addNewCommentModel.BIMElements.push({
+                Id: "0",
+                BIMElementType: "1",
+                BIMId: selections[0],
+                Name: strutureId + name
+            });
+
+            //打开弹框
+            $(".wrap").show();
+            $(".newComment").show();
+        });
+        
+        //驳回时确认选择构件
+        $("#statusbox").on("click", "#confirmAddRejectStructure", function () {
+            //更换右上角button
+            $("#statusbox").html(html);
+
+            //当前选择的构件
+            var selections = api.selector.collections;
+            if (selections.length == 0) {
+                alert("请选择构件");
+            }
+
+            //找到构件的名字
+            var modelId = selections[0].split('^')[0];
+            var strutureId = selections[0].split('^')[1];
+
+            var items = api.resource.modelStructure.get(modelId).file[0];
+            var name = getStructureName(strutureId, items);
+
+            //构件加入弹框
+            var _html = '<li class="linkLi"><span> <a href="javascript:void(0);" onclick="viewStructure(\'' + selections[0] + '\');">' + strutureId + name + '</a></span><i class="iconfont icon-lianjie"></i><img src="/Content/image/ICON_DELETE.png" alt="" class="delete"></li>';
+            window.parent.$(_html).insertBefore('#addRejectStructure');
+            addNewCommentModel.BIMElements.push({
+                Id: "0",
+                BIMElementType: "1",
+                BIMId: selections[0],
+                Name: strutureId + name
+            });
+
+            //打开弹框
+            $(".wrap").show();
+            $(".rejectComment").show();
+        });
+
+        //递归函数，是用来找构件名称
+        function getStructureName(strutureId, items) {
+            if (items.Iselem) {
+                if (items.id == strutureId)
+                    return items.text;
+                else
+                    return "";
+            }
+            else {
+                var result = "";
+                for (var i = 0; i < items.children.length; i++) {
+                    result = getStructureName(strutureId, items.children[i]);
+                    if (result != "") {
+                        return result;
+                    }
+                }
+                return result;
+            }
+        }
+
+        //定位到批注
+        function viewAnnotation(id) {
+            $('#add-comment-cancle').click();
+            window.BIMe.view.BIMeAnnotation.showAnnotation(id);
+        }
+
+        //定位到构件
+        function viewStructure(id) {
+            $('#add-comment-cancle').click();
+            api.zoomService.fitById(id);
+        }
+
+    </script>
+
+    <!--其他-->
+    <script>
+        //页面动效
+        $(function () {
+            var height =  $(document).innerHeight()-89;
+            var viewheight =  $(document).innerHeight()-161;
+            $(".view-lists-iterm").height(viewheight);
+            $(".model-tree-hide").height(height);
+            $(".viewlistBox").height(height);
+            $("#bimiframe").height($(document).innerHeight()-120);
+
+            $(".model-header").on("click", ".topName", function (e) {
+                e.stopPropagation();
+                var dropDownBox = $(".user-dropDown-box");
+                var personalName = $(".topName i");
+                if (dropDownBox.hasClass("active")) {
+                    dropDownBox.removeClass("active");
+                    personalName.css("color", "#fff");
+                } else {
+                    dropDownBox.addClass("active");
+                    personalName.css("color", "#094C82");
+                }
+            });
+
+            $(".viewlistBox li").hover(function () {
+                    $(this).stop().animate({ top: "-2px" }).addClass("show-shadow");
+                },
+                function () {
+                    $(this).stop().animate({ top: "0px" }).removeClass("show-shadow");
+                });
+
+            $("#opinion-type-select").change(function () {
+                var options = $("#opinion-type-select option:selected"); //获取选中的项
+                if (options.val() == "opt3") {
+                    $(".depth").show();
+                } else {
+                    $(".depth").hide();
+                }
+            });
+
+            //删除标注
+            $(".model-mark").on("click", ".delete", function () {
+                var li = $(this).parent();
+                for (var i = 0; i < addNewCommentModel.BIMElements.length; i++) {
+                    if ($('#commentId').val() == 0 && addNewCommentModel.BIMElements[i].Id == li[0].id) {
+                        addNewCommentModel.BIMElements.splice(i, 1);
+                        break;
+                    }
+                    if ($('#commentId').val() != 0 && addNewCommentModel.BIMElements[i].Id == li[0].id) {
+                        addNewCommentModel.BIMElements[i].IsDelete = 1;
+                        break;
+                    }
+                }
+                li.remove();
+                window.BIMe.view.BIMeAnnotation.deleteAnnotation(Id);
+            });
+
+            //删除构件
+            $(".component-link").on("click", ".delete", function () {
+                var li = $(this).parent();
+                for (var i = 0; i < addNewCommentModel.BIMElements.length; i++) {
+                    if ($('#commentId').val() == 0 && addNewCommentModel.BIMElements[i].Id == li[0].id) {
+                        addNewCommentModel.BIMElements.splice(i, 1);
+                        break;
+                    }
+                    if ($('#commentId').val() != 0 && addNewCommentModel.BIMElements[i].Id == li[0].id) {
+                        addNewCommentModel.BIMElements[i].IsDelete = 1;
+                        break;
+                    }
+                }
+                li.remove();
+            });
+
+            //新建意见弹框
+            $("#statusbox").on("click", ".new-opinion", function () {
+                $(".wrap").show();
+                $(".newComment").show();
+            });
+
+            //新建意见弹框
+            $("#statusbox").on("click", ".new-integrality-opinion", function () {
+                $(".wrap").show();
+                $(".newComment").show();
+            });
+
+            //继续编辑新建意见的弹框
+            $("#statusbox").on("click", "#continueEditComment", function () {
+                $(".wrap").show();
+                $(".newComment").show();
+            });
+
+            //取消
+            $(".confirm-box .cancle-btn, .new-opinion-content .close-icon").click(function () {
+                $(".wrap").hide();
+                $(".newComment").hide();
+                $(".rejectComment").hide();
+                //$("#statusbox").html(html);
+            });
+
+            //切换构件和源
+            $(".tabs-content .top-tab div").click(function () {
+                $(this).addClass("active").siblings().removeClass("active");
+                var index = $(this).index();
+                $(".component-con").eq(index).addClass("active").siblings().removeClass("active");
+            });
+
+            //展开模型树与属性
+            $(".show-model-tree").click(function () {
+                $(".model-tree-box").hide();
+                $(".model-tree-hide").animate({
+                        width: "386px"
+                    },
+                    500);
+            });
+
+            $(".model-tree-hide .tabs li").click(function () {
+                if ($(this).hasClass("active")) {
+                    $(".model-tree-box").show();
+                    $(".model-tree-hide").animate({
+                            width: "0px"
+                        },
+                        500);
+                }
+                $(this).addClass("active").siblings().removeClass("active");
+            });
+
+            //收起
+            $(".packUp").click(function () {
+                $(".model-tree-box").show();
+                $(".model-tree-hide").animate({
+                        width: "0px"
+                    },
+                    500);
+            });
+
+            //展开收起意见列表
+            $(".spread-btn .show-view-card").click(function() {
+                $(".viewlistBox").animate({
+                    width:"400px"
+                },500);
+                $(".view-lists-iterm").css("overflow-y","auto");
+                $(".spread-btn").hide();
+            });
+            $(".viewlistBox .operatorBtn").click(function() {
+                /* if($(this).hasClass("active")) {
+                     $(this).removeClass("active");
+                     $(".viewlistBox").animate({
+                         width:"40px"
+                     },500);
+                     $(".view-lists-iterm").css("overflow-y","hidden");
+                 } else {
+                     $(this).addClass("active");
+                     $(".viewlistBox").animate({
+                         width:"400px"
+                     },500);
+                     $(".view-lists-iterm").css("overflow-y","auto");
+                 }*/
+                $(".viewlistBox").animate({
+                    width:"0px"
+                },500);
+                $(".view-lists-iterm").css("overflow-y","hidden");
+                $(".spread-btn").show();
+            });
+
+            //$(".rejectComment .inputBox textarea").on("input",
+            //    function () {
+            //        var length = this.value.length;
+            //        if (length > 200) {
+            //            $(".words span").css("color", " #FF0000");
+            //            this.value = this.value.slice(0, 200);
+            //        } else {
+            //            $(".words span").html(length);
+            //        }
+            //    });
+
+            //意见卡片展开
+            $(".model-box").on("click",".view-show .view", function() {
+                $(this).parents(".view-show").hide();
+                $(this).parents(".view-show").siblings(".comment-card-spread").slideDown("slow");
+            });
+
+            //意见卡片收起
+            $(".model-box").on("click", ".comment-card-spread .view", function() {
+                $(this).parents(".comment-card-spread").slideUp();
+                $(this).parents(".comment-card-spread").siblings(".view-show").show();
+            });
+
+        });
+
+    </script>
+
+    <!--驳回-->
+    <script>
+        //清除驳回模态框
+        function cleanRejectContentBox() {
+            //恢复新建button框
+            getOperationButton();
+
+            $('#commentId').val("0");
+
+            //关掉框子
+            $(".wrap").hide();
+            $(".new-opinion-content").hide();
+
+            //清空选择项
+            $('#rejectDescription').val(""); //清空描述
+
+            //清空批注
+            $('#rejectAnnotationList .markList').each(function() { $(this).remove() });
+            //清空构件
+            $('#rejectStructureList .linkLi').each(function() { $(this).remove() });
+            addNewCommentModel.BIMElements = [];
+        };
+
+        //继续编辑驳回
+        $("#statusbox").on("click", "#continueRejectComment", function () {
+            $(".wrap").show();
+            $(".rejectComment").show();
+        });
+
+        //取消驳回
+        $("#statusbox").on("click", "#cancelRejectComment", function () {
+            cleanRejectContentBox();
+        });
+
+        //准备驳回弹框
+        function RejectCommentPopUp(id) {
+            cleanRejectContentBox();
+
+            $('#commentId').val(id);
+
+            //更改操作按钮
+            $("#statusbox").html("<div id = 'continueRejectComment'>继续编辑驳回</div><div id = 'cancelRejectComment'>取消驳回</div>");
+
+            $(".wrap").show();
+            $(".rejectComment").show();
+        };
+
+        //提交驳回
+        $createRejectCommentButton = $("#add-reject-comfirm");
+        $createRejectCommentButton.click(function () {
+            //防止重复请求
+            if ($createRejectCommentButton.hasClass("clicked")) {
+                return false;
+            }
+            $createRejectCommentButton.addClass("clicked");
+            $createRejectCommentButton.html('正在操作');
+
+            addNewCommentModel.Comment.Id = $('#commentId').val();
+            addNewCommentModel.Comment.Description = $('#rejectDescription').val();
+
+            $.ajax({
+                url: '@Html.Raw(Url.Action("RejectComment", "BimModel"))',  // Different bucket zone has different upload url, you can get right url by the browser error massage when uploading a file with wrong upload url.
+                type: 'Post',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(addNewCommentModel),
+                success: function (res) {
+                    //console.log("得到结果:" + JSON.stringify(res));
+                    if (!res.Result) {
+                        errPromot(res.Message);
+
+                        //恢复新建button框
+                        $("#statusbox").html(html);
+                        //恢复btn
+                        $createRejectCommentButton.removeClass("clicked");
+                        $createRejectCommentButton.html('确认');
+                    } else {
+                        errPromot(res.Message);
+
+                        cleanRejectContentBox();
+
+                        //重新获取意见列表
+                        getCommentsData();
+
+                        //恢复btn
+                        $createRejectCommentButton.removeClass("clicked");
+                        $createRejectCommentButton.html('确认');
+
+                        $('#commentId').val("0");
+                    }
+                },
+                error: function (res) {
+                    console.log("失败:" + JSON.stringify(res));
+                    $createRejectCommentButton.removeClass("clicked");
+                    $createRejectCommentButton.html('确认');
+                },
+                beforeSend: function () {
+                    loading();
+                },
+                complete: function () {
+                    loadingSuccess();
+                }
+            });
+        });
+
+    </script>
+
+    <!--全局事件-->
+    <script>
+        loading();
+
+        function InitialPage() {
+            $('#modelprofession').val(@Model.CurrentProfessionId);
+            getCommentsData();
+            getOperationButton();
+        };
+
+        window.onload = function() {
+            InitialPage();
+            //console.log(window.BIMe.event.BIMeEvent.finishRender);
+            //console.log(window.BIMe.event.BIMeEvent.finishImageMarkup);
+            window.BIMe.event.BIMeEvent.finishRender.subscribe(function(res) {
+                loadingSuccess();
+                //载入页面后看看是否要跳转批注
+                @if (Model.TargetAnnotationId != "")
+                {
+                    <text>
+                        viewAnnotation('@Model.TargetAnnotationId');
+                    </text>
+                }
+            });
+        }
+
+        //更换角色
+        function getAvailableRoles() {
+            var url = "@Url.Action("GetAvailableRoles", "BimModel")";
+            searchCurrentRoleData.roleId = $('#activityRoles').val();
+            searchCurrentRoleData.professionId = $('#modelprofession').val();
+
+            ajaxGetPageData(url, searchCurrentRoleData, function (data) {
+                $('#activityRoles').html("");
+                //console.log(data);
+                for(var i= 0;i<data.length;i++)
+                {
+                    var option = "<option value=\"" + data[i].Value + "\">" + data[i].Text + "</option>";
+                    $('#activityRoles').append(option);
+                }
+            });
+        }
+
+        //更改专业
+        $('#modelprofession').change(function() {
+            //获取活动角色
+            getAvailableRoles();
+            //重新获取数据
+            getCommentsData();
+            //重新纪录角色id
+            getOperationButton();
+            //清除模态框
+            cleanContentBox();
+        });
+
+        //更改角色
+        $('#activityRoles').change(function() {
+            addNewCommentModel.RoleId = $('#activityRoles').val();
+            searchCommentsData.roleId = $('#activityRoles').val();
+
+            //重新获取数据
+            getCommentsData();
+            //重新纪录角色id
+            getOperationButton();
+            //清除模态框
+            cleanContentBox();
+        });
+
+        //专业级操作按钮弹框
+        $("#statusbox").on("click", ".profession-Operation a", function () {
+            var uri = $(this).attr("data-uri");
+            var des = $(this).attr("data-des");
+            var fileVersionId = "@Model.CurrentFileVersionId";
+            var professionId = $('#modelprofession').val();
+
+            if (des == "" || des == null)
+                des = "确认进行此操作？";
+
+            uri += "?" + "fileVersionId=" + fileVersionId + "&professionId=" + professionId;
+
+            operatePrompt(des,
+                uri,
+                function (data) {
+                    errPromot(data.Message);
+                    getOperationButton();
+                    getCommentsData();
+                    console.log(data.Message);
+                });
+        });
+
+        //载入页面后看看是否要开始修改意见
+        @if (Model.CommentId != 0)
+            {
+                <text>
+        UpdateCommentPopUp(@Model.CommentId);
+                </text>
+            }
+
+    </script>
+
+</body>
+</html>

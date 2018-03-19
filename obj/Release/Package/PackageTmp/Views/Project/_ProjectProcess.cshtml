@@ -1,0 +1,48 @@
+﻿@using TS.Web.Models.Projects
+@model List<ProjectProcessModel>
+
+@foreach (var project in Model)
+{
+    <li>
+        <div class="project clearfix">
+            <div class="left pull-left">子项目：</div>
+            <div class="project-name pull-left">@project.Name</div>
+        </div>
+        <div class="schedule clearfix">
+            <div class="left pull-left">进度：</div>
+            <div class="pull-left">@project.Description</div>
+        </div>
+    </li>
+
+    @*<li>
+        <div class="project clearfix">
+            <div class="left pull-left">子项目：</div>
+            <div class="project-name pull-left">把超级大国非常的好次的说是考察市场</div>
+        </div>
+        <div class="schedule clearfix">
+            <div class="left pull-left">进度：</div>
+            <div class="on-trial pull-left">审查中…</div>
+        </div>
+    </li>
+    <li>
+        <div class="project clearfix">
+            <div class="left pull-left">子项目：</div>
+            <div class="project-name pull-left">把超级大国非常的好次的说是考察市场</div>
+        </div>
+        <div class="schedule clearfix">
+            <div class="left pull-left">进度：</div>
+            <div class="wait-reply pull-left">等待审查公司回复…</div>
+        </div>
+    </li>
+    <li>
+        <div class="project clearfix">
+            <div class="left pull-left">子项目：</div>
+            <div class="project-name pull-left">把超级大国非常的好次的说是考察市场</div>
+        </div>
+        <div class="schedule clearfix">
+            <div class="left pull-left">进度：</div>
+            <div class="in-review pull-left">复核中…</div>
+        </div>
+    </li>*@
+
+}

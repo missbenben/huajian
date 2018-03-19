@@ -1,0 +1,184 @@
+﻿@{
+    ViewBag.Title = "View";
+    Layout = null;
+}
+
+<input name="username" id="username" type="hidden" value="System">
+<input name="phase" id="phase" type="hidden" value="1" />
+
+<div class="popUp">
+    <!--上传模型弹窗-->
+    <div id="addNewModel" class="common-popUp uploadModel-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">上传模型</div>
+            <div class="uploadDrawings-detail">
+                <div class="commonStyle clearfix">
+                    <label for="modelFile" class="uploadBtn">上传模型</label>
+                    <input type="file" id="modelFile">
+                    <div class="name">模型文件：</div>
+                    <div class="fileLists clearfix">
+                        <div class="iterms">
+                            
+                            <div id="modelFileName" class="filePath"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="commonStyle clearfix">
+                    <div class="name">模型大小：</div>
+                    <div id="modelFileSize">0</div>
+                </div>
+                <div class="commonStyle clearfix">
+                    <div class="name">版本说明：</div>
+                    <div class="inputBox modelTextBox">
+                        <textarea id="modelFileDescription" name="" placeholder="请填写版本说明..."></textarea>
+                        <div class="words"><span>0</span>/200</div>
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div id="confirmUpdateModelBtn" class="confirm-btn">确认</div>
+                <div id="cancelUpdateModelBtn" class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--上传图纸进度-->
+<div class="upload-progress" id="upload-process1">
+    <img class="load" src="~/Content/image/loading.gif" alt="">
+    <div class="upload-progress-bar clearfix">
+        <div class="pull-left">上传中</div>
+        <div class="pull-right progress-text">（<span>0%</span>）</div>
+    </div>
+    <div class="remider">请耐心等待...</div>
+</div>
+
+<script>
+    //监听模型文件更改
+    $("#modelFile").change(function () {
+        var file = $('#modelFile').get(0).files[0];
+        if (file) {
+            var fileSize = 0;
+            if (file.size > 1024 * 1024) fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+            else fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+
+            //console.log(file.name, fileSize, file.type);
+            $('#modelFileSize').html(fileSize);
+            $('#modelFileName').html('<i class="iconfont icon-wenjian fileLogo"></i>' + file.name);
+        }
+    });
+
+    //打开模型添加弹框
+    $('#addNewModelBtn').click(function () {
+        //弹框
+        $(".wrap").show();
+        setDivCenter("#addNewModel");
+        $("body").css({
+            'overflow': 'hidden'
+        });
+    });
+
+    //上传模型
+    var $updateButton = $('#confirmUpdateModelBtn');
+    $updateButton.click(function () {
+        //防止重复请求
+        if ($updateButton.hasClass("clicked")) {
+            return false;
+        }
+        $updateButton.addClass("clicked");
+        $updateButton.html('正在上传');
+
+        var selectedFile = $('#modelFile').val();
+        if (!selectedFile) {
+            alert("请选择文件！");
+            $updateButton.removeClass("clicked");
+            $updateButton.html('上传');
+            return false;
+        }
+
+        var file = $('#modelFile').get(0).files[0];
+        var fileType = file.name.split('.')[file.name.split('.').length - 1];
+        if (fileType != 'pbc') {
+            alert("请上传正确的模型文件");
+            $updateButton.removeClass("clicked");
+            $updateButton.html('上传');
+            return false;
+        }
+
+        var formData = new FormData();
+        var engineerId = $(".floor.active").attr("data-engineerId") == null ? "0" : $(".floor.active").attr("data-engineerId");
+        formData.append('username', $('#username').val());
+        formData.append('phase', $('#phase').val());
+        formData.append('engineeringid', engineerId);
+        formData.append('bimModelFile', $('#modelFile').get(0).files[0]);
+        formData.append('fileSize', $('#modelFileSize').html());
+        formData.append('fileDescription', $('#modelFileDescription').val());
+
+        //console.log("!");
+        $('#upload-process1').show();
+
+        $.ajax({
+            url: '@Html.Raw(Url.Action("ModelUpLoad", "BimModel"))',  // Different bucket zone has different upload url, you can get right url by the browser error massage when uploading a file with wrong upload url.
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            xhr: function xhr() {
+                var xhr = new window.XMLHttpRequest();
+
+                xhr.upload.addEventListener("progress", function (evt) {
+
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        percentComplete = parseInt(percentComplete * 100);
+                        console.log(percentComplete);
+
+                        $("#upload-process1 span").html(percentComplete + "%");
+
+                        if (percentComplete === 100) {
+                            console.log("done");
+                        }
+
+                    }
+                }, false);
+
+                return xhr;
+                
+            },
+            success: function (res) {
+                console.log("得到结果:" + JSON.stringify(res));
+                errPromot(res.Message);
+                $('#cancelUpdateModelBtn').click();
+                getPageData(false);
+
+                //模态框文件和描述置空
+                $('#modelFileDescription').val("");
+                $('#modelFile').val("");
+                $('#modelFileSize').html("0");
+                $('#modelFileName').html("");
+
+                $updateButton.removeClass("clicked");
+                $updateButton.html('上传');
+
+                $('#upload-process').hide();
+            },
+            error: function (res) {
+                console.log("失败:" + JSON.stringify(res));
+                $('#cancelUpdateModelBtn').click();
+                errPromot(data.errmsg);
+
+                $updateButton.removeClass("clicked");
+                $updateButton.html('上传');
+            },beforeSend: function () {
+                //loading();
+            },
+            complete: function () {
+                loadingSuccess();
+            }
+        });
+    });
+
+    words(".modelTextBox");
+
+</script>

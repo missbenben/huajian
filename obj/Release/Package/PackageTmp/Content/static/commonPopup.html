@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <title></title>
+    <link href="../lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/HJcommon.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/popUp.css">
+    <!--  注意  要在http形式下打开 页面 才能正常使用下面两个文件-->
+    <!--[if lt IE 9]>
+    <script src="../lib/html5shiv/html5shiv.min.js"></script>
+    <script src="../lib/respond/respond.js"></script>
+    <![endif]-->
+    <script src="../lib/jquery/jquery.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.js"></script>
+    <script src="../js/popUp.js"></script>
+    <script src="../js/selectCommon.js"></script>
+
+</head>
+<body>
+    <!--删除提示-->
+    <div class="wrap"></div>
+    <div class="err-prompt-wrap"></div>
+    <div class="popUp">
+        <div class="common-popUp operatePrompt">
+            <div class="addProfession-popUp-con">
+                <img src="../image/ICON_GUANBI.png" alt="" class="close-icon">
+                <div class="title">确认删除?</div>
+                <div class="confirm-box">
+                    <div class="confirm-btn">确认</div>
+                    <div class="cancle-btn">取消</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="err-prompt"></div>
+    <script>
+        errPromot("格式有误，请重新上传");
+    </script>
+</body>
+</html>

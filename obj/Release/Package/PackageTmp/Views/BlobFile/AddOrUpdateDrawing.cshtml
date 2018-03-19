@@ -1,0 +1,436 @@
+﻿@using TS.Web.Models.EngineeringFiles
+@model AddOrUpdateDrawingModel
+@{
+    ViewBag.Title = "View";
+    Layout = null;
+}
+
+<input id="engineeringId" name="engineeringId" type="hidden" value="0" />
+<input id="engineeringFileId" name="engineeringFileId" type="hidden" value="0" />
+
+<div class="popUp">
+    <!--新增图纸系列弹窗-->
+    <div class="common-popUp uploadDrawings-popUp" id="addNewDrawingSeries">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">上传图纸</div>
+            <div class="uploadDrawings-detail">
+                <div id="newDrawingSeries" class="commonStyle clearfix">
+                    <div class="name">图纸名称：</div>
+                    <input id="newDrawingSeriesName" type="text" />
+                </div>
+                <div id="newDrawingProfession" class="commonStyle clearfix">
+                    <div class="name">图纸专业：</div>
+                    <select name="" id="newDrawingProfessionValue">
+                        @foreach (var item in Model.AvaliableDrawingProfessions)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <div id="newDrawingCatalog" class="commonStyle clearfix">
+                    <div class="name">图纸类目：</div>
+                    <select name="" id="newDrawingCatalogValue">
+                        @foreach (var item in Model.AvaliableDrawingCatalogs)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="commonStyle clearfix">
+                    <label for="newDrawingFile" class="uploadBtn">上传图纸</label>
+                    <div class="name">图纸文件：</div>
+                    <input type="file" id="newDrawingFile" name="drawingFile">
+                    <div class="fileLists clearfix">
+                        <div class="iterms">
+                            <div id="newFileName" class="filePath"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="commonStyle clearfix">
+                    <div class="name">图纸大小：</div>
+                    <div id="newFileSize">0</div>
+                </div>
+                @*<div class="commonStyle clearfix">
+                    <div class="name">进度：</div>
+                    <div id="percentage">0</div>
+                </div>
+                <div class="commonStyle clearfix">
+                    <div class="name">速度：</div>
+                    <div id="velocity">0</div>
+                </div>
+                <div class="commonStyle clearfix">
+                    <div class="name">已上传：</div>
+                    <div id="loaded">0</div>
+                </div>*@
+                <div class="commonStyle clearfix">
+                    <div class="name">版本说明：</div>
+                    <div class="inputBox drawingSeriesBox">
+                        <textarea id="newFileDescription" name="" placeholder="请填写版本说明..."></textarea>
+                        <div class="words">
+                            <span>0</span>/200
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div id="confirmAddNewButton" class="confirm-btn">确认</div>
+                <div id="cancelAddNewButton" class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="popUp">
+    <!--更新图纸系列弹窗-->
+    <div class="common-popUp uploadDrawings-popUp" id="updateDrawingSeries">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">上传图纸</div>
+            <div class="uploadDrawings-detail">
+                <div id="drawingSeries" class="commonStyle clearfix">
+                    <div class="name">图纸名称：</div>
+                    <input id="drawingSeriesName" type="text" />
+                </div>
+                <div id="drawingProfession" class="commonStyle clearfix">
+                    <div class="name">图纸专业：</div>
+                    <select name="" id="drawingProfessionValue">
+                        @foreach (var item in Model.AvaliableDrawingProfessions)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <div id="drawingCatalog" class="commonStyle clearfix">
+                    <div class="name">图纸类目：</div>
+                    <select name="" id="drawingCatalogValue">
+                        @foreach (var item in Model.AvaliableDrawingCatalogs)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="commonStyle clearfix">
+                    <div class="name">图纸文件：</div>
+                    <label for="drawingFile" class="uploadBtn">上传图纸</label>
+                    <input type="file" id="drawingFile" name="drawingFile">
+                    <div class="fileLists">
+                        <div class="iterms">                          
+                            <div id="fileName" class="filePath"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="commonStyle clearfix">
+                    <div class="name">图纸大小：</div>
+                    <div id="fileSize">0</div>
+                </div>
+                <div class="commonStyle clearfix">
+                    <div class="name">版本说明：</div>
+                    <div class="inputBox updateDrawingSeriesBox">
+                        <textarea id="fileDescription" name="" placeholder="请填写版本说明..."></textarea>
+                        <div class="words">
+                            <span>0</span>/200
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div id="confirmUpdateButton" class="confirm-btn">确认</div>
+                <div id="cancelUpdateButton" class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--上传图纸进度-->
+<div class="upload-progress" id="upload-process">
+    <img class="load" src="~/Content/image/loading.gif" alt="">
+    <div class="upload-progress-bar clearfix">
+        <div class="pull-left">上传中</div>
+        <div class="pull-right progress-text">（<span>0%</span>）</div>
+    </div>
+    <div class="remider">请耐心等待...</div>
+</div>
+
+<script>
+    
+    //// 模拟进度
+    //function progressBar() {
+    //    var max = 100;
+    //    var init = 0;
+    //    var uploaded;
+    //    var test = setInterval(function() {
+    //        init += 10;
+    //        uploaded = parseInt((init / max * 100)) + '%';
+    //        //$uploadTextSpan.text(uploaded).next().css({
+    //        //        width: uploaded
+    //        //    }
+    //        //);
+    //    });
+    //};
+
+    //监听图纸文件更改
+    $("#newDrawingFile").change(function () {
+        var file = $('#newDrawingFile').get(0).files[0];
+        if (file) {
+            var fileSize = 0;
+            if (file.size > 1024 * 1024) fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+            else fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+
+            //console.log(file.name, fileSize, file.type);
+            $('#newFileSize').html(fileSize);
+            $('#newFileName').html('<i class="iconfont icon-wenjian fileLogo"></i>' + file.name);
+            $('#newDrawingSeriesName').val(file.name.split('.')[0]);
+        }
+    });
+
+    //新增图纸
+    $('#addNewDrawingSeriesBtn').click(function () {
+        //填入工程Id
+        $('#engineeringFileId').val(0);
+
+        //图纸专业
+        var professionId = $(".default-show").attr("data-professionId") == null ? "0" : $(".default-show").attr("data-professionId");
+        if (professionId != 0) {
+            $("#newDrawingProfessionValue").val(professionId);
+        }        
+
+        //弹框
+        //popUp(".uploadDrawings", ".addNewDrawingSeries");
+        $(".wrap").show();
+        setDivCenter("#addNewDrawingSeries");
+        $("body").css({
+            'overflow': 'hidden'
+        });
+    });
+
+    //新增图纸
+    var $uploadButton = $('#confirmAddNewButton');
+    $uploadButton.click(function () {
+        if ($uploadButton.hasClass("clicked")) {
+            return false;
+        }
+        $uploadButton.addClass("clicked");
+        $uploadButton.html('正在上传');
+
+        var selectedFile = $('#newDrawingFile').val();
+        if (!selectedFile) {
+            alert("请选择文件！");
+            $uploadButton.removeClass("clicked");
+            $uploadButton.html('上传');
+            return false;
+        }
+
+        var file = $('#newDrawingFile').get(0).files[0];
+        var fileType = file.name.split('.')[file.name.split('.').length - 1];
+        if (fileType != 'pdf') {
+            alert("请上传正确的pdf图纸文件");
+            $uploadButton.removeClass("clicked");
+            $uploadButton.html('上传');
+            return false;
+        }
+
+        var formData = new FormData();
+        var engineeringId = $(".floor.active").attr("data-engineerId") == null ? "0" : $(".floor.active").attr("data-engineerId");
+        formData.append('engineeringId', engineeringId);
+        formData.append('drawingSeriesName', $('#newDrawingSeriesName').val());
+        formData.append('drawingCatalogValue', $('#newDrawingCatalogValue').val());
+        formData.append('drawingProfessionValue', $('#newDrawingProfessionValue').val());
+        formData.append('blobFile', $('#newDrawingFile').get(0).files[0]);
+        formData.append('fileSize', $('#newFileSize').html());
+        formData.append('fileDescription', $('#newFileDescription').val());
+
+        //console.log("!");
+        //记录当前时间
+        var time = new Date().getTime();
+        //记录当前进度
+        var percentage = null;
+        //记录当前上传速度
+        var velocity = null;
+        //记录已上传文件字节大小
+        var loaded = 0;
+
+        var file_ = $('#newDrawingFile').get(0).files[0];
+        var fileSize = file_.size;
+        console.log(fileSize);
+
+        //显示进度条
+        $('#upload-process').show();
+
+        $.ajax({
+            url: '@Html.Raw(Url.Action("CreateDrawingSeries", "BlobFile"))',  // Different bucket zone has different upload url, you can get right url by the browser error massage when uploading a file with wrong upload url.
+            type: 'POST',
+            data: formData,
+            contentType: false, // 必须 不设置内容类型
+            processData: false, // 必须 不处理数据
+            xhr: function xhr() {
+
+                var xhr = new window.XMLHttpRequest();
+
+                xhr.upload.addEventListener("progress", function (evt) {
+                    
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        percentComplete = parseInt(percentComplete * 100);
+                        console.log(percentComplete);
+
+                        $("#upload-process span").html(percentComplete + "%");
+
+
+                        if (percentComplete === 100) {
+                            console.log("done");
+                        }
+
+                    }
+                }, false);
+
+                return xhr;
+            },
+            success: function (res) {
+                console.log("得到结果:" + JSON.stringify(res));
+                $('#cancelAddNewButton').click();
+                getPageData(false);
+
+                //模态框文件和描述置空
+                $('#newDrawingSeriesName').val("");
+                $('#newDrawingFile').val("");
+                $('#newFileSize').html("0");
+                $('#newFileName').html("");
+                $('#newFileDescription').val("");
+
+                $uploadButton.html('上传');
+                $uploadButton.removeClass("clicked");
+                $('#upload-process').hide();
+                errPromot(res.Message);
+            },
+            error: function (res) {
+                console.log("失败:" + JSON.stringify(res));
+                errPromot(res.Message);
+                $uploadButton.html('上传');
+                $uploadButton.removeClass("clicked");
+            },
+            beforeSend: function () {
+                //loading();
+            },
+            complete: function () {
+                loadingSuccess();
+            }
+        });
+    });
+
+    words(".drawingSeriesBox");
+    words(".updateDrawingSeriesBox");
+</script>
+
+<script>
+    function cleanUpdateFileBox() {
+        //模态框文件和描述置空
+        $('#drawingSeriesName').val("");
+        $('#fileDescription').val("");
+        $('#drawingFile').val("");
+        $('#fileSize').html("0");
+        $('#fileName').html("");
+    };
+
+    function resetUpdateButton() {
+        $updateButton.removeClass("clicked");
+        $updateButton.html('更新');
+    }
+
+    //监听图纸文件更改
+    $("#drawingFile").change(function () {
+        var file = $('#drawingFile').get(0).files[0];
+        if (file) {
+            var fileSize = 0;
+            if (file.size > 1024 * 1024) fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+            else fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+
+            //console.log(file.name, fileSize, file.type);
+            $('#fileSize').html(fileSize);
+            $('#fileName').html('<i class="iconfont icon-wenjian fileLogo"></i>' + file.name);
+        }
+    });
+
+    //打开更新图纸弹框
+    function UpdateDrawingSeries(id, name, currentDrawingProfessionId, currentDrawingCatalogId) {
+        cleanUpdateFileBox();
+        //填入工程Id
+        $('#engineeringFileId').val(id);
+        //无需再录入的内容：
+        $('#drawingSeriesName').val(name);
+        $('#drawingProfessionValue').val(currentDrawingProfessionId);
+        $('#drawingCatalogValue').val(currentDrawingCatalogId);
+
+        //弹框
+        //popUp(".uploadDrawings", ".updateDrawingSeries");
+        $(".wrap").show();
+        setDivCenter("#updateDrawingSeries");
+        $("body").css({
+            'overflow': 'hidden'
+        });
+    };
+
+    //更新图纸系列并上传图纸
+    var $updateButton = $('#confirmUpdateButton');
+    $updateButton.click(function () {
+        if ($updateButton.hasClass("clicked")) {
+            return false;
+        }
+        $updateButton.addClass("clicked");
+        $updateButton.html('正在更新');
+
+        var selectedFile = $('#drawingFile').val();
+        if (selectedFile) {
+            //更新时不强制要求新文件
+            //alert("请选择文件！");
+            //$updateButton.removeClass("clicked");
+            //$updateButton.html('上传');
+            //return false;
+            var file = $('#drawingFile').get(0).files[0];
+            var fileType = file.name.split('.')[file.name.split('.').length - 1];
+            if (fileType != 'pdf') {
+                alert("请上传正确的pdf图纸文件");
+                resetUpdateButton();
+                return false;
+            }
+        }
+
+        var formData = new FormData();
+        formData.append('engineeringFileId', $('#engineeringFileId').val());
+        formData.append('drawingSeriesName', $('#drawingSeriesName').val());
+        formData.append('drawingCatalogValue', $('#drawingCatalogValue').val());
+        formData.append('drawingProfessionValue', $('#drawingProfessionValue').val());
+        formData.append('blobFile', $('#drawingFile').get(0).files[0]);
+        formData.append('fileSize', $('#fileSize').html());
+        formData.append('fileDescription', $('#fileDescription').val());
+
+        //console.log("!");
+
+        $.ajax({
+            url: '@Html.Raw(Url.Action("UpdateDrawingSeries", "BlobFile"))',  // Different bucket zone has different upload url, you can get right url by the browser error massage when uploading a file with wrong upload url.
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                console.log("得到结果:" + JSON.stringify(res));
+                cleanUpdateFileBox();
+                $('#cancelUpdateButton').click();
+                errPromot(res.Message);
+                getPageData(false);
+            },
+            error: function (res) {
+                console.log("失败:" + JSON.stringify(res));
+                resetUpdateButton();
+                errPromot(res.Message);
+            },
+            beforeSend: function () {
+                loading();
+            },
+            complete: function () {
+                loadingSuccess();
+            }
+        });
+    });
+
+</script>

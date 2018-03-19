@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Setting>
+  <Msg key="1">
+    <value en="Required." zh="不能为空。" />
+  </Msg>
+  <Msg key="2">
+    <value en="Error." zh="错误。" />
+  </Msg>
+  <!--模型上传-->
+  <Msg key="UploadToBIMFailed">
+    <value en="UploadToBIMFailed." zh="上传到Bim引擎时发生错误" />
+  </Msg>
+  <Msg key="UploadModelToBIMHasFailed">
+    <value en="UploadModelToBIMHasFailed." zh="上传到Bim引擎时发生错误" />
+  </Msg>
+  <Msg key="UploadModelNotUseable">
+    <value en="UploadModelNotUseable." zh="目前不能上传文件" />
+  </Msg>
+  <Msg key="UploadModelSucceed">
+    <value en="UploadModelSucceed." zh="文件上传成功" />
+  </Msg>
+  <Msg key="Pre_AuditCompany_ProfessionAudit_ProfessionalPerfect NotUseable">
+    <value en="Pre_AuditCompany_ProfessionAudit_ProfessionalPerfect NotUseable." zh="模型当前不在可操作状态" />
+  </Msg>
+  <Msg key="Pre_AuditCompany_ProfessionAudit_Submit NotUseable">
+    <value en="Pre_AuditCompany_ProfessionAudit_Submit NotUseable." zh="当前不可提交给项目经理" />
+  </Msg>
+  <Msg key="Pre_AuditCompany_ProfessionAudit_Submit Partial">
+    <value en="Pre_AuditCompany_ProfessionAudit_Submit Partial" zh="已提交" />
+  </Msg>
+  <Msg key="Pre_AuditCompany_ProfessionAudit_Submit All">
+    <value en="Pre_AuditCompany_ProfessionAudit_Submit All" zh="已提交，并检测到所有专业均已提交" />
+  </Msg>
+  <Msg key="Pre_AuditCompany_ProfessionAudit_Submit">
+    <value en="Pre_AuditCompany_ProfessionAudit_Submit." zh="审核人已提交完整性检查意见" />
+  </Msg>
+  <Msg key="Pre_AuditCompany_ProfessionAudit_Submit No Exist Available IntegralityComment Or Has IntegralityComment To Operate ">
+    <value en="Pre_AuditCompany_ProfessionAudit_Submit No Exist Available IntegralityComment Or Has IntegralityComment To Operate." zh="存在未审批意见或没有有效意见" />
+  </Msg>
+  <Msg key="Pre_AuditCompany_ProfessionAudit_Submit IntegralityComment Not Unified">
+    <value en="Pre_AuditCompany_ProfessionAudit_Submit IntegralityComment Not Unified." zh="当前意见不统一，请统一完整或者不完整" />
+  </Msg>
+  <Msg key="Pre_AuditCompany_ProfessionReAudit_Back Success">
+    <value en="Pre_AuditCompany_ProfessionReAudit_Back Success." zh="驳回成功" />
+  </Msg>
+  <Msg key="Pre_AuditCompany_ProfessionReAudit_Back NotUseable">
+    <value en="Pre_AuditCompany_ProfessionReAudit_Back NotUseable." zh="当前不可操作" />
+  </Msg>
+
+  <Msg key="AuditCompany_ProfessionReaudit_Submit_ProjectManager Success">
+    <value en="AuditCompany_ProfessionReaudit_Submit_ProjectManager Success." zh="复核人提交成功" />
+  </Msg>
+
+  <Msg key="AuditCompany_ProfessionReaudit_Submit_ProjectManager Failed">
+    <value en="AuditCompany_ProfessionReaudit_Submit_ProjectManager Failed." zh="有意见没有复核，提交失败！" />
+  </Msg>
+
+  <Msg key="AuditCompany_ProfessionReaudit_Reject_ProfessionAudit Failed">
+    <value en="AuditCompany_ProfessionReaudit_Reject_ProfessionAudit Failed." zh="有意见没有需要复核！" />
+  </Msg>
+
+  <Msg key="ReAudit_RejectTo_Audit Success">
+    <value en="ReAudit_RejectTo_Audit Success." zh="复核人退回给审核人成功" />
+  </Msg>
+
+  <Msg key="ProfessionalImperfect Success">
+    <value en="ProfessionalImperfect Success." zh="专业审核不通过" />
+  </Msg>
+
+  <Msg key="ProfessionalPerfect Success">
+    <value en="ProfessionalPerfect Success." zh="专业审核通过" />
+  </Msg>
+
+  <Msg key="NoProfessionalPerfectComment">
+    <value en="NoProfessionalPerfectComment." zh="没有有效的专业完整的意见，提交失败" />
+  </Msg>
+
+  <Msg key="NoMultipleProfessionalPerfectComment">
+    <value en="NoMultipleProfessionalPerfectComment." zh="专业完整不能有多条意见，提交失败" />
+  </Msg>
+
+  <Msg key="ProfessionalPerfectCommentNoUnit">
+    <value en="ProfessionalPerfectCommentNoUnit." zh="专业完整性意见不统一，提交失败" />
+  </Msg>
+
+  <Msg key="Have comment to operate">
+    <value en="Have comment to operate." zh="尚有意见需处理" />
+  </Msg>
+
+  <Msg key="Illegal Operate">
+    <value en="Illegal Operate." zh="尚有意见需处理" />
+  </Msg>
+
+  <Msg key="NoOperate">
+    <value en="NoOperate" zh="当前不可操作" />
+  </Msg>
+  
+</Setting>

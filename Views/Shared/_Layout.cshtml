@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+
+    <link rel="stylesheet" href="~/Content/lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="~/Content/css/iconfont.css">
+    <link rel="stylesheet" href="~/Content/css/HJcommon.css">
+    <link rel="stylesheet" href="~/Content/css/header.css">
+    <link rel="stylesheet" href="~/Content/css/popUp.css">
+    <link rel="stylesheet" href="~/Content/css/login.css">
+    <link rel="stylesheet" href="~/Content/css/projectLists.css">
+    <link rel="stylesheet" href="~/Content/css/professionalAuditList.css">
+    @RenderSection("styles", required: false)
+    <script type="text/javascript">
+        var BIMServerDomain = "@System.Configuration.ConfigurationManager.AppSettings["BIMEngineServerDomain"].ToString()";
+    </script>
+    <script src="~/Content/lib/jquery/jquery.js"></script>
+    <script src="~/Content/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Content/js/loading.js"></script>
+    <script src="~/Content/js/Common.js"></script>
+    <script src="~/Content/js/popUp.js"></script>
+    <script src="~/Content/js/selectCommon.js"></script>
+    <script src="~/Content/lib/html5shiv/html5shiv.min.js"></script>
+    <script src="~/Content/lib/respond/respond.js"></script>
+    <script src="~/Content/js/loginCommon.js"></script>   
+    @RenderSection("scripts", required: false)
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    @RenderBody()
+    <div class="wrap"></div>
+    <div class="err-prompt-wrap"></div>
+    <div class="popUp">
+        <div class="common-popUp operatePrompt">
+            <div class="addProfession-popUp-con">
+                <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+                <div class="title"></div>
+                <div class="confirm-box">
+                    <div class="confirm-btn">确认</div>
+                    <div class="cancle-btn">取消</div>
+                </div>
+            </div>
+        </div>
+        <div class="dynamic">
+
+        </div>
+    </div>
+    <div class="err-prompt"></div>
+
+
+    <div class="loadingWrap"></div>
+    <div class="Loading">
+        <img src="~/Content/image/loading.gif" height="32" width="32" />
+    </div>
+</body>
+</html>

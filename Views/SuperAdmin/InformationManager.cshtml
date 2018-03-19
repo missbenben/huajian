@@ -1,0 +1,373 @@
+﻿@using TS.Web.Models.SuperAdmin
+@using TS.Data.Extensions
+@model InformationManagerModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "信息管理";
+}
+
+<link rel="stylesheet" href="~/Content/css/superAdminInforManage.css">
+
+<div class="HJ-header">
+    <div class="HJ-header-tabs clearfix">
+        <div class="project-classification pull-left clearfix">
+            <div class="name pull-left"><a href="@Url.Action("Login", "Customer")">数字化审图平台</a></div>
+            <ul class="pull-left">
+                <li class="manage-project"><a href="/SuperAdmin/SuperAdminCheckList">公司管理</a></li>
+                <li class="reviewed-project"><a href="/SuperAdmin/SuperAdminHasCheckedList">人员管理</a></li>
+                <li class="review-project"><a href="@Url.Action("InformationManager","SuperAdmin")">信息管理</a></li>
+            </ul>
+        </div>
+        @Html.Action("GetUser", "Customer")
+    </div>
+</div>
+
+<div class="main-box">
+    <div class="adminInformationManagement-content">
+        <div class="title">信息管理</div>
+        <div class="InformationManagement-tabs">
+            <ul class="clearfix">
+                <li class="active tabli">图模管理</li>
+                <li class="tabli">意见等级</li>
+                <li class="tabli">意见类型</li>
+            </ul>
+        </div>
+        <div class="profession-box tabcon active">
+            <div class="drawing-professional drawing-list">
+                <div class="profession-type">图纸目录：</div>
+                <ul class="clearfix professional-lists">
+                    @Html.Partial("_DictionaryItem",Model.DrawingCatalogs)
+                    <li class="add-btn">+</li>
+                </ul>
+            </div>
+            <div class="drawing-professional common-drawing">
+                <div class="profession-type">图纸专业：</div>
+                <ul class="clearfix professional-lists">
+                    @Html.Partial("_DictionaryItem", Model.DrawingProfessions)
+                    <li class="add-btn">+</li>
+                </ul>
+            </div>
+            <div class="drawing-professional model-lists">
+                <div class="profession-type">模型专业：</div>
+                <ul class="clearfix professional-lists">
+                    @Html.Partial("_DictionaryItem", Model.CommentProfessions)
+                    <li class="add-btn">+</li>
+                </ul>
+            </div>
+        </div>
+        <div class="profession-box tabcon">
+            <div class="drawing-professional opinion-lists">
+                <div class="profession-type">意见等级：</div>
+                <ul class="clearfix professional-lists">
+                    @Html.Partial("_DictionaryItem", Model.CommentLevels)
+                    <li class="add-btn">+</li>
+                </ul>
+            </div>
+        </div>
+        <div class="view-type-con tabcon">
+            <div class="increased">新增</div>
+            @Html.Partial("_DictionaryCommentType", Model.CommentTypes)
+        </div>
+    </div>
+</div>
+
+<div class="popUp">
+    <!--图纸专业弹窗-->
+    <div data-bclass="drawing-model-popUp" class="common-popUp drawing-model-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">新增图纸专业</div>
+            <div class="choose-person">
+                <div class="form-group">
+                    <label class="prompt">目录名称</label>
+                    <div class="form-controls">
+                        <input name="DisplayName" type="text" class="control profession-input" placeholder="请输入专业名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">图标编号</label>
+                    <div class="form-controls">
+                        <input name="ExtraValue1" type="text" class="control" placeholder="请输入图标编号">
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn" data-type="@DictionaryType.DrawingProfession">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+    <!--图纸目录-->
+    <div data-bclass="drawing-popUp" class="common-popUp drawing-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">新增图纸目录</div>
+            <div class="choose-person">
+                <div class="form-group">
+                    <label class="prompt">目录名称</label>
+                    <div class="form-controls">
+                        <input name="DisplayName" type="text" class="control profession-input" placeholder="请输入目录名称">
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn" data-type="@DictionaryType.DrawingCatalog">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+    <!--模型专业弹窗-->
+    <div data-bclass="model-popUp" class="common-popUp model-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">新增模型专业</div>
+            <div class="choose-person">
+                <div class="form-group">
+                    <label class="prompt">专业名称</label>
+                    <div class="form-controls">
+                        <input name="DisplayName" type="text" class="control profession-input" placeholder="请输入模型名称">
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn" data-type="@DictionaryType.CommentProfession">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+    <!--意见等级弹窗-->
+    <div data-bclass="opinion-grade" class="common-popUp opinion-grade">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">新增意见等级</div>
+            <div class="choose-person">
+                <div class="form-group">
+                    <label class="prompt">意见等级</label>
+                    <div class="form-controls">
+                        <input name="DisplayName" type="text" class="control profession-input" placeholder="请输入意见等级">
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn" data-type="@DictionaryType.CommentLevel">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+    <!--添加选项弹窗-->
+    <div data-bclass="opinionType-popUp" class="common-popUp opinionType-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">添加选项</div>
+            <div class="choose-person">
+                <div class="form-group">
+                    <label class="prompt">意见等级</label>
+                    <div class="form-controls">
+                        <div class="select-control">
+                            <input name="ExtraValue1" type="text" class="control select-input" placeholder="请选择意见等级" readonly>
+                            <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                        </div>
+                    </div>
+                    <div class="select-lists">
+                        <ul>
+                            @foreach (var level in Model.CommentLevels)
+                            {
+                                <li data-value="@level.DisplayName">@level.DisplayName</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group option-information">
+                    <label class="prompt">选项信息</label>
+                    <div class="form-controls">
+                        <textarea name="DisplayName" id="option-input" class="control" placeholder="请输入选项信息..."></textarea>                    
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn" data-type="@DictionaryType.DesignCommentType">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+    <!--新增意见类型弹窗-->
+    <div class="common-popUp new-opinion-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">新增意见类型</div>
+            <div class="choose-person">
+                <div class="form-group">
+                    <label class="prompt">意见类型</label>
+                    <div class="form-controls">
+                        <div class="select-control">
+                            <input name="BaseCommentType" type="text" class="control select-input" placeholder="请选择意见类型" readonly>
+                            <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                        </div>
+                    </div>
+                    <div class="select-lists">
+                        <ul>
+                            @foreach(var basetype in Model.AvaliableBaseCommentTypes)
+                            {
+                                <li data-value="@basetype.Value">@basetype.Text</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">名称</label>
+                    <div class="form-controls">
+                        <input name="DisplayName" type="text" class="control" placeholder="请输入名称...">
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn" data-type="@DictionaryType.FirstCommentType">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $(".HJ-header .review-project").addClass("active").siblings().removeClass("active");
+        $("body").on("click", ".form-group .select-control", function (e) {
+            e.stopPropagation();
+            var selectLists = $(this).parent().siblings(".select-lists");
+            if (selectLists.hasClass("active")) {
+                selectLists.removeClass("active");
+            } else {
+                $(".select-lists").removeClass("active");
+                selectLists.addClass("active");
+            }
+        });
+
+        $("body").on("click", ".select-lists li", function (e) {
+            e.stopPropagation();
+            var value = $(this).attr("data-value");
+            var html = $(this).html();
+            $(this).parent().parent().siblings(".form-controls").find(".select-input").val(html);
+            $(this).parent().parent().siblings(".form-controls").find(".select-input").attr("data-value", value);
+            $(".select-lists").removeClass("active");
+        });
+
+        $(".InformationManagement-tabs .tabli").click(function () {
+            var index = $(this).index();
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".tabcon").eq(index).addClass("active").siblings().removeClass("active");
+        });
+
+        popUp(".drawing-list .add-btn", ".drawing-popUp");
+        popUp(".common-drawing .add-btn", ".drawing-model-popUp");
+        popUp(".model-lists .add-btn", ".model-popUp");
+        popUp(".opinion-lists .add-btn", ".opinion-grade");
+        popUp(".view-type-box .add-btn", ".opinionType-popUp");
+        popUp(".view-type-con .increased", ".new-opinion-popUp");
+
+        function getInsertClass(btnpclass) {
+            if (btnpclass == "drawing-popUp")
+                return "drawing-list";
+            if (btnpclass == "drawing-model-popUp")
+                return "common-drawing";
+            if (btnpclass == "model-popUp")
+                return "model-lists";
+            if (btnpclass == "opinion-grade")
+                return "opinion-lists";
+            if (btnpclass == "opinionType-popUp")
+                return "view-type-box";
+            if (btnpclass == "new-opinion-popUp")
+                return "view-type-con";
+        }
+
+        //给二级意见弹出框的确认按钮添加parentId
+        $("body").on("click",".view-type-box .addbtn", function () {
+            var button = $(".opinionType-popUp").find(".confirm-btn").first();
+            button.attr("data-parentId", $(this).attr("data-id"));
+        });
+
+        var btnpclass;
+        //点击弹出框确认按钮事件
+        $(".drawing-popUp .confirm-btn, .drawing-model-popUp .confirm-btn,.model-popUp .confirm-btn,.opinion-grade .confirm-btn, .opinionType-popUp .confirm-btn, .new-opinion-popUp .confirm-btn").on("click", function () {
+            var type = $(this).attr("data-type");
+            btnpclass = $(this).parent().parent().parent().attr("data-bclass");
+
+            var inputData = {};
+
+            $(this).parent().parent().find("input ,textarea").each(function () {
+                var name = $(this).attr("name");
+                var val;
+                if (!$(this).attr("data-value")) {
+                    val = $(this).val();
+                } else {
+                    val = $(this).attr("data-value");
+                }
+                inputData[name] = val;
+            });
+            
+
+            if (type == "@DictionaryType.DesignCommentType") {
+                inputData["ParentId"] = $(this).attr("data-parentId");
+            }
+
+            inputData["Type"] = type;
+
+            ajaxPost("@Url.Action("AddDictionary","SuperAdmin")", inputData, function (data) {
+                if (!data.result) {
+                    errPromot("添加失败");
+                } else {
+                    var className = getInsertClass(btnpclass);
+
+                    if (data.dictionary.Type == Number("@((int)DictionaryType.FirstCommentType)")) {
+                        $(".view-type-con").append(data.htmlStr);
+                    } else {
+                        var dom;
+                        if (data.dictionary.Type == Number("@((int)DictionaryType.DesignCommentType)")) {
+                            dom = $("#dictionary_" + data.dictionary.ParentId);
+                            dom.find("li.addbtn").before(data.htmlStr);
+                        } else {
+                            dom = $("." + className);
+
+                            if (data.dictionary.Type == Number("@((int)DictionaryType.CommentLevel)")) {
+                                var liHtml = '<li data-value="' + data.dictionary.DisplayName + '">' + data.dictionary.DisplayName + '</li>';
+                                $(".opinionType-popUp .select-lists").append(liHtml);                              
+                            }
+                            dom.find("li.add-btn").before(data.htmlStr);
+                        }
+                        
+                    }
+
+                    $(".wrap").hide();
+                    $(".common-popUp").hide();
+                    $(".audit-status-popup").hide();
+                    $("body").css({
+                        'overflow': 'auto'
+                    });
+                }
+            }, function () {
+                errPromot("添加失败");
+            })
+        });
+
+        $("body").delegate(".closeBtn, .delete-option", "click", function () {
+            var des = $(this).attr("data-des");
+            var uri = $(this).attr("data-uri");
+
+            operatePrompt(des, uri, function (data) {
+                if (!data.result) {
+                    errPromot("删除失败");
+                } else {
+                    $("#dictionary_" + data.dictionaryId).remove();
+
+                    if (data.type == Number("@((int)DictionaryType.CommentLevel)")) {
+                        $(".opinionType-popUp .select-lists li").each(function () {
+                            if ($(this).text() == data.level) {
+                                $(this).remove();
+                                return false;
+                            };
+                        });
+                    }
+                }
+            });
+        })
+    });
+</script>

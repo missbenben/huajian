@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <title>创建账号</title>
+    <link href="../lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/HJcommon.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <!--  注意  要在http形式下打开 页面 才能正常使用下面两个文件-->
+    <!--[if lt IE 9]>
+    <script src="../lib/html5shiv/html5shiv.min.js"></script>
+    <script src="../lib/respond/respond.js"></script>
+    <![endif]-->
+    <script src="../lib/jquery/jquery.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.js"></script>
+    <script src="../js/loginCommon.js"></script>
+    <script src="../js/selectCommon.js"></script>
+ 
+</head>
+<body>
+<!--头部-->
+<div class="HJ-header">
+    <div class="HJ-header-tabs clearfix">
+        <div class="project-classification pull-left clearfix">
+            <div class="name pull-left">数字化审图平台</div>
+        </div>
+        <div class="personal-center pull-right">
+            <ul>
+                <li class="user">
+                    <div class="name">
+                        CCCC <i class="iconfont icon-arrLeft-fill"></i>
+                    </div>
+                    <div class="user-dropDown-box">
+                        <div class="company">文思海辉有限公司</div>
+                        <div class="personal-information clearfix">
+                            个人信息
+                            <span class="pull-right"><a href="personalInformation.html">编辑</a></span>
+                        </div>
+                        <div class="exit">
+                            <div class="exit-logo">
+                                <img src="../image/exit.png" alt="">退出
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="main-box">
+    <div class="reviewCompany-content">
+    <div class="registration-classification">
+        <ul>
+            <li>企业账号</li>
+        </ul>
+    </div>
+    <!--企业账号-->
+    <div class="user-registration-box login-iterms active">
+    <div class="input-box">
+        <div class="form-group">
+        <label for="account-companyName" class="prompt">公司名称</label>
+        <div class="form-controls">
+            <input id="account-companyName" type="text" class="control" placeholder="请输入公司名称">
+            <div class="error-reminder"></div>
+        </div>
+    </div>
+        <div class="form-group">
+            <label for="account-companyType" class="prompt">所属公司类型</label>
+            <div class="form-controls">
+                <div class="select-control">
+                <input  id="account-companyType" type="text" class="control select-input" placeholder="请选择所属公司类型" readonly>
+                <img src="../image/ICON_XIAOJIANTOU.png" alt="">
+            </div>
+            </div>
+            <div class="select-lists">
+            <ul>
+                <li>华建公司</li>
+                <li>文思海辉技术科技有限公司</li>
+                <li>华建公司</li>
+                <li>华建公司</li>
+            </ul>
+        </div>
+        </div>
+        <div class="form-group">
+        <label for="account-title" class="prompt">账号名称</label>
+        <div class="form-controls">
+            <input id="account-title" type="text" class="control" placeholder="请输入您的账号名称">
+            <div class="error-reminder"></div>
+        </div>
+    </div>
+        <div class="form-group">
+        <label for="account-name" class="prompt">姓名</label>
+        <div class="form-controls">
+            <input id="account-name" type="text" class="control" placeholder="请输入您的姓名">
+            <div class="error-reminder"></div>
+        </div>
+    </div>
+        <div class="form-group">
+            <label for="account-password" class="prompt">密码</label>
+            <div class="form-controls">
+                <input id="account-password" type="password" class="control" placeholder="请设置6-20位包含数字与字母的密码">
+                <div class="error-reminder"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="">
+        <input type="submit" class="submit-btn corporate-account-create disable" value="创建">
+    </div>
+</div>
+</div>
+
+    </div>
+</div>
+<script>
+    $(function() {
+
+        var corporateAccountCreate = $(".corporate-account-create");
+
+        //必填项有值过后，注册按钮移除disable,可用
+        $('.form-group .control').keyup(function () {
+            //用户注册
+            var accountCompanyName = $("#account-companyName").val();
+            var accountCompanyType = $("#account-companyType").val();
+            var accountTitle = $("#account-title").val();
+            var accountName = $("#account-name").val();
+            var accountPassword = $("#account-password").val();
+            if(accountCompanyName && accountCompanyType && accountTitle && accountName && accountPassword) {
+                corporateAccountCreate.removeClass("disable");
+            } else {
+                corporateAccountCreate.addClass("disable");
+            }
+        });
+
+        //提交
+        corporateAccountCreate.click(function() {
+            if($(this).hasClass("disable")) return;
+            var accounPassword = $("#account-password").val();
+            var accountName = $("#account-name").val();
+            //姓名验证
+            if(!regs.name.test(accountName)) {
+                errPromotShow( $("#account-name"),"请填写有效的姓名信息");
+                return false;
+            }
+            //密码验证
+            if(!regs.password(accounPassword)) {
+                errPromotShow( $("#account-password"),"请填写有效的密码信息");
+                return false;
+            }
+        });
+
+        //表单获得焦点,错误验证消失
+        $('.form-group .control').focus(function() {
+            removeErr($("#account-name"));
+            removeErr($("#account-password"));
+        });
+
+
+        //选择公司，选择所属公司类型
+        $(".form-group .select-control").click(function(){
+            var selectLists = $(this).parent().siblings(".select-lists");
+            if(selectLists.hasClass("active")) {
+                selectLists.removeClass("active");
+            } else {
+                $(".select-lists").removeClass("active");
+                selectLists.addClass("active");
+            }
+        });
+        $(".select-lists li").click(function() {
+            var html = $(this).html();
+            $(this).parent().parent().siblings(".form-controls").find(".select-input").val(html);
+            $(".select-lists").removeClass("active");
+        });
+
+
+
+    })
+</script>
+
+</body>
+</html>

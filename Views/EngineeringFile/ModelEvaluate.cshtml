@@ -1,0 +1,271 @@
+﻿@using TS.Web.Models.EngineeringFiles
+@model ModelEvaluateModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.ProjectName + "-分数评估";
+}
+
+<link rel="stylesheet" href="~/Content/css/drawingSign.css">
+<script src="~/Content/js/echarts.common.min.js"></script>
+
+@Html.Action("ProjectHeader", "Project")
+<div class="main-sidebar scoreEvalution-sidebar active">
+    <ul class="sidebar-menu">
+        @foreach (var engineering in Model.AvailableEngineering)
+        {
+            <li class="treeview">
+                <div data-engineeringId="@engineering.Value" class="floor @(engineering.Selected ? "active" : null)">
+                    @engineering.Text
+                </div>
+            </li>
+        }
+    </ul>
+</div>
+<div class="content-box scoreEvalution-content">
+    <div class="evaluation-box">
+        <div class="score-evaluation-box">
+            <div class="top">
+                <div class="title">分数评估</div>
+                <select name="selectedModelVersionId" id="selectedModelVersionId">                   
+                </select>
+            </div>
+            <div class="main clearfix">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>专业</th>
+                                <th>审查人</th>
+                                <th>复核人</th>
+                                <th class="space"></th>
+                                <th>分数</th>
+                                <th>结果</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="problem-scale">
+            <div class="title">意见数量</div>
+            <div class="main">
+                <div id="main" style="width: 100%;height:500px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="operation-btn" style="display:none" data-modelVersionId="" data-canPass="" data-des="确认此版本模型已完全通过？" data-uri="@Url.Action("CensorshipManagerOperateModel", "EngineeringFile", new { type = CensorshipModelOperationType.AduitPass})">模型通过</div>
+</div>
+<script>
+    $(function () {
+        var myChart = echarts.init(document.getElementById('main'));
+
+        var height = $(".evaluation-box").innerHeight();
+        $(".main-sidebar").height(height);
+
+        var updateVersion = true;
+
+        $(".sidebar-menu .floor").click(function () {
+            var engineerId = $(this).attr("data-engineeringId");
+
+            UpdateModelVersionAndEchartsData(engineerId);
+
+            if (!updateVersion)
+                return false;
+
+            $(this).addClass("active");
+            var siblingLi = $(this).parent().siblings();
+            siblingLi.find(".floor").removeClass("active");
+        });
+
+        UpdateModelVersionAndEchartsData($(".floor.active").attr("data-engineeringId"));
+
+        function UpdateModelVersionAndEchartsData(val){
+            ajaxGet("@Url.Action("GetScoreModelVersionAndEchartsData", "EngineeringFile")", { engineeringId: val}, function (data) {
+                if (!data.result) {
+                    errPromot(data.errmsg);
+                    updateVersion = false;
+                } else {
+                    $("#selectedModelVersionId").empty();
+                    $(".operation-btn").attr("data-modelVersionId", "");
+                    $(".operation-btn").attr("data-canPass", "");
+
+                    showBtn();
+
+                    var options = data.modelVersions;
+
+                    if (options.length > 0) {
+                        var htmlStr = "";
+                        for (var index in options) {
+                            htmlStr += '<option value="' + options[index].Value + '"> ' + options[index].Text + ' </option>';
+                        }
+                        $("#selectedModelVersionId").append(htmlStr);
+
+                        myChart.setOption(option(data.echartsData));
+
+                        UpdateProfessionData();
+                        $("#selectedModelVersionId").show();
+                        $("#main").show();
+                        $("table").show();
+                    }
+                    else {
+                        $("#selectedModelVersionId").empty();
+                        $("tbody").empty();
+                        $("#selectedModelVersionId").hide();
+                        $("#main").hide();
+                        $("table").hide();
+                    }
+                    updateVersion = true;
+                };
+            }, function () {
+                errPromot("查询子项目失败");
+                updateVersion = false;
+            });
+        }
+
+        $(".operation-btn").hide();
+
+        $("#selectedModelVersionId").change(function () {
+            UpdateProfessionData();
+        });
+
+        function UpdateProfessionData() {
+            ajaxGet("@Url.Action("ScoreProfessionData", "EngineeringFile")", { modelVersionId: $("#selectedModelVersionId").val() }, function (data) {
+                if (!data.result) {
+                    errPromot(data.errmsg);
+                } else {
+                    $("tbody").empty();
+                    $("tbody").append(data.listHtml);
+
+                    $(".operation-btn").attr("data-modelVersionId", data.lastVersionId);
+                    $(".operation-btn").attr("data-canPass", data.canPass);
+
+                    showBtn();
+                };
+            }, function () {
+                errPromot("查询专业失败");
+                return false;
+            });
+        }
+
+        function showBtn() {
+            var lastVersionId = $(".operation-btn").attr("data-modelVersionId");
+            var canPass = $(".operation-btn").attr("data-canPass");
+            if (!!canPass && !lastVersionId && lastVersionId == $("#selectedModelVersionId").val()) {
+                $(".operation-btn").show();
+            } else {
+                $(".operation-btn").hide();
+            }
+        }
+
+        $("body").on("click", ".operation-btn", function () {
+            var uri = $(this).attr("data-uri");
+            var des = $(this).attr("data-des");
+            var id = $(this).attr("data-modelVersionId");
+
+            uri += "&" + id;
+
+            operatePrompt(des, uri, function (data) {
+                if (!data.result) {
+                    errPromot("操作失败");
+                } else {
+                    getPageData(false);
+                }
+            });
+        })
+
+        function option(json) {
+            var CommentType = [];
+            var Profession = [];
+            var listArr = [];
+            for (var j in json[0].Comments) {
+                Profession.push(json[0].Comments[j].Profession);
+            }
+            for (var i in json) {
+                CommentType.push(json[i].CommentType);
+                var data = [];
+                for (var z in Profession) {
+                    for (var j in json[i].Comments) {
+                        if (json[i].Comments[j].Profession == Profession[z]) {
+                            data.push(json[i].Comments[j].Amount);
+                        }
+                    }
+                }
+                var seriesNode = {
+                    name: json[i].CommentType,
+                    type: 'bar',
+                    data: data,
+                    barMaxWidth: 20,
+                    barGap: '120%',
+                    itemStyle: {
+                        emphasis: {
+                            barBorderRadius: [50, 50, 0, 0]
+                        },
+                        normal: {
+                            barBorderRadius: [50, 50, 0, 0],
+                            label: {
+                                show: true,
+                                position: 'top',
+                                //formatter: '{c}%',
+                                textStyle: {
+                                    fontSize: '11',
+                                    color: '#393946'
+                                }
+                            }
+                        }
+                    }
+                };
+                listArr.push(seriesNode);
+            }
+            var option2 = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'line'
+                    }
+                },
+                color: ['#8C62FF', '#57C6F8', '#6487F4', '#5EDDCF'],
+                legend: {
+                    x: 'right',
+                    data: CommentType,
+                    itemWidth: 10,
+                    itemHeight: 10,
+                    itemGap: 8,
+                    orient: '',
+                    width: 60,
+                    bottom: 40,
+                    textStyle: {
+                        fontSize: 12,
+                        color: '#767A8A'
+                    }
+                },
+                grid: {
+                    left: '0',
+                    right: '10%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    data: Profession
+                },
+                yAxis: {
+                    type: 'value',
+                    //axisLabel: { formatter: '{value}%' },
+                    boundaryGap: [0, 0.01],
+                    data: {
+                        min: 0,
+                        max: 100
+                    },
+                    splitLine: { lineStyle: { type: 'dashed' } }
+                },
+                series: listArr
+            };
+            return option2;
+        }
+
+        // 使用刚指定的配置项和数据显示图表。
+        //myChart.setOption(option(json));
+
+    });
+</script>

@@ -1,0 +1,400 @@
+.product-lists-box {
+  background-color: #fff;
+  box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+  -moz-box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+  -webkit-box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+  -o-box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+  padding-bottom: 100px;
+  min-height: 100%;
+  position: relative;
+}
+  .product-lists-box .back-previous-level {
+    padding: 30px 0px 0px 60px; }
+    .product-lists-box .back-previous-level a {
+      color: #0078D7;
+      padding-left: 10px;
+      position: relative; }
+    .product-lists-box .back-previous-level img {
+      position: absolute;
+      width: 8px;
+      height: 12px;
+      left: 0px;
+      top: 50%;
+      margin-top: -6px; }
+  .product-lists-box .search-box {
+    padding: 30px 60px 14px 60px; }
+    .product-lists-box .search-box .title {
+      font-size: 22px;
+      color: #0078D7;
+      letter-spacing: 1px;
+      line-height: 29px;
+    }
+    .product-lists-box .search-box .select {
+      margin-left: 20px;
+      color: #767A8A;
+      cursor: default;
+      letter-spacing: 1px; }
+
+.product-lists-box .search-box .select .select-con {
+  width: 100px;
+  position: relative; }
+.product-lists-box .search-box .select .select-con .name {
+  height: 32px;
+  border: 1px solid #E4E7F0;
+  border-radius: 2px;
+  padding-left: 10px;
+  line-height: 30px;
+  position: relative;
+  cursor: default; }
+.product-lists-box .search-box .select .select-con .name img {
+  width: 6px;
+  height: 5px;
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  margin-top: -2px; }
+.product-lists-box .search-box .select .select-con .select-lists {
+  width: 100%;
+  background: #FFFFFF;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  position: absolute;
+  top: 32px;
+  left: 0px;
+  font-size: 12px;
+  max-height: 129px;
+  overflow-y: auto;
+  display: none; }
+.product-lists-box .search-box .select .select-con .select-lists.active {
+  display: block; }
+.product-lists-box .search-box .select .select-con .select-lists li {
+  padding: 4px 0px;
+  padding-left: 28px;
+  cursor: default;
+  position: relative; }
+.product-lists-box .search-box .select .select-con .select-lists li img {
+  width: 8px;
+  height: 6px;
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  margin-top: -3px;
+  display: none; }
+.product-lists-box .search-box .select .select-con .select-lists li.active {
+  color: #0078D7; }
+.product-lists-box .search-box .select .select-con .select-lists li.active img {
+  display: block; }
+      .product-lists-box .search-box .select select {
+        padding: 5px 10px;
+        padding-right: 0px; }
+  .product-lists-box .table-responsive .table > thead > tr > th {
+    text-align: center;
+    padding: 20px 8px;
+    border-bottom: 1px solid #E4E7F0;
+    color: #767A8A;
+    font-weight: normal; }
+  .product-lists-box .table-responsive .table > thead > tr > th.space {
+    padding: 8px 4%; }
+  .product-lists-box .table-responsive .table > thead > tr > th.first-space {
+    padding: 8px 2%; }
+  .product-lists-box .table-responsive .table > tbody > tr > td {
+    text-align: center;
+    padding: 25px 8px;
+    border-bottom: 1px solid #E4E7F0;
+    max-width: 120px;
+    word-wrap: break-word;
+    word-break: normal;
+  }
+    .product-lists-box .table-responsive .table > tbody > tr > td .open-project {
+      margin-right: 10px; }
+.product-lists-box .table-responsive .table > tbody > tr > td .left-space {
+  margin-left: 10px;
+}
+.product-lists-box .table-responsive .table > tbody > tr > td  .left-space{
+      margin-left: 10px;
+}
+  .product-lists-box .table-responsive .table > tbody > tr:nth-child(2n+1) {
+    background: rgba(247, 247, 250, 0.6); }
+  .product-lists-box .table-responsive .common-color {
+    color: #0078D7;
+    cursor: default;
+    text-decoration: underline;
+  }
+.product-lists-box .table-responsive .operation .common-color{
+  display: inline-block;
+  position: relative;
+}
+.product-lists-box .table-responsive .operation .img{
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  right: -24px;
+  top: 50%;
+  margin-top: -9px;
+  z-index: 20;
+  }
+.product-lists-box .table-responsive .operation .img img {
+  width: 100%;
+  height: 100%;
+}
+
+.reminder {
+  width: 136px;
+  height: 28px;
+  line-height: 28px;
+  position: absolute;
+  left: 50%;
+  top: 35px;
+  margin-left: -68px;
+  margin-top: -14px;
+  z-index: 20;
+  background: url("../image/IMG_TISHIBEIJING.png");
+  background-size: 100% 100%;
+  display: none;
+}
+.product-lists-box .table-responsive .operation .img:hover .reminder{
+  display: block;
+}
+.product-lists-box .table-responsive .common-color a {
+  color: #0078D7;
+  text-decoration: underline;
+}
+
+.search-input .text {
+  width: 300px;
+  height: 34px;
+  display: inline-block;
+  position: relative; }
+.search-input .text .search-btn {
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  right: 9px;
+  top: 50%;
+  margin-top: -14px;
+  cursor: default;
+}
+  .search-input .text .search-btn img {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    left: 50%;
+    top: 50%;
+    margin-left: -7px;
+    margin-top: -7px;}
+.search-input input[type="text"] {
+  width: 300px;
+  height: 34px;
+  padding-left: 23px;
+  padding-right: 28px;
+  background: rgba(179, 184, 201, 0.16);
+  border: 1px solid rgba(160, 166, 184, 0.16);
+  border-radius: 100px; }
+
+.enterpeiseAdmin-content .search-input .text {
+  margin-right: 0px; }
+.enterpeiseAdmin-content .search-input .createAccount, .enterpeiseAdmin-content .search-input .createProject {
+  display: inline-block;
+  width: 100px;
+  height: 34px;
+  text-align: center;
+  line-height: 34px;
+  font-size: 14px;
+  color: #FFFFFF;
+  background: #0078D7;
+  border-radius: 2px;
+  margin-left: 40px;
+}
+
+.enterpeiseAdmin-content .search-input .createAccount:hover, .enterpeiseAdmin-content .search-input .createProject:hover {
+  background: #2A9AF2;
+  box-shadow: 0 3px 5px 0 rgba(0,0,0,0.16);
+}
+  .enterpeiseAdmin-content .search-input .createAccount a, .enterpeiseAdmin-content .search-input .createProject a {
+    color: #FFFFFF; }
+
+.enterpeiseAdmin-content .allocation-tabs {
+  padding-left: 94px;
+  border-bottom: 1px solid #E4E7F0;
+  margin-bottom: 20px; }
+  .enterpeiseAdmin-content .allocation-tabs li {
+    padding: 9px 10px;
+    font-size: 14px;
+    color: #767A8A;
+    letter-spacing: 1px;
+    float: left;
+    margin-right: 60px;
+    cursor: default; }
+.enterpeiseAdmin-content .allocation-tabs li a {
+  color: #767A8A;
+}
+    .enterpeiseAdmin-content .allocation-tabs li.active {
+      border-bottom: 1px solid #0078D7;
+      color: #0078D7; }
+.enterpeiseAdmin-content .allocation-tabs li.active a {
+  color: #0078D7;
+}
+    .enterpeiseAdmin-content .allocation-tabs li.inviteColleagues {
+      float: right;
+      color: #0078D7;
+      text-decoration: underline; }
+.enterpeiseAdmin-content .allocation-tabs li.create-user {
+  float: right;
+  color: #0078D7;
+  text-decoration: underline;
+}
+.enterpeiseAdmin-content .allocation-tabs li.create-user a {
+  color: #0078D7;
+}
+.enterpeiseAdmin-content .table-box {
+  display: none; }
+  .enterpeiseAdmin-content .table-box.active {
+    display: block; }
+
+.responsible-project-content {
+  position: relative; }
+  .responsible-project-content .person {
+    padding-right: 60px;
+    margin-bottom: 20px; }
+    .responsible-project-content .person .staffName {
+      padding-top: 44px;
+      font-size: 14px; }
+  .responsible-project-content .sssignedProject-btn {
+    width: 100px;
+    height: 34px;
+    background: #0078D7;
+    border-radius: 2px;
+    line-height: 34px;
+    text-align: center;
+    color: #fff;
+    margin-top: 30px;
+    margin-left: 40px;
+   /* position: absolute;
+    top: 30px;
+    right: 60px;*/ }
+.myproject-tab {
+  padding-left: 78px;
+  border-bottom: 1px solid #E4E7F0;
+  margin-bottom: 20px;
+}
+  .myproject-tab li{
+    font-size: 14px;
+    float: left;
+    color: #767A8A;
+    letter-spacing: 1px;
+    margin-right: 32px;
+    padding: 9px 10px;
+    cursor: default;
+  }
+.myproject-tab li.active {
+  color: #0078D7;
+  border-bottom: 1px solid #0078D7;
+}
+.project-progress-popUp {
+  padding-right: 10px;
+}
+.project-progress-popUp  .addProfession-popUp-con {
+  height: 458px;
+  overflow-y: auto;
+  padding-right: 90px;
+}
+.project-progress-popUp .schedule-box {
+  font-size: 16px;
+  padding-bottom: 12px;
+  letter-spacing: 1px;
+}
+.project-progress-popUp .schedule-box .left{
+  width: 100px;
+  color: #767A8A;
+  text-align: left;
+}
+.project-progress-popUp .schedule-box li {
+  width: 420px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #B3B8C9;
+}
+.project-progress-popUp .schedule-box .project {
+  padding-bottom: 8px;
+}
+.project-progress-popUp .schedule-box .project-name{
+  color: #393946;
+}
+.project-progress-popUp .schedule-box  .wait-signfor {
+  color: #FF574D;
+}
+.project-progress-popUp .schedule-box .on-trial {
+  color: #E8AB42;
+}
+.project-progress-popUp .schedule-box .wait-reply {
+  color: #3CB100;
+}
+.project-progress-popUp .schedule-box .in-review {
+  color: #3B67AC;
+}
+.enterpeiseAdmin-content .table-responsive .table > thead > tr > th.first-space {
+  padding: 8px 1%;
+}
+.super-administrator-content .createAccount-btn {
+  text-align: right;
+  padding-right: 60px;
+}
+.super-administrator-content .createAccount-btn .createAccount {
+  width: 100px;
+  line-height: 34px;
+  display: inline-block;
+  text-align: center;
+  font-size: 14px;
+  background: #0078D7;
+  border-radius: 2px;
+  margin-left: 20px;
+}
+.super-administrator-content .createAccount-btn .createAccount a {
+  width: 100%;
+  height: 100%;
+  color: #fff;
+}
+.super-administrator-content .createAccount-btn .createAccount:hover {
+  background: #2A9AF2;
+  box-shadow: 0 3px 5px 0 rgba(0,0,0,0.16);
+}
+ .table > thead > tr > th.drawingStatus .drawingStatus-con {
+  position: relative; }
+ .table > thead > tr > th.drawingStatus .drawingStatus-con .name {
+  width: 100%;
+  height: 100%;
+  cursor: default; }
+ .table > thead > tr > th.drawingStatus .drawingStatus-con .name img {
+  width: 8px;
+  height: 6px;
+  margin-top: -2px; }
+.table > thead > tr > th.drawingStatus .drawingStatus-con .select-lists {
+  width: 110px;
+  max-height: 100px;
+  overflow-y: auto;
+  position: absolute;
+  left: 50%;
+  top: 22px;
+  margin-left: -55px;
+  background: #FFFFFF;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  text-align: left;
+  display: none; }
+.table > thead > tr > th.drawingStatus .drawingStatus-con .select-lists.active {
+  display: block; }
+ .table > thead > tr > th.drawingStatus .drawingStatus-con .select-lists li {
+  padding: 4px 0px;
+  padding-left: 28px;
+  position: relative;
+  cursor: default; }
+ .table > thead > tr > th.drawingStatus .drawingStatus-con .select-lists li img {
+  width: 8px;
+  height: 6px;
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  margin-top: -3px;
+  display: none; }
+.table > thead > tr > th.drawingStatus .drawingStatus-con .select-lists li.active img {
+  display: block; }

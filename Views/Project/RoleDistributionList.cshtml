@@ -1,0 +1,436 @@
+﻿@using TS.Data.Extensions
+
+@{
+    ViewBag.Title = "分配项目角色";
+    Layout = "~/Views/Shared/_ManagementLayout.cshtml";
+}
+
+
+<div class="product-lists-box enterpeiseAdmin-content">
+    <div class="search-box clearfix">
+        <div class="pull-left title">项目管理</div>
+        <div class="select pull-left">
+            <div class="select-con">
+                <div class="name">
+                    <span id="projectCatalog" data-id="0">全部分类</span>
+                    <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                </div>
+                <div class="select-lists">
+                    <ul>
+                        <li class="active" data-id="0"><img src="~/Content/image/ICON_DUIGOU.png" alt="">全部分类</li>
+                        @{
+                            var prjectCatelogList = Enum.GetNames(typeof(TS.Core.Domain.Projects.ProjectCatalog)).Select(s => (TS.Core.Domain.Projects.ProjectCatalog)Enum.Parse(typeof(TS.Core.Domain.Projects.ProjectCatalog), s)).ToList();
+                        }
+
+                        @foreach (var item in prjectCatelogList)
+                        {
+                            <li data-id="@((int)item)"><img src="~/Content/image/ICON_DUIGOU.png" alt="">@item.GetDescription()</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="pull-right search-input ">
+            <div class="text">
+                <input type="text" id="searchText" placeholder="搜索项目名称、送审编号...">
+                <div class="search-btn">
+                    <img src="~/Content/image/ICON_SOUSUO.png" alt="">
+                </div>
+            </div>
+            @*<div class="createAccount">
+                    <a href="createOrdinaryAccount.html">创建账号</a>
+                </div>*@
+            @if (((TS.Core.Domain.Organizations.OrganizationType)ViewBag.CustomerOrganizationType) == TS.Core.Domain.Organizations.OrganizationType.BuildingCompany)
+            {
+                <div class="createProject">
+                    <a href="@Url.Action("Create")">创建项目</a>
+                </div>
+            }
+
+        </div>
+    </div>
+    <div class="allocation-tabs">
+        <ul class="clearfix">
+            <li data-type="2" class="active tabLi">待分配</li>
+            <li data-type="1" class="tabLi">已分配</li>
+        </ul>
+    </div>
+    <div class="table-box active">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="first-space"></th>
+                        <th>报建编号</th>
+                        <th>项目名称</th>
+                        <th>建设单位</th>
+                        <th>设计单位</th>
+                        <th>审查机构</th>
+                        <th>项目分类</th>
+                        <th class="space"></th>
+                        <th>项目概况</th>
+                        <th>项目进度</th>
+                        <th>操作</th>
+                        <th class="first-space"></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+
+            </table>
+        </div>
+    </div>
+    <!--分页-->
+    @Html.Partial("_PageFooter")
+
+</div>
+<!--项目进度弹窗-->
+<div class="popUp" id="process-popup">
+    <div class="common-popUp project-progress-popUp">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon" />
+            <div class="title">项目进度</div>
+            <ul class="schedule-box">
+                <!--待填充-->
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var searchData = {
+        pageSize: 10,
+        pageIndex: 1,
+        totalCount: 0,
+        searchFuzzyInput: "",
+        distributeOption: 2,
+    };
+
+    function initPageFooter() {
+        var divhtml = '<div class="mypagenation" id="mypagenation"></div>'
+        $('.list-footer').empty();
+        $('.list-footer').append(divhtml);
+        $('#mypagenation').initPagenation({
+            totalCount: searchData.totalCount,      //数据总个数,
+            showBtnFirst: true,   //是否显示 首页按钮
+            showCount: 10,        //每页显示多少个,默认10个
+            showBtnsCount: 5,     //数字按钮数量,最多10个,默认10个
+            callback: function (pageIndex) {
+                getPageData(false, pageIndex);
+            }
+        });
+    }
+
+    function getPageData(needUpdateFooter, pageInex) {
+        searchData.pageIndex = pageInex;
+        searchData.distributeOption = $(".allocation-tabs li.tabLi.active").attr("data-type");
+        searchData.searchFuzzyInput = $("#searchText").val();
+        searchData.projectCatalog = $("#projectCatalog").data("id");
+        Ajax("@Url.Action("GetDistributionProject", "Project")", "Post", function (data) {
+            $("tbody").empty();
+            $("tbody").append(data.listHtml);
+
+            searchData.totalCount = data.total;
+
+            if (needUpdateFooter) {
+                initPageFooter();
+            }
+        }, searchData);
+
+    }
+    function refresh(needUpdateFooter) {
+        searchData.distributeOption = $(".allocation-tabs li.tabLi.active").attr("data-type");
+        searchData.searchFuzzyInput = $("#searchText").val();
+        searchData.projectCatalog = $("#projectCatalog").data("id");
+        Ajax("@Url.Action("GetDistributionProject", "Project")", "Post", function (data) {
+            $("tbody").empty();
+            $("tbody").append(data.listHtml);
+
+            searchData.totalCount = data.total;
+
+            if (needUpdateFooter) {
+                initPageFooter();
+            }
+        }, searchData);
+    }
+    function checkProcess(id) {
+        //根据项目id从后台拉取数据
+        $.ajax({
+            url: '@Url.Action("CheckProcess","Project")',
+            method: 'POST',
+            data: {
+                'projectId': id
+            },
+            success: function (data) {
+                //修改popup中的文字
+                $(".wrap").show();
+                $('.project-progress-popUp').show();
+                $('.project-progress-popUp ul').html(data.html);
+            }
+        });
+    }
+
+    $(function () {
+        $(".project-classification .manage-project").addClass("active");
+
+        $(".search-box .select-lists li").click(function (e) {
+            e.stopPropagation();
+            $(this).addClass("active").siblings().removeClass("active");
+            var html = $(this).text();
+            $("#projectCatalog").text(html);
+            $("#projectCatalog").data("id", $(this).data("id"));
+            $(this).parents(".select-lists").removeClass("active");
+            getPageData(true, 1);
+        });
+
+        $("tbody").on("click", ".personnel-assignment", function (e) {
+            e.stopPropagation();
+            var projectid = $(this).find(".ProjectId").val();
+            Ajax("@Url.Action("GetDistributionByProjectId", "Project")" + "?projectId=" + projectid, "get", function (result) {
+                $(".dynamic").empty();
+                $(".dynamic").append(result.message);
+                popUpEle(".dynamic .common-popUp");
+            });
+        });
+        
+        //获取取初始数据
+        getPageData(true, 1);
+
+        //变更过滤条件
+        $(".allocation-tabs .tabLi").click(function (e) {
+            e.stopPropagation();
+            $(this).addClass("active").siblings().removeClass("active");
+
+            getPageData(true, 1);
+        });
+
+        $(".search-btn img").click(function () {
+            getPageData(true, 1);
+        });
+
+        //显示下拉框
+        $(".dynamic").on("click", ".select-control", function (e) {
+            e.stopPropagation();
+
+            if ($(this).parents(".chooseProfessional-box").length > 0) {
+                if ($(".select-project input:checked").length == 0) {
+                    return false;
+                }
+            }
+
+            var selectLists = $(this).parent().siblings(".select-lists");
+            if (selectLists.hasClass("active")) {
+                selectLists.removeClass("active");
+            } else {
+                $(".select-lists").removeClass("active");
+                selectLists.addClass("active");
+            }
+        });
+
+        //选择  审核单位  审核人 复核人
+        $(".dynamic").on("click", ".tabContent .select-lists li", function (e) {
+            e.stopPropagation();
+
+            if ($(this).parents(".chooseProfessional-box").length > 0) {
+                if ($(".select-project input:checked").length == 0) {
+                    return false;
+                }
+
+                if ($(this).parents(".chooseProfessional-box").attr("id") == "engineering-0") {
+                    SetCheckedEngineeringUser($(this));
+                    if ($(this).parents(".form-group.pull-left").find(".warn").length > 0) {
+                        $(this).parents(".form-group.pull-left").find(".warn").remove();
+                    }
+                }
+            }
+
+            var html = $(this).html();
+            $(this).parent().parent().siblings(".form-controls").find(".select-input").val(html);
+            $(this).parent().parent().siblings(".form-controls").find(".select-input").data("id", $(this).data("id"));
+            $(this).parents(".select-lists").removeClass("active");
+        });
+
+        function SetCheckedEngineeringUser($dom) {
+            var engineeringIds = GetCheckedEngineeringIds();
+            var type = $dom.parent().parent().siblings(".form-controls").find(".select-input").data("type");
+            var html = $dom.html();
+            var professionId = $dom.parents(".professionalLists").data("id");
+
+            engineeringIds.forEach(function (index) {
+                $("#engineering-" + index).find(".professionalLists[data-id='" + professionId + "']").find(".select-input." + type + "").val(html);
+                $("#engineering-" + index).find(".professionalLists[data-id='" + professionId + "']").find(".select-input." + type).data("id", $dom.data("id"));;
+            })
+
+        }
+
+        //选择  审核单位 项目经理
+        $(".dynamic").on("click", ".projectManager .select-lists li", function (e) {
+            e.stopPropagation();
+            var html = $(this).html();
+            $(this).parent().parent().siblings(".form-controls").find(".select-input").val(html);
+            $(this).parent().parent().siblings(".form-controls").find(".select-input").data("id", $(this).data("id"));
+            $(this).parents(".select-lists").removeClass("active");
+        });
+
+        //针对 审核单位 选择项目
+        $(".dynamic").on("click", ".all-engineering", function () {
+            if ($(this).prop("checked") == true) {
+                $(".select-project input").prop("checked", true);
+
+                //只有一个子项
+                if ($(".select-project input").length == 2) {
+                    $(".chooseProfessional-box").eq(1).addClass("active").siblings().removeClass("active");
+                } else {
+                    $(".chooseProfessional-box").eq(0).addClass("active").siblings().removeClass("active");
+                    SetWarn();
+                }             
+            } else {
+                $(".select-project input").prop("checked", false);
+                refreAllEngieering();
+            }
+        })
+
+        $(".dynamic").on("click", ".select-engineering", function (e) {
+            e.stopPropagation();
+
+            if ($(".select-engineering:checked").length == $(".select-engineering").length) {
+                $(".all-engineering").prop("checked", true);
+            } else {
+                $(".all-engineering").prop("checked", false);
+            }
+
+            if ($(".select-engineering:checked").length == 1) {
+                var id = parseInt($(this).data("id"));
+                $(".chooseProfessional-box").removeClass("active");
+                $("#engineering-" + id).addClass("active");
+            } else if ($(".select-engineering:checked").length == 0) {
+                refreAllEngieering();
+            } else {
+                $(".chooseProfessional-box").eq(0).addClass("active").siblings().removeClass("active");
+                SetWarn();
+            }
+        });
+
+        function SetWarn() {
+            var engineeringIds = GetCheckedEngineeringIds();
+
+            if (engineeringIds.length >= 2) {
+                refreAllEngieering();
+                $("#engineering-0 .professionalLists").each(function () {
+                    var $dom = $(this);
+                    var professionId = $dom.find(".ProfessionId").val();
+                    var professionName = $dom.find(".ProfessionName").data("name");
+
+                    var professionData1 = {
+                        professionId: professionId,
+                        professionName: professionName,
+                        role: "审核人",
+                        persons: [],
+                    }
+
+                    var professionData2 = {
+                        professionId: professionId,
+                        professionName: professionName,
+                        role: "复核人",
+                        persons: [],
+                    }
+
+                    for (var index in engineeringIds) {
+                        var $engineering = $("#engineering-" + engineeringIds[index])
+
+                        var engreeingId = $engineering.find(".EngreeingId").val();
+                        var engreeingName = $engineering.find(".EngreeingName").val();
+
+                        var $profession = $engineering.find(".professionalLists[data-id='" + professionId + "']");
+
+                        var professionAuidtName = $profession.find(".ProfessionAuidtId").val();
+                        var professionAuidtId = $profession.find(".ProfessionAuidtId").data("id");
+
+                        var professionReAuidtName = $profession.find(".ProfessionReAuidtId").val();
+                        var professionReAuidtId = $profession.find(".ProfessionReAuidtId").data("id");
+
+                        professionData1.persons.push({
+                            engineeringId: engreeingId,
+                            engineeringName: engreeingName,
+                            personId: professionAuidtId,
+                            personName: professionAuidtName,
+                        });
+                        professionData2.persons.push({
+                            engineeringId: engreeingId,
+                            engineeringName: engreeingName,
+                            personId: professionReAuidtId,
+                            personName: professionReAuidtName,
+                        });
+                    }
+
+                    if (checkprofessionDataIsNeedWarn(professionData1)) {
+                        $dom.find(".ProfessionAuidtId").parents(".form-group.pull-left").append(getWarnHtml(professionData1));
+                    } else {
+                        $dom.find(".ProfessionAuidtId").val(professionData1.persons[0].personName);
+                        $dom.find(".ProfessionAuidtId").data("id", professionData1.persons[0].personId);
+                    }
+                    if (checkprofessionDataIsNeedWarn(professionData2)) {
+                        $dom.find(".ProfessionReAuidtId").parents(".form-group.pull-right").append(getWarnHtml(professionData2));
+                    } else {
+                        $dom.find(".ProfessionReAuidtId").val(professionData2.persons[0].personName);
+                        $dom.find(".ProfessionReAuidtId").data("id", professionData2.persons[0].personId);
+                    }
+                });
+            }
+        }
+
+
+        function GetCheckedEngineeringIds() {
+            var engineeringIds = [];
+            $(".select-project input:checked").each(function () {
+                var id = $(this).attr("data-id");
+                if (id != "0") {
+                    engineeringIds.push(id);
+                }
+            });
+
+            return engineeringIds;
+        }
+
+        function checkprofessionDataIsNeedWarn(professionData) {
+            for (var i = 0; i < professionData.persons.length; i++) {
+                if (professionData.persons[0].personId != professionData.persons[i].personId)
+                    return true;
+            }
+            return false;
+        }
+
+        function getWarnHtml(warnData) {
+            var html = '<div class="warn"><img src="/Content/image/ICON_TISHI.png" alt=""><div class="warn-information">';
+            html += '<div class="name">' + warnData.professionName + "-" + warnData.role + '</div>';
+            html += '<ul class="clearfix">';
+            for (var index in warnData.persons) {
+                html += '<li>';
+                html += '<span title="' + warnData.persons[index].engineeringName + '">' + warnData.persons[index].engineeringName + '</span>';
+                html += '<span>：' + warnData.persons[index].personName + '</span>';
+                html += '</li>';
+            }
+            html += '</ul></div></div>';
+
+            return html;
+        }
+
+        function refreAllEngieering() {
+            $(".chooseProfessional-box").eq(0).addClass("active").siblings().removeClass("active");
+            $("#engineering-0 .ProfessionAuidtId").val("");
+            $("#engineering-0 .ProfessionAuidtId").data("id", "");
+            $("#engineering-0 .ProfessionReAuidtId").val("");
+            $("#engineering-0 .ProfessionReAuidtId").data("id", "");
+            $("#engineering-0 .warn").remove();
+        }
+
+        //针对 设计公司  建设公司 选择项目经理
+        $(".dynamic").on("click", ".addProfession-popUp .select-lists li", function (e) {
+            e.stopPropagation();
+            var html = $(this).html();
+            $(this).parent().parent().siblings(".form-controls").find(".select-input").val(html);
+            $(this).parent().parent().siblings(".form-controls").find(".select-input").data("id", $(this).data("id"));
+            $(this).parents(".select-lists").removeClass("active");
+        }); 
+    });
+
+</script>

@@ -1,0 +1,11 @@
+﻿
+<span>请选择当前角色（临时使用）：</span>
+<br />
+<span>当前角色类型：@ViewBag.CustomerType</span>
+<span>当前用户所属企业类型：@ViewBag.CustomerOrganizationType</span>
+
+<ul>
+    <li><a href="@Url.Action("SuperAdminchecklist","SuperAdmin")">超级管理员</a></li>
+    <li><a href="@Url.Action("RoleDistributionList","Project")">企业管理员</a></li>
+    <li><a href="@Url.Action("ProjectIndex","Project")">用户</a></li>
+</ul>

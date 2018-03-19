@@ -1,0 +1,52 @@
+﻿@{ 
+    Layout = null;
+}
+
+@model TS.Web.Models.SuperAdmin.AdminAndCompanyModel
+<div class="personal-center pull-right">
+    <ul>
+        <li class="user">
+            <div class="name">
+                @Model.AdminName <i class="iconfont icon-arrLeft-fill"></i>
+            </div>
+            <div class="user-dropDown-box">
+                <div class="company">@Model.CompanyName</div>
+                <div class="personal-information clearfix">
+                    个人信息
+                    <span class="pull-right"><a href="/Customer/UserInfoEdit">编辑</a></span>
+                </div>
+                <div class="exit">
+                    <div class="exit-logo" onclick="UserExit()">
+                        <img src="~/Content/image/exit.png" alt="">退出
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<script>
+    function UserExit(){
+
+        $.ajax({
+            url: '@Html.Raw(Url.Action("UserExit", "Customer"))',  // Different bucket zone has different upload url, you can get right url by the browser error massage when uploading a file with wrong upload url.
+            type: 'POST',
+            processData: false,
+            contentType: false,
+
+            success: function (res) {
+                var obj = eval(res);
+                var result = obj.Result;
+                var mess = obj.Message;
+                if (result) {
+                    errPromot(mess);
+                    window.location.href = "/customer/login";
+                }
+                else {
+                    errPromot(mess);
+                }                    
+            }
+        });
+    }
+</script>
+

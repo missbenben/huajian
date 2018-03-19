@@ -1,0 +1,9 @@
+﻿@using TS.Web.Models.SuperAdmin
+@model List<InformationManagerModel.DictionaryModel>
+@foreach (var item in Model)
+{
+    <li id="dictionary_@item.DictionaryId" class="professional-listsLi">
+        @item.DisplayName
+        <img data-des="确认删除当前项吗？" data-uri="@Url.Action("DeleteDictionary","SuperAdmin",new { type = item.Type, dictionaryId = item.DictionaryId })" class="closeBtn" src="~/Content/image/ICON_DELETE.png">
+    </li>
+}

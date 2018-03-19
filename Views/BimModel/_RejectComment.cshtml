@@ -1,0 +1,154 @@
+﻿@model TS.Web.Models.BimModel.ModelDetailModel
+
+@{
+    Layout = null;
+}
+
+<!--意见驳回弹窗-->
+<div class="new-opinion-content rejectComment">
+    <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+    <div class="opinion-number">
+    </div>
+    <!--审查人意见-->
+    <div class="review-opinions clearfix">
+        <div class="left">驳回说明：</div>
+        <textarea id="rejectDescription" name="description" cols="30" rows="10" placeholder="请填写详细意见..."></textarea>
+    </div>
+    <!--标注-->
+    <div class="model-mark clearfix">
+        <div class="left">标注：</div>
+        <div class="imgLists clearfix">
+            <ul id="rejectAnnotationList" class="clearfix">
+                <li id="addRejectAnnotation">
+                    <a href="javascript:void(0);"><img src="~/Content/image/addmark.png" alt="" class="addnewmark-img"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--链接构件-->
+    <div class="component-link clearfix">
+        <div class="left">链接构件：</div>
+        <div class="linkLists">
+            <ul id="rejectStructureList" class="clearfix">
+                <li id="addRejectStructure" class="addLink">
+                    <a href="javascript:void(0);">添加</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--确认取消-->
+    <div class="confirm-box">
+        <div class="con">
+            <div id="add-reject-comfirm" class="confirm-btn">确认</div>
+            <div id="add-reject-cancle" class="cancle-btn">取消</div>
+        </div>
+    </div>
+</div>
+
+
+<!--驳回-->
+<script>
+    //清除驳回模态框
+    function cleanRejectContentBox() {
+        //恢复新建button框
+        getOperationButton();
+
+        $('#commentId').val("0");
+
+        //关掉框子
+        $(".wrap").hide();
+        $(".new-opinion-content").hide();
+
+        //清空选择项
+        $('#rejectDescription').val(""); //清空描述
+
+        //清空批注
+        $('#rejectAnnotationList .markList').each(function() { $(this).remove() });
+        //清空构件
+        $('#rejectStructureList .linkLi').each(function() { $(this).remove() });
+        addNewCommentModel.BIMElements = [];
+    };
+
+    //继续编辑驳回
+    $("#statusbox").on("click", "#continueRejectComment", function () {
+        $(".wrap").show();
+        $(".rejectComment").show();
+    });
+
+    //取消驳回
+    $("#statusbox").on("click", "#cancelRejectComment", function () {
+        cleanRejectContentBox();
+    });
+
+    //准备驳回弹框
+    function RejectCommentPopUp(id) {
+        cleanRejectContentBox();
+
+        $('#commentId').val(id);
+
+        //更改操作按钮
+        $("#statusbox").html("<div id = 'continueRejectComment'>继续编辑驳回</div><div id = 'cancelRejectComment'>取消驳回</div>");
+
+        $(".wrap").show();
+        $(".rejectComment").show();
+    };
+
+    //提交驳回
+    $createRejectCommentButton = $("#add-reject-comfirm");
+    $createRejectCommentButton.click(function () {
+        //防止重复请求
+        if ($createRejectCommentButton.hasClass("clicked")) {
+            return false;
+        }
+        $createRejectCommentButton.addClass("clicked");
+        $createRejectCommentButton.html('正在操作');
+
+        addNewCommentModel.Comment.Id = $('#commentId').val();
+        addNewCommentModel.Comment.Description = $('#rejectDescription').val();
+
+        $.ajax({
+            url: '@Html.Raw(Url.Action("RejectComment", "BimModel"))',  // Different bucket zone has different upload url, you can get right url by the browser error massage when uploading a file with wrong upload url.
+            type: 'Post',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(addNewCommentModel),
+            success: function (res) {
+                //console.log("得到结果:" + JSON.stringify(res));
+                if (!res.Result) {
+                    errPromot(res.Message);
+
+                    //恢复新建button框
+                    $("#statusbox").html(html);
+                    //恢复btn
+                    $createRejectCommentButton.removeClass("clicked");
+                    $createRejectCommentButton.html('确认');
+                } else {
+                    errPromot(res.Message);
+
+                    cleanRejectContentBox();
+
+                    //重新获取意见列表
+                    getCommentsData();
+
+                    //恢复btn
+                    $createRejectCommentButton.removeClass("clicked");
+                    $createRejectCommentButton.html('确认');
+
+                    $('#commentId').val("0");
+                }
+            },
+            error: function (res) {
+                console.log("失败:" + JSON.stringify(res));
+                $createRejectCommentButton.removeClass("clicked");
+                $createRejectCommentButton.html('确认');
+            },
+            beforeSend: function () {
+                loading();
+            },
+            complete: function () {
+                loadingSuccess();
+            }
+        });
+    });
+
+</script>

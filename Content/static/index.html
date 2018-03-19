@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <title>首页</title>
+    <link href="../lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/HJcommon.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <!--  注意  要在http形式下打开 页面 才能正常使用下面两个文件-->
+    <!--[if lt IE 9]>
+    <script src="../lib/html5shiv/html5shiv.min.js"></script>
+    <script src="../lib/respond/respond.js"></script>
+    <![endif]-->
+    <script src="../lib/jquery/jquery.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.js"></script>
+    <script src="../js/selectCommon.js"></script>
+</head>
+<body>
+    <!--头部-->
+    <div class="HJ-header">
+          <div class="HJ-header-tabs clearfix">
+                <div class="project-classification pull-left clearfix">
+                    <div class="name pull-left"><a href="#">数字化审图平台</a></div>
+                    <ul class="pull-left">
+                        <li class="manage-project">我管理的项目</li>
+                        <li class="reviewed-project">我审查的项目</li>
+                        <li class="review-project">我复核的项目</li>
+                    </ul>
+                </div>
+                <div class="personal-center pull-right">
+                    <ul>
+                        <li class="user">
+                            <div class="name">
+                                zhangzhib <i class="iconfont icon-arrLeft-fill"></i>
+                            </div>
+                            <div class="user-dropDown-box">
+                                <div class="company">文思海辉有限公司</div>
+                                <div class="personal-information clearfix">
+                                    个人信息
+                                    <span class="pull-right"><a href="personalInformation.html">编辑</a></span>
+                                </div>
+                                <div class="exit">
+                                    <div class="exit-logo">
+                                        <img src="../image/exit.png" alt="">退出
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+    </div>
+    <div class="main-box">
+        <div class="reviewCompany-content">
+            <div class="search-input">
+                <div class="search-main">
+                    <div class="text">
+                        <input type="text" placeholder="搜索项目名称、送审编号...">
+                        <div class="search-btn">
+                            <img src="../image/ICON_SOUSUO.png" alt="">
+                        </div>
+                    </div>
+                    <!--导出数据-->
+                    <div class="export-data">导出数据</div>
+                </div>
+            </div>
+            <div class="main-boxIndex active">
+                <!--我的项目-->
+                <div class="my-project">
+                <div class="top-title clearfix">
+                    <div class="category pull-left">
+                        <span class="dot"></span>
+                        我的项目
+                    </div>
+                    <div class="more-project pull-right">
+                        <a href="projectLists.html">
+                            更多
+                            <img src="../image/ICON_GENGDUO.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="my-project-table">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="first-space"></th>
+                                <th>报建编号</th>
+                                <th>项目名称</th>
+                                <th>建设单位</th>
+                                <th>设计单位</th>
+                                <th>审查机构</th>
+                                <th>项目分类</th>
+                                <th class="space"></th>
+                                <th>项目概况</th>
+                                <th>操作</th>
+                                <th class="first-space"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td></td>
+                                <td>TF1321</td>
+                                <td>大王山项目2-4大</td>
+                                <td>大王山东海舰队有限公司</td>
+                                <td>pactux设计</td>
+                                <td>华建集团</td>
+                                <td>公共</td>
+                                <td></td>
+                                <td class="common-color"><a href="projectOverview.html">查看</a></td>
+                                <td>
+                                    <span class="common-color"><a href="drawingReview.html">打开</a></span>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>TF1321</td>
+                                <td>大王山项目2-4</td>
+                                <td>大王山东海舰队有限公司</td>
+                                <td>pactux设计</td>
+                                <td>华建集团</td>
+                                <td>公共</td>
+                                <td></td>
+                                <td class="common-color"><a href="projectOverview.html">查看</a></td>
+                                <td>
+                                    <span class="common-color"><a href="drawingSign.html">打开</a></span>
+                                    <span class="left-space common-color"><a href="drawingSign.html">还原</a></span>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>TF1321</td>
+                                <td>大王山项目2-4</td>
+                                <td>大王山东海舰队有限公司</td>
+                                <td>pactux设计</td>
+                                <td>华建集团</td>
+                                <td>公共</td>
+                                <td></td>
+                                <td class="common-color"><a href="projectOverview.html">查看</a></td>
+                                <td>
+                                    <span class="common-color"><a href="drawingSign.html">打开</a></span>
+                                </td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+                <!--已归档项目-->
+                <div class="my-project">
+                <div class="top-title clearfix">
+                    <div class="category pull-left">
+                        <span class="dot"></span>
+                        已归档的项目
+                    </div>
+                    <div class="more-project pull-right">
+                        <a href="projectLists.html">
+                            更多
+                            <img src="../image/ICON_GENGDUO.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="my-project-table">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="first-space"></th>
+                                <th>报建编号</th>
+                                <th>项目名称</th>
+                                <th>建设单位</th>
+                                <th>设计单位</th>
+                                <th>审查机构</th>
+                                <th>项目分类</th>
+                                <th class="space"></th>
+                                <th>项目概况</th>
+                                <th>操作</th>
+                                <th class="first-space"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td></td>
+                                <td>TF1321</td>
+                                <td>大王山项目2-4</td>
+                                <td>大王山东海舰队有限公司</td>
+                                <td>pactux设计</td>
+                                <td>华建集团</td>
+                                <td>公共</td>
+                                <td></td>
+                                <td class="common-color"><a href="projectOverview.html">查看</a></td>
+                                <td>
+                                    <span class="common-color"><a href="drawingSign.html">打开</a></span>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>TF1321</td>
+                                <td>大王山项目2-4</td>
+                                <td>大王山东海舰队有限公司大王山东海舰队有限公司</td>
+                                <td>pactux设计</td>
+                                <td>华建集团</td>
+                                <td>公共</td>
+                                <td></td>
+                                <td class="common-color"><a href="projectOverview.html">查看</a></td>
+                                <td>
+                                    <span class="common-color"><a href="drawingSign.html">打开</a></span>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>TF1321</td>
+                                <td>大王山项目2-4</td>
+                                <td>大王山东海舰队有限公司</td>
+                                <td>pactux设计</td>
+                                <td>华建集团</td>
+                                <td>公共</td>
+                                <td></td>
+                                <td class="common-color"><a href="projectOverview.html">查看</a></td>
+                                <td>
+                                    <span class="common-color"><a href="drawingSign.html">打开</a></span>
+                                </td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="main-boxIndex">
+                    <!--我的项目-->
+                    <div class="my-project">
+                        <div class="top-title clearfix">
+                            <div class="category pull-left">
+                                <span class="dot"></span>
+                                我的项目
+                            </div>
+                            <div class="more-project pull-right">
+                                <a href="projectLists.html">
+                                    更多
+                                    <img src="../image/ICON_GENGDUO.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="my-project-table">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="first-space"></th>
+                                        <th>报建编号</th>
+                                        <th>项目名称</th>
+                                        <th>建设单位</th>
+                                        <th>设计单位</th>
+                                        <th>审查机构</th>
+                                        <th>项目分类</th>
+                                        <th class="space"></th>
+                                        <th>项目概况</th>
+                                        <th>操作</th>
+                                        <th class="first-space"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>TF1321</td>
+                                        <td>大王山项目2-4</td>
+                                        <td>大王山东海舰队有限公司</td>
+                                        <td>pactux设计</td>
+                                        <td>华建集团</td>
+                                        <td>公共</td>
+                                        <td></td>
+                                        <td class="common-color"><a href="projectOverview.html">查看</a></td>
+                                        <td>
+                                            <span class="common-color"><a href="drawingSign.html">打开</a></span>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>TF1321</td>
+                                        <td>大王山项目2-4</td>
+                                        <td>大王山东海舰队有限公司</td>
+                                        <td>pactux设计</td>
+                                        <td>华建集团</td>
+                                        <td>公共</td>
+                                        <td></td>
+                                        <td class="common-color"><a href="projectOverview.html">查看</a></td>
+                                        <td>
+                                            <span class="common-color"><a href="drawingSign.html">打开</a></span>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>TF1321</td>
+                                        <td>大王山项目2-4</td>
+                                        <td>大王山东海舰队有限公司</td>
+                                        <td>pactux设计</td>
+                                        <td>华建集团</td>
+                                        <td>公共</td>
+                                        <td></td>
+                                        <td class="common-color"><a href="projectOverview.html">查看</a></td>
+                                        <td>
+                                            <span class="common-color"><a href="drawingSign.html">打开</a></span>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="main-boxIndex">
+                    <!--我的项目-->
+                    <div class="my-project">
+                        <div class="top-title clearfix">
+                            <div class="category pull-left">
+                                <span class="dot"></span>
+                                我的项目
+                            </div>
+                            <div class="more-project pull-right">
+                                <a href="projectLists.html">
+                                    更多
+                                    <img src="../image/ICON_GENGDUO.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="my-project-table">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="first-space"></th>
+                                        <th>报建编号</th>
+                                        <th>项目名称</th>
+                                        <th>建设单位</th>
+                                        <th>设计单位</th>
+                                        <th>审查机构</th>
+                                        <th>项目分类</th>
+                                        <th class="space"></th>
+                                        <th>项目概况</th>
+                                        <th>操作</th>
+                                        <th class="first-space"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>TF1321</td>
+                                        <td>大王山项目2-4</td>
+                                        <td>大王山东海舰队有限公司</td>
+                                        <td>pactux设计</td>
+                                        <td>华建集团</td>
+                                        <td>公共</td>
+                                        <td></td>
+                                        <td class="common-color"><a href="projectOverview.html">查看</a></td>
+                                        <td>
+                                            <span class="common-color"><a href="drawingSign.html">打开</a></span>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>TF1321</td>
+                                        <td>大王山项目2-4</td>
+                                        <td>大王山东海舰队有限公司</td>
+                                        <td>pactux设计</td>
+                                        <td>华建集团</td>
+                                        <td>公共</td>
+                                        <td></td>
+                                        <td class="common-color"><a href="projectOverview.html">查看</a></td>
+                                        <td>
+                                            <span class="common-color"><a href="drawingSign.html">打开</a></span>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>TF1321</td>
+                                        <td>大王山项目2-4</td>
+                                        <td>大王山东海舰队有限公司</td>
+                                        <td>pactux设计</td>
+                                        <td>华建集团</td>
+                                        <td>公共</td>
+                                        <td></td>
+                                        <td class="common-color"><a href="projectOverview.html">查看</a></td>
+                                        <td>
+                                            <span class="common-color"><a href="drawingSign.html">打开</a></span>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        $(function() {
+
+            $(".HJ-header li").click(function() {
+                $(this).addClass("active").siblings().removeClass("active");
+                var index = $(this).index();
+                $(".main-boxIndex").eq(index).addClass("active").siblings().removeClass("active");
+            });
+
+
+
+        })
+    </script>
+</body>
+</html>

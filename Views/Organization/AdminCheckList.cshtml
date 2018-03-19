@@ -1,0 +1,470 @@
+﻿@{
+    ViewBag.Title = "成员管理";
+    Layout = "~/Views/Shared/_ManagementLayout.cshtml";
+
+}
+
+
+<div class="product-lists-box enterpeiseAdmin-content">
+    <div class="search-box clearfix">
+        <div class="pull-left title">成员管理</div>
+        <div class="pull-right search-input ">
+            <div class="text">
+                <input type="text" id="searchText" placeholder="搜索用户名称、用户账号...">
+                <div class="search-btn">
+                    <img src="~/Content/image/ICON_SOUSUO.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="allocation-tabs">
+        <ul class="clearfix">
+            <li class="active tabLi" data-type="1" id="daishenhe">待审核</li>
+            <li class="tabLi" data-type="2" id="yishenhe">已审核</li>
+            <li class="inviteColleagues">邀请同事</li>
+            <li class="create-user"><a href="/Organization/AdminCreateUser">创建用户</a></li>
+        </ul>
+    </div>
+    <div class="table-box active">
+        <div class="table-responsive">
+            <table id="admintable" class="table"></table>
+        </div>
+    </div>
+
+
+    @Html.Partial("_PageFooter")
+</div>
+
+@section common_popUp{
+    <div class="popUp">
+        <!--冻结账户弹窗-->
+        <div class="common-popUp frozen-account-popUp">
+            <div class="addProfession-popUp-con">
+                <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+                <div class="title">是否冻结cc的账号？</div>
+                <div class="confirm-box">
+                    <div class="confirm-btn">确认</div>
+                    <div class="cancle-btn">取消</div>
+                </div>
+            </div>
+        </div>
+        <!--修改账号信息弹窗-->
+        <div class="common-popUp modify-account-information">
+            <div class="addProfession-popUp-con">
+                <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+                <div class="title">修改账号信息</div>
+                <div class="choose-person">
+
+                    <div class="form-group">
+                        <label for="enterprise-name" class="prompt">姓名</label>
+                        <div class="form-controls">
+                            <input id="enterprise-name" onblur="enterpriseName()" type="text" class="control" placeholder="输入您的姓名">
+                            <div class="error-reminder"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="enterprise-email" class="prompt">邮箱</label>
+                        <div class="form-controls">
+                            <input id="enterprise-email" onblur="enterpriseEmail()" type="text" class="control" placeholder="请输入您的企业邮箱">
+                            <div class="error-reminder"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="telephone-number" class="prompt">手机号码</label>
+                        <div class="form-controls">
+                            <input id="telephone-number" onblur="checkTelephoneNumber()" type="text" class="control" placeholder="请输入手机号码">
+                            <div class="error-reminder"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="confirm-box">
+                    <div class="confirm-btn">确认</div>
+                    <div class="cancle-btn">取消</div>
+                </div>
+            </div>
+        </div>
+        <!--邀请同事弹窗-->
+        <div class="common-popUp invite-colleagues-popUp">
+            <div class="addProfession-popUp-con">
+                <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+                <div class="title">邀请同事</div>
+                <div class="choose-person">
+                    <div class="form-group">
+                        <label for="invitee-name" class="prompt">姓名</label>
+                        <div class="form-controls">
+                            <input type="text" id="invitee-name" onblur="checkInviteeName()" class="control" placeholder="请输入邀请人的姓名">
+                            <div class="error-reminder"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="invitee-email" class="prompt">邮箱</label>
+                        <div class="form-controls">
+                            <input type="text" id="invitee-email" onblur="checkInviteeEmail()" class="control" placeholder="请输入邀请人的邮箱">
+                            <div class="error-reminder"></div>
+                        </div>
+                    </div>
+                    <div class="link-box">通过链接去邀请</div>
+                </div>
+                <div class="confirm-box">
+                    <div class="confirm-btn">确认</div>
+                    <div class="cancle-btn">取消</div>
+                </div>
+                <div class="links">
+                    <input id="link" type="text" value="http://@System.Configuration.ConfigurationManager.AppSettings["DomainName"]/Customer/Register" readonly="readonly">
+                    <div class="copy" id="copy">复制</div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+        function checkInviteeName() {
+            var inviteeName = $("#invitee-name").val();
+            if((!regs.name(inviteeName)) && (inviteeName)) {
+                errPromotShow( $("#invitee-name"),"姓名应为5字以内汉字");
+                return false;
+            }
+        }
+        function checkInviteeEmail() {
+            var inviteeEmail = $("#invitee-email").val();
+            if((!regs.email.test(inviteeEmail)) && (inviteeEmail)) {
+                errPromotShow( $("#invitee-email"),"请填写正确的邮箱格式");
+                return false;
+            }
+        }
+
+        function enterpriseName() {
+            var enterpriseName = $("#enterprise-name").val();
+            if ((!regs.name(enterpriseName)) && (enterpriseName)) {
+                errPromotShow($("#enterprise-name"), "姓名应为5字以内汉字");
+                return false;
+            }
+        }
+
+        function enterpriseEmail() {
+            var enterpriseEmail = $("#enterprise-email").val();
+            if((!regs.email.test(enterpriseEmail)) && (enterpriseEmail)) {
+                errPromotShow($("#enterprise-email"), "请填写正确的邮箱格式");
+                return false;
+            }
+        }
+        function checkTelephoneNumber() {
+            var telephoneNumber = $("#telephone-number").val();
+            if((!regs.phone.test(telephoneNumber)) && (telephoneNumber)) {
+                errPromotShow( $("#telephone-number"),"请填写有效的手机号码");
+                return false;
+            }
+        }
+
+
+        $(".form-controls .control").on("focus", function() {
+            removeErr($(this));
+        });
+
+</script>
+    <script>
+
+        var searchData = {
+            pageSize: 10,
+            pageIndex: 1,
+            totalCount:0,
+            checkType: 2,
+            searchFuzzyInput: ""
+        };
+        var thisUserId;
+
+
+
+        function setUserInfoInit(userId) {
+            $.ajax({
+                async: false,
+                data: {userId:userId},
+                url: "@Url.Action("GetUserInfoInit", "Organization")",
+                success: function (res) {
+                    var obj = eval(res);
+                    var result = obj.Result;
+                    if (result) {
+                        $("#enterprise-name").val(obj.UserName);                       
+                        $("#enterprise-email").val(obj.UserEmail);
+                        $("#telephone-number").val(obj.Tel);
+                    }
+                    else {
+
+                    }
+                },
+            error: function (res) {
+                errPromot("异常");
+
+            }
+            });
+        }
+
+        $(function () {
+
+
+            $(".project-classification .reviewed-project").addClass("active");
+            $("body").delegate(".model-operate", "click", function () {
+                var uri = $(this).attr("data-uri");
+                var des = $(this).attr("data-des");
+
+                operatePrompt(des, uri, function (data) {
+                    var obj = eval(data);
+                    var result = obj.Result;
+                    var mess = obj.Message;
+                    if (result) {
+                        errPromot(mess);
+                        getPageData(true);
+
+
+                    }
+                });
+            });
+
+
+            $("body").delegate(".modify-account", "click", function () {
+                thisUserId = $(this).attr("data-userid");
+                setUserInfoInit(thisUserId);
+
+            });
+
+
+
+            
+
+
+
+
+
+            //获取取初始数据
+            getPageData(true);
+
+            $(".search-input .search-btn").click(function () {
+                getPageData(true);
+            });
+
+  
+
+            //设置页面变更时的数据刷新
+            $("body").delegate(".pageIndex", "click", function () {
+                searchData.pageIndex = parseInt($(this).text());
+                getPageData(true);
+            });
+
+            function getPageData(needUpdateFooter) {
+                searchData.checkType = $(".allocation-tabs li.tabLi.active").attr("data-type");
+                searchData.searchFuzzyInput = $("#searchText").val();
+
+                Ajax("@Url.Action("GetAdminUserList", "Organization")", "Post", function (data) {
+                    $("#admintable").empty();
+                    $("#admintable").append(data.listHtml);
+                    searchData.totalCount = data.total;
+                    if (needUpdateFooter) {
+                        initPageFooter();
+                    }
+                }, searchData);
+
+            }
+
+
+            function initPageFooter() {
+                var divhtml = '<div class="mypagenation" id="mypagenation"></div>'
+                $('.list-footer').empty();
+                $('.list-footer').append(divhtml);
+                $('#mypagenation').initPagenation({
+                    totalCount: searchData.totalCount,      //数据总个数,
+                    showBtnFirst: true,   //是否显示 首页按钮
+                    showCount: 10,        //每页显示多少个,默认10个
+                    showBtnsCount: 5,     //数字按钮数量,最多10个,默认10个
+                    callback: function (pageIndex) {
+                        searchData.pageIndex = pageIndex;
+                        getPageData(false);
+                    }
+                });
+            }
+
+
+            //切换待分配已分配
+            $(".allocation-tabs .tabLi").click(function () {
+                $(this).addClass("active").siblings().removeClass("active");
+                getPageData(true);
+            });
+
+            //邀请同事验证
+            $(".invite-colleagues-popUp .confirm-btn").click(function () {
+                var inviteeName = $("#invitee-name").val();
+                var inviteeEmail = $("#invitee-email").val();
+                if (!inviteeName) {
+                    errPromotShow($("#invitee-name"), "姓名不能为空");
+                    return false;
+                }
+                if (!regs.name(inviteeName)) {
+                    errPromotShow($("#invitee-name"), "姓名应为5字以内汉字");
+                    return false;
+                }
+                if (!inviteeEmail) {
+                    errPromotShow($("#invitee-email"), "邮箱不能为空");
+                    return false;
+                }
+                if (!regs.email.test(inviteeEmail)) {
+                    errPromotShow($("#invitee-email"), "请填写正确的邮箱格式");
+                    return false;
+                }
+       
+                var user = $('#invitee-name').val();
+                var email = $('#invitee-email').val();
+                data = {
+                    colleagueName: user,
+                    colleagueEmail: email
+                };
+                $.ajax({
+                    async: false,
+                    data: data,
+                    url: "@Url.Action("InviteColleague", "Organization")",
+                    success: function (res) {
+                        var obj = eval(res);
+                        var result = obj.Result;
+                        var mess = obj.Message;
+                        if (result) {
+                            errPromot(mess);
+                            $('#invitee-name').val("");
+                            $('#invitee-email').val("");
+                            popUpHide();
+                        }
+                        else {
+
+                            errPromot(mess);
+                        }                        
+                    },
+                    error: function (res) {
+                        errPromot("异常");
+
+                    }
+                });
+            });
+
+           
+
+            //冻结账号
+            popUp(".freeze", ".frozen-account-popUp");
+
+            //修改账号信息
+            popUp(".modify-account", ".modify-account-information");
+
+            //邀请同事
+            popUp(".inviteColleagues", ".invite-colleagues-popUp");
+            //链接
+
+            $(".link-box").click(function (e) {
+                e.stopPropagation();
+                if ($(".links").hasClass("active")) {
+                    $(".links").removeClass("active");
+                } else {
+                    $(".links").addClass("active");
+                }
+            });
+
+            $(".invite-colleagues-popUp").click(function () {
+                $(".links").removeClass("active");
+            });
+
+            // 复制链接
+            $("#copy").click(function () {
+                var Url2 = document.getElementById("link");
+                Url2.select(); // 选择对象
+                document.execCommand("Copy"); // 执行浏览器复制命令
+                alert("已复制好，可贴粘。");
+            });
+
+
+            $(".form-group .select-control").click(function () {
+                var selectLists = $(this).parent().siblings(".select-lists");
+                if (selectLists.hasClass("active")) {
+                    selectLists.removeClass("active");
+                } else {
+                    $(".select-lists").removeClass("active");
+                    selectLists.addClass("active");
+                }
+            });
+            $(".select-lists li").click(function () {
+                var html = $(this).html();
+                $(this).parent().parent().siblings(".form-controls").find(".select-input").val(html);
+                $(".select-lists").removeClass("active");
+            });
+
+            $("body").delegate(".modify-account-information .confirm-btn", "click", function () {
+                var enterpriseName = $("#enterprise-name").val();
+                var enterpriseEmail = $("#enterprise-email").val();
+                var telephoneNumber = $("#telephone-number").val();
+
+
+                if (!enterpriseName) {
+                    errPromotShow($("#enterprise-name"), "姓名不能为空");
+                    return false;
+                }
+                if ((!regs.name(enterpriseName))) {
+                    errPromotShow($("#enterprise-name"), "姓名应为5字以内汉字");
+                    return false;
+                }
+
+                if (!enterpriseEmail) {
+                    errPromotShow($("#enterprise-email"), "邮箱不能为空");
+                    return false;
+                }
+
+                if (!regs.email.test(enterpriseEmail)) {
+                    errPromotShow($("#enterprise-email"), "请填写有效的邮箱");
+                    return false;
+                }
+                if (!telephoneNumber) {
+                    errPromotShow($("#telephone-number"), "手机号码不能为空");
+                    return false;
+                }
+                if (!regs.phone.test(telephoneNumber)) {
+                    errPromotShow($("#telephone-number"), "请填写有效的手机号码");
+                    return false;
+                }
+
+
+
+                data = {
+                    newName:enterpriseName,
+                    newEmail: enterpriseEmail,
+                    newPhone: telephoneNumber,
+                    userId: thisUserId
+                };
+                $.ajax({
+                    async: false,
+                    data: data,
+                    url: "@Url.Action("EditCompanyUserInfo", "Organization")",
+                    success: function (res) {
+                        var obj = eval(res);
+                        var result = obj.Result;
+                        var mess = obj.Message;
+                        if (result) {
+                            errPromot(mess);
+                            $("#enterprise-email").val("");
+                            $("#telephone-number").val("");
+                            popUpHide();
+                            getPageData(true);
+                        }
+                        else {
+                            errPromot(mess);
+                        }
+                        popUpHide();
+                    },
+                error: function (res) {
+                    errPromot("异常");
+
+                }
+            });
+        });
+        });
+
+
+
+    </script>
+}
+
+
+

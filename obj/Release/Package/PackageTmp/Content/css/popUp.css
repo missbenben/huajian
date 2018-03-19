@@ -1,0 +1,457 @@
+.common-popUp {
+  padding: 0px 100px;
+  position: fixed;
+   top: 50%;
+   left: 50%;
+  z-index: 999;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  -moz-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
+  border-top: 6px solid #0078D7;
+  background-color: #fff;
+  display: none; }
+  .common-popUp .addProfession-popUp-con {
+    text-align: center;
+    padding-top: 36px;
+    padding-bottom: 40px; }
+    .common-popUp .addProfession-popUp-con .close-icon {
+      width: 15px;
+      height: 15px;
+      position: absolute;
+      top: 16px;
+      right: 30px; }
+    .common-popUp .addProfession-popUp-con .title {
+      font-size: 18px;
+      color: #393946;
+      letter-spacing: 1px; }
+    .common-popUp .addProfession-popUp-con .choose-person {
+      width: 400px;
+      margin: auto; }
+      .common-popUp .addProfession-popUp-con .choose-person .form-group .prompt {
+        width: 89px; }
+      .common-popUp .addProfession-popUp-con .choose-person .form-group .form-controls {
+        left: 89px; }
+      .common-popUp .addProfession-popUp-con .choose-person .form-group .form-controls .control {
+        padding-left: 100px; }
+    .common-popUp .addProfession-popUp-con .confirm-box {
+      margin-top: 60px; }
+      .common-popUp .addProfession-popUp-con .confirm-box div {
+        width: 160px;
+        height: 36px;
+        line-height: 36px;
+        text-align: center;
+        font-size: 16px;
+        border-radius: 2px;
+        display: inline-block;
+        cursor: default; }
+      .common-popUp .addProfession-popUp-con .confirm-box .confirm-btn {
+        background: #FF574D;
+        color: #FFFFFF;
+        margin-right: 40px; }
+      .common-popUp .addProfession-popUp-con .confirm-box .cancle-btn {
+        color: #767A8A;
+        border: 1px solid #B3B8C9; }
+
+.frozen-account-popUp {
+  padding: 0px 120px; }
+
+.frozen-account-popUp .addProfession-popUp-con {
+  padding-top: 82px; }
+
+.modify-account-information {
+  padding: 0px 102px; }
+  .modify-account-information .addProfession-popUp-con .choose-person .form-group .prompt {
+    width: 149px; }
+  .modify-account-information .addProfession-popUp-con .choose-person .form-group .form-controls {
+    left: 149px; }
+  .modify-account-information .addProfession-popUp-con .choose-person .form-group .form-controls .control {
+    padding-left: 10px; }
+
+.invite-colleagues-popUp {
+  padding: 0px 102px; }
+  .invite-colleagues-popUp .link-box {
+    text-align: right;
+    color: #0078D7;
+    text-decoration: underline;
+    font-size: 14px;
+    padding-top: 6px;
+    cursor: default; }
+  .invite-colleagues-popUp .addProfession-popUp-con .choose-person .form-group .prompt {
+    width: 149px; }
+  .invite-colleagues-popUp .addProfession-popUp-con .choose-person .form-group .form-controls {
+    left: 149px; }
+  .invite-colleagues-popUp .addProfession-popUp-con .choose-person .form-group .form-controls .control {
+    padding-left: 10px; }
+  .invite-colleagues-popUp .addProfession-popUp-con .links {
+    width: 280px;
+    height: 127px;
+    background-color: #fff;
+    position: absolute;
+    top: 204px;
+    right: -188px;
+    box-shadow: 0 4px 8px 0 rgba(204, 204, 204, 0.5);
+    padding-top: 25px;
+    font-size: 14px;
+    display: none; }
+.invite-colleagues-popUp .addProfession-popUp-con .links.active {
+  display: block;
+}
+    .invite-colleagues-popUp .addProfession-popUp-con .links input[type="text"] {
+      width: 220px;
+      height: 40px;
+      margin: auto;
+      border: none;
+      border: 1px solid #CCCCCC;
+      text-align: center; }
+    .invite-colleagues-popUp .addProfession-popUp-con .links #copy {
+      width: 80px;
+      height: 32px;
+      margin: auto;
+      color: #FFFFFF;
+      background: #FF574D;
+      border-radius: 2px;
+      text-align: center;
+      line-height: 32px;
+      margin-top: 20px;
+      cursor: default; }
+
+.superAdminInforManage-popUp input[type="text"] {
+  width: 400px;
+  height: 40px;
+  border: none;
+  border: 1px solid #CCCCCC;
+  margin-top: 30px;
+  padding-left: 10px; }
+
+.reviewCompany-addProfession-popUp {
+  width: 714px;
+  padding: 0px 100px;
+  padding-left: 40px;
+  padding-right: 10px;
+  font-size: 14px; }
+  .reviewCompany-addProfession-popUp .addProfession-popUp-con .choose-person {
+    width: 400px;
+    margin: auto; }
+    .reviewCompany-addProfession-popUp .addProfession-popUp-con .choose-person .form-group .prompt {
+      width: 139px; }
+    .reviewCompany-addProfession-popUp .addProfession-popUp-con .choose-person .form-group .form-controls {
+      left: 139px; }
+    .reviewCompany-addProfession-popUp .addProfession-popUp-con .choose-person .form-group .form-controls .control {
+      padding-left: 10px; }
+  .reviewCompany-addProfession-popUp .addProfession-popUp-con .chooseProfessional-box {
+    text-align: left;
+    /*max-height: 300px;*/
+    /*overflow-y: auto;*/
+    padding-right: 5px;
+    padding-bottom: 20px;
+    display: none;
+  }
+    .reviewCompany-addProfession-popUp .addProfession-popUp-con .chooseProfessional-box.active {
+        display:block;
+    }
+    .reviewCompany-addProfession-popUp .addProfession-popUp-con .chooseProfessional-box .professionalName {
+      font-size: 16px;
+      color: #393946;
+      margin-top: 20px; }
+    .reviewCompany-addProfession-popUp .addProfession-popUp-con .chooseProfessional-box .role .form-group {
+      width: 180px;
+      margin-top: 10px; }
+    .reviewCompany-addProfession-popUp .addProfession-popUp-con .chooseProfessional-box .role .form-group .prompt {
+      width: 70px; }
+    .reviewCompany-addProfession-popUp .addProfession-popUp-con .chooseProfessional-box .role .form-group .form-controls {
+      left: 70px; }
+    .reviewCompany-addProfession-popUp .addProfession-popUp-con .chooseProfessional-box .role .form-group .select-lists {
+      width: 180px; }
+  .reviewCompany-addProfession-popUp .addProfession-popUp-con .personnelBox {
+    padding-right: 10px;
+   /* max-height: 500px;
+    overflow-y: auto;*/
+  }
+.reviewCompany-addProfession-popUp .addProfession-popUp-con .personnelBox .reviewCompany-addProfession-select {
+  max-height: 500px;
+  overflow-y: auto;
+}
+.reviewCompany-addProfession-select .select-project ul{
+ text-align: left;
+  padding-right: 30px;
+}
+.reviewCompany-addProfession-select .select-project input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-right: 15px;
+  vertical-align: middle;
+}
+.reviewCompany-addProfession-select .select-project li {
+  margin-bottom: 20px;
+}
+.reviewCompany-addProfession-select .select-project li span {
+  font-size: 14px;
+  vertical-align: middle;
+  display: inline-block;
+  max-width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: default;
+}
+.reviewCompany-addProfession-popUp .addProfession-popUp-con .personnelBox .tabContent {
+  padding-left: 30px;
+  border-left: 1px dashed #979797;
+}
+.reviewCompany-addProfession-popUp .warn img {
+  width: 18px;
+  height: 18px;
+}
+.reviewCompany-addProfession-popUp .warn {
+  position: absolute;
+  right: -24px;
+  top: 50%;
+  margin-top: -9px;
+}
+.reviewCompany-addProfession-popUp .warn:hover  .warn-information{
+  display: block;
+ }
+.reviewCompany-addProfession-popUp .warn .warn-information {
+  width: 176px;
+  padding: 12px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  position: absolute;
+  top: 24px;
+  left: -40px;
+  z-index: 10;
+  background: url("../image/bg.png") #fff;
+  background-size: 100% 100%;
+  display: none;
+}
+.reviewCompany-addProfession-popUp .warn .warn-information .name {
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+.reviewCompany-addProfession-popUp .warn .warn-information li{
+  font-size: 12px;
+  color: #393946;
+  margin-bottom: 6px;
+}
+.reviewCompany-addProfession-popUp .warn .warn-information li span {
+  display: inline-block;
+  max-width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: default;
+  vertical-align: middle;
+}
+.uploadDrawings-popUp, .releaseNotes-popUp, .uploadModel-popUp {
+  padding: 0px 90px; }
+  .uploadDrawings-popUp .uploadDrawings-detail, .releaseNotes-popUp .uploadDrawings-detail, .uploadModel-popUp .uploadDrawings-detail {
+    font-size: 14px;
+    text-align: left; }
+    .uploadDrawings-popUp .uploadDrawings-detail .commonStyle, .releaseNotes-popUp .uploadDrawings-detail .commonStyle, .uploadModel-popUp .uploadDrawings-detail .commonStyle {
+      margin-top: 20px;
+      width: 690px;
+    }
+      .uploadDrawings-popUp .uploadDrawings-detail .commonStyle .name, .releaseNotes-popUp .uploadDrawings-detail .commonStyle .name, .uploadModel-popUp .uploadDrawings-detail .commonStyle .name {
+        color: #767A8A;
+        display: inline-block;
+        width: 100px;
+        float: left;
+      }
+.uploadDrawings-popUp .uploadDrawings-detail .commonStyle input {
+  width: 200px;
+  height: 30px;
+  border: 1px solid #E4E7F0;
+  padding-left: 10px;
+}
+      .uploadDrawings-popUp .uploadDrawings-detail .commonStyle select, .releaseNotes-popUp .uploadDrawings-detail .commonStyle select, .uploadModel-popUp .uploadDrawings-detail .commonStyle select {
+        padding: 6px 10px;
+        border: none;
+        border: 1px solid #E4E7F0;
+        border-radius: 2px;
+        min-width: 200px;
+      }
+
+      .uploadDrawings-popUp .uploadDrawings-detail .commonStyle input[type="file"], .releaseNotes-popUp .uploadDrawings-detail .commonStyle input[type="file"], .uploadModel-popUp .uploadDrawings-detail .commonStyle input[type="file"] {
+        display: none; }
+      .uploadDrawings-popUp .uploadDrawings-detail .commonStyle .uploadBtn, .releaseNotes-popUp .uploadDrawings-detail .commonStyle .uploadBtn, .uploadModel-popUp .uploadDrawings-detail .commonStyle .uploadBtn {
+        padding: 4px 10px;
+        background: #0078D7;
+        border-radius: 2px;
+        color: #fff; }
+      .uploadDrawings-popUp .uploadDrawings-detail .commonStyle .fileLists, .releaseNotes-popUp .uploadDrawings-detail .commonStyle .fileLists, .uploadModel-popUp .uploadDrawings-detail .commonStyle .fileLists {
+        padding-left: 100px;
+      }
+        .uploadDrawings-popUp .uploadDrawings-detail .commonStyle .fileLists .fileLogo, .releaseNotes-popUp .uploadDrawings-detail .commonStyle .fileLists .fileLogo, .uploadModel-popUp .uploadDrawings-detail .commonStyle .fileLists .fileLogo {
+          vertical-align: top;
+          font-size: 24px;
+          position: absolute;
+          left: 0px;
+          top: 18px; }
+        .uploadDrawings-popUp .uploadDrawings-detail .commonStyle .fileLists .filePath, .releaseNotes-popUp .uploadDrawings-detail .commonStyle .fileLists .filePath, .uploadModel-popUp .uploadDrawings-detail .commonStyle .fileLists .filePath {
+          max-width:200px;
+          padding-left: 30px;
+          font-size: 12px;
+          text-decoration: underline;
+          display: inline-block;
+          padding-top: 18px;
+         /* display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;*/
+        }
+        .uploadDrawings-popUp .uploadDrawings-detail .commonStyle .fileLists .iterms, .releaseNotes-popUp .uploadDrawings-detail .commonStyle .fileLists .iterms, .uploadModel-popUp .uploadDrawings-detail .commonStyle .fileLists .iterms {
+          float: left;
+          margin-right: 20px;
+          color: #767A8A;
+          position: relative; }
+          .uploadDrawings-popUp .uploadDrawings-detail .commonStyle .fileLists .iterms .delete, .releaseNotes-popUp .uploadDrawings-detail .commonStyle .fileLists .iterms .delete, .uploadModel-popUp .uploadDrawings-detail .commonStyle .fileLists .iterms .delete {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            right: -16px;
+            top: 4px;
+            display: none; }
+          .uploadDrawings-popUp .uploadDrawings-detail .commonStyle .fileLists .iterms:hover, .releaseNotes-popUp .uploadDrawings-detail .commonStyle .fileLists .iterms:hover, .uploadModel-popUp .uploadDrawings-detail .commonStyle .fileLists .iterms:hover {
+            color: #0078D7; }
+            .uploadDrawings-popUp .uploadDrawings-detail .commonStyle .fileLists .iterms:hover .delete, .releaseNotes-popUp .uploadDrawings-detail .commonStyle .fileLists .iterms:hover .delete, .uploadModel-popUp .uploadDrawings-detail .commonStyle .fileLists .iterms:hover .delete {
+              display: block; }
+      .uploadDrawings-popUp .uploadDrawings-detail .commonStyle .inputBox, .releaseNotes-popUp .uploadDrawings-detail .commonStyle .inputBox, .uploadModel-popUp .uploadDrawings-detail .commonStyle .inputBox {
+        width: 589px;
+        height: 113px;
+        float: left;
+        position: relative; }
+        .uploadDrawings-popUp .uploadDrawings-detail .commonStyle .inputBox textarea, .releaseNotes-popUp .uploadDrawings-detail .commonStyle .inputBox textarea, .uploadModel-popUp .uploadDrawings-detail .commonStyle .inputBox textarea {
+          width: 589px;
+          height: 113px;
+          padding: 10px;
+          border: 1px solid #E4E7F0;
+          border-radius: 2px; }
+        .uploadDrawings-popUp .uploadDrawings-detail .commonStyle .inputBox .words, .releaseNotes-popUp .uploadDrawings-detail .commonStyle .inputBox .words, .uploadModel-popUp .uploadDrawings-detail .commonStyle .inputBox .words {
+          font-size: 12px;
+          color: #767A8A;
+          letter-spacing: 1px;
+          position: absolute;
+          right: 6px;
+          bottom: 6px; }
+
+.drawingsReview-popUp .uploadDrawings-detail .commonStyle, .drawingsBack-popUp .uploadDrawings-detail .commonStyle, .modelReview-popUp .uploadDrawings-detail .commonStyle, .modelBack-popUp .uploadDrawings-detail .commonStyle {
+  font-size: 14px; }
+  .drawingsReview-popUp .uploadDrawings-detail .commonStyle .top, .drawingsBack-popUp .uploadDrawings-detail .commonStyle .top, .modelReview-popUp .uploadDrawings-detail .commonStyle .top, .modelBack-popUp .uploadDrawings-detail .commonStyle .top {
+    color: #767A8A; }
+  .drawingsReview-popUp .uploadDrawings-detail .commonStyle div, .drawingsBack-popUp .uploadDrawings-detail .commonStyle div, .modelReview-popUp .uploadDrawings-detail .commonStyle div, .modelBack-popUp .uploadDrawings-detail .commonStyle div {
+    margin-top: 24px; }
+
+.OtherLayers-popUp .textBox {
+  width: 400px;
+  height: 40px;
+  border: 1px solid #CCCCCC;
+  margin-top: 30px;
+  padding-left: 10px; }
+
+.professional-auditPopup .unconfirmed {
+  width: 409px;
+  font-size: 18px;
+  line-height: 30px;
+  text-align: left; }
+  .professional-auditPopup .unconfirmed span {
+    color: #FF574D; }
+.professional-auditPopup .confirm {
+  width: 280px;
+  height: 36px;
+  font-size: 16px;
+  color: #FFFFFF;
+  background: #0078D7;
+  border-radius: 2px;
+  display: inline-block; }
+
+.final-Rejection-popUp .reason-box .commonStyle {
+  position: relative;
+  padding-left: 110px;
+  margin-top: 20px; }
+  .final-Rejection-popUp .reason-box .commonStyle .name {
+    color: #767A8A;
+    position: absolute;
+    left: 0px;
+    top: 0px; }
+  .final-Rejection-popUp .reason-box .commonStyle .inputBox {
+    width: 589px;
+    height: 113px;
+    position: relative; }
+    .final-Rejection-popUp .reason-box .commonStyle .inputBox textarea {
+      width: 589px;
+      height: 113px;
+      padding: 10px;
+      border: 1px solid #E4E7F0;
+      border-radius: 2px; }
+    .final-Rejection-popUp .reason-box .commonStyle .inputBox .words {
+      font-size: 12px;
+      color: #767A8A;
+      letter-spacing: 1px;
+      position: absolute;
+      right: 6px;
+      bottom: 6px; }
+
+    .view-staff-popUp {
+      width: 840px;
+      padding:0px 60px;
+      padding-right: 10px;
+      padding-bottom: 50px;
+    }
+.view-staff-popUp .assign-con {
+  padding-top: 25px;
+  font-size: 16px;
+  display: flex;
+  float: left;
+
+    }
+
+.view-staff-popUp .role li {
+  margin-bottom: 30px;
+text-align: left !important;
+  max-width: 224px;
+}
+.view-staff-popUp .role  span{
+  color: #393946;
+}
+.view-staff-popUp .role  span.character {
+  color: #767A8A;
+  margin-right: 10px;
+}
+
+.view-staff-popUp .professional {
+  margin-left: 30px;
+  min-height: 200px;
+  max-height: 252px;
+  border-left: 1px dashed #A0A6B8;
+  padding-right: 20px;
+  overflow-y: auto;
+  text-align: left;
+}
+.admin-project-overview .basic-information .information-lists td span.category {
+  padding: 0px;
+  margin-right: 8px;
+
+}
+.view-staff-popUp .professional td {
+  padding-left: 24px !important;
+
+}
+.view-staff-popUp .professional td span {
+  vertical-align: top;
+  color: #767A8A;
+  padding: 0px !important;
+  margin-right: 0px !important;
+  display: inline !important;
+}
+.view-staff-popUp .professional td span.category {
+  color: #393946;
+  /*max-width: 82px;*/
+}
+.admin-project-overview .basic-information .information-lists td.professionaltd {
+  padding: 0px;
+  padding-bottom: 20px;
+  vertical-align: top;
+  max-width: 168px;
+}

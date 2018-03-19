@@ -1,0 +1,246 @@
+﻿
+@{
+    ViewBag.Title = "公司管理";
+
+}
+
+<div class="HJ-header">
+    <div class="HJ-header-tabs clearfix">
+        <div class="project-classification pull-left clearfix">
+            <div class="name pull-left"><a href="@Url.Action("Login", "Customer")">数字化审图平台</a></div>
+            <ul class="pull-left">
+                <li class="manage-project"><a href="/SuperAdmin/SuperAdminCheckList">公司管理</a></li>
+                <li class="reviewed-project"><a href="/SuperAdmin/SuperAdminHasCheckedList">人员管理</a></li>
+                <li class="review-project"><a href="@Url.Action("InformationManager","SuperAdmin")">信息管理</a></li>
+            </ul>
+        </div>
+        @Html.Action("GetUser","Customer")
+
+    </div>
+
+</div>
+<div class="main-box">
+    <div class="product-lists-box enterpeiseAdmin-content super-administrator-content">
+
+
+        <div class="search-box clearfix createAccount-btn  clearfix" >
+            <div class="createAccount  pull-right">
+                <a href="/SuperAdmin/SuperAdminCreateCompany">创建账号</a>
+            </div>
+            <div class="pull-right search-input">
+                <div class="text">
+                    <input type="text" id="searchText" placeholder="搜索项目名称、送审编号...">
+                    <div class="search-btn">
+                        <img src="~/Content/image/ICON_SOUSUO.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="allocation-tabs">
+            <ul class="clearfix">
+                <li id="un_Checked_butt" class="active tabLi">待审核</li>
+                <li id="Checked_butt" class="tabLi">已审核</li>
+                <li id="InFo_modify_butt" class="tabLi">信息修改审核</li>
+            </ul>
+        </div>
+
+        <div class="table-box active">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="first-space"></th>
+                            <th>账号</th>
+                            <th>用户名</th>
+                            <th>所属单位</th>
+
+                            <th class="drawingStatus">
+                                <div class="drawingStatus-con">
+                                    <div class="name">
+                                        <span>公司类别</span>
+                                        <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                                    </div>
+                                    <div class="select-lists">
+                                        <ul>
+                                            <li class="active" id="type_all"><img src="~/Content/image/ICON_DUIGOU.png" alt="">全部</li>
+                                            <li id="type_build"><img src="~/Content/image/ICON_DUIGOU.png" alt="">建设公司</li>
+                                            <li id="type_design"><img src="~/Content/image/ICON_DUIGOU.png" alt="">设计公司</li>
+                                            <li id="type_shencha"><img src="~/Content/image/ICON_DUIGOU.png" alt="">审查公司</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </th>
+
+                            <th>申请时间</th>
+                            <th class="space"></th>
+                            <th>操作</th>
+                            <th class="first-space"></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+
+                </table>
+            </div>
+        </div>
+
+            @Html.Partial("_PageFooter")
+
+
+        </div>
+</div>
+
+<script>
+    //1为待审核，2为已审核，3为信息修改审核
+    var isChecked = 1;
+
+    //1为全部，2为建设，3为设计，4为审查
+    var typeOfCompany = 1;
+
+    var searchData = {
+        pageSize: 10,
+        pageIndex: 1,
+        totalCount: 0,
+        SearchFuzzyInput: "",
+        typeOfCompany:1
+        @*
+            SearchProjectCatalogId: "-1",
+        PageType: $("#@Html.IdFor(e => e.PageType)").val(),*@
+    };
+
+
+
+    $(function () {
+        $(".HJ-header .manage-project").addClass("active").siblings().removeClass("active");
+        //切换待分配已分配
+        $(".allocation-tabs .tabLi").click(function () {
+            var index = $(this).index();
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".table-box").eq(index).addClass("active").siblings().removeClass("active");
+        });
+
+        $("#un_Checked_butt").click(function () {
+            isChecked = 1;
+            getPageData(true, isChecked, typeOfCompany);
+        });
+        $("#Checked_butt").click(function () {
+            isChecked = 2;
+            getPageData(true, isChecked, typeOfCompany);
+        });
+        $("#InFo_modify_butt").click(function () {
+            isChecked = 3;
+            getPageData(true, isChecked, typeOfCompany);
+        });
+
+
+        //获取取初始数据
+        getPageData(true,isChecked,typeOfCompany);
+
+        //查找按钮
+        $(".search-input .search-btn").click(function () {
+            getPageData(true, isChecked, typeOfCompany);
+        });
+
+        //全部按钮
+        $("#type_all").click(function () {
+            typeOfCompany = 1;
+            getPageData(true, isChecked, typeOfCompany);
+        });
+        //建设按钮
+        $("#type_build").click(function () {
+            typeOfCompany = 2;
+            getPageData(true, isChecked, typeOfCompany);
+        });
+        //设计按钮
+        $("#type_design").click(function () {
+            typeOfCompany = 3;
+            getPageData(true, isChecked, typeOfCompany);
+        });
+        //审查按钮
+        $("#type_shencha").click(function () {
+            typeOfCompany = 4;
+            getPageData(true, isChecked, typeOfCompany);
+        });
+
+        //设置页面变更时的数据刷新
+        $(".pageIndex").click(function () {
+            searchData.pageIndex = parseInt($(this).text());
+            getPageData(false, isChecked, typeOfCompany);
+        });
+
+        //变更过滤条件
+        @*$("#@Html.IdFor(e => e.SearchFuzzyInput),#@Html.IdFor(e => e.SearchProjectCatalogId)").change(function () {
+            searchData.SearchFuzzyInput = $("#@Html.IdFor(e => e.SearchFuzzyInput)").val();
+            searchData.SearchProjectCatalogId = $("#@Html.IdFor(e => e.SearchProjectCatalogId)").val();
+
+            searchData.pageIndex = 1;
+            getPageData(true);
+        });*@
+
+        function getPageData(needUpdateFooter, isChecked, typeOfCompany) {
+            searchData.typeOfCompany = typeOfCompany;
+            if (isChecked==1) {
+                searchData.SearchFuzzyInput = $("#searchText").val();
+                $.ajax({
+                    async: false,
+                    data: searchData,
+                    url: "@Url.Action("GetSuperAdminUnCheckedData", "SuperAdmin")",
+                    success: function (data) {
+                        $("tbody").empty();
+                        $("tbody").append(data.listHtml);
+                        searchData.totalCount = data.total;
+                        if (needUpdateFooter) {
+                            initPageFooter();
+                        }
+                    }
+            });
+            }
+            else if(isChecked==2){
+                searchData.SearchFuzzyInput = $("#searchText").val();
+                $.ajax({
+                    async: false,
+                    data: searchData,
+                    url: "@Url.Action("GetSuperAdminHasCheckedData", "SuperAdmin")",
+                    success: function (data) {
+                        $("tbody").empty();
+                        $("tbody").append(data.listHtml);
+                        searchData.totalCount = data.total;
+                        if (needUpdateFooter) {
+                            initPageFooter();
+                        }
+                    }
+            });
+            }
+            else {
+                searchData.SearchFuzzyInput = $("#searchText").val();
+                $.ajax({
+                    async: false,
+                    data: searchData,
+                    url: "@Url.Action("GetSuperAdminCheckModifyInfoData", "SuperAdmin")",
+                    success: function (data) {
+                        $("tbody").empty();
+                        $("tbody").append(data.listHtml);
+                        searchData.totalCount = data.total;
+                        if (needUpdateFooter) {
+                            initPageFooter();
+                        }
+                    }
+            });
+            }
+        }
+        function initPageFooter() {
+            var divhtml = '<div class="mypagenation" id="mypagenation"></div>'
+            $('.list-footer').empty();
+            $('.list-footer').append(divhtml);
+            $('#mypagenation').initPagenation({
+                totalCount: searchData.totalCount,      //数据总个数,
+                showBtnFirst: true,   //是否显示 首页按钮
+                showCount: 10,        //每页显示多少个,默认10个
+                showBtnsCount: 5,     //数字按钮数量,最多10个,默认10个
+                callback: function (pageIndex) {
+                    searchData.pageIndex = pageIndex;
+                    getPageData(false, isChecked, typeOfCompany);
+                }
+            });
+        }
+    });
+</script>

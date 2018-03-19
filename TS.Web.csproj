@@ -1,0 +1,724 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F82BBA67-1256-4E6A-A93B-E62B5D1C5388}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TS.Web</RootNamespace>
+    <AssemblyName>TS.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.8.2\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.8.2\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.2\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=8.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.8.7.0\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Spatial, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.8.2\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BIMComposer\app\frameworks\bim\services\webWorker-scene.js" />
+    <Content Include="BIMComposer\app\frameworks\widget\icons\element.png" />
+    <Content Include="BIMComposer\app\frameworks\widget\icons\layer.png" />
+    <Content Include="BIMComposer\app\frameworks\widget\icons\linkfile.png" />
+    <Content Include="BIMComposer\app\frameworks\widget\icons\project.png" />
+    <Content Include="BIMComposer\assets\app.config.json" />
+    <Content Include="BIMComposer\assets\bim\ar\back.png" />
+    <Content Include="BIMComposer\assets\bim\ar\controlpad.png" />
+    <Content Include="BIMComposer\assets\bim\ar\data\camera_para.dat" />
+    <Content Include="BIMComposer\assets\bim\ar\data\patt.hiro" />
+    <Content Include="BIMComposer\assets\bim\font\font.json" />
+    <Content Include="BIMComposer\assets\bim\timespace\qrcode.png" />
+    <Content Include="BIMComposer\assets\bim\timespace\water.jpg" />
+    <Content Include="BIMComposer\assets\bim\topology\topology-artboard.png" />
+    <Content Include="BIMComposer\assets\bim\topology\topology-component.png" />
+    <Content Include="BIMComposer\assets\bim\topology\topology-component1.png" />
+    <Content Include="BIMComposer\assets\bim\topology\topology-down.png" />
+    <Content Include="BIMComposer\assets\bim\topology\topology-end.png" />
+    <Content Include="BIMComposer\assets\bim\topology\topology-equipment.png" />
+    <Content Include="BIMComposer\assets\bim\topology\topology-equipment1.png" />
+    <Content Include="BIMComposer\assets\bim\topology\topology-up.png" />
+    <Content Include="BIMComposer\assets\bim\two\camera.png" />
+    <Content Include="BIMComposer\assets\bim\two\location.svg" />
+    <Content Include="BIMComposer\assets\bim\two\people.svg" />
+    <Content Include="BIMComposer\assets\bim\two\pivot.png" />
+    <Content Include="BIMComposer\assets\bim\two\plane.svg" />
+    <Content Include="BIMComposer\assets\bim\two\pull.png" />
+    <Content Include="BIMComposer\assets\bim\two\return.svg" />
+    <Content Include="BIMComposer\assets\bim\two\rotation-selected.svg" />
+    <Content Include="BIMComposer\assets\bim\two\rotation.png" />
+    <Content Include="BIMComposer\assets\bim\two\rotation.svg" />
+    <Content Include="BIMComposer\assets\bim\two\szd_32.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\back.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\back_hover.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\camera-selected.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\camera.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\camera_64.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\camera_64_h.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\camera_hover.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\camera_selected.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\location_64.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\location_64_h.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\measure.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\measure_hover.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\measure_selected.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\position.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\position_hover.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\return.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\return_64.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\return_64_h.png" />
+    <Content Include="BIMComposer\assets\bim\two\tdcamera\spin_32_23.svg" />
+    <Content Include="BIMComposer\assets\bim\two\three.png" />
+    <Content Include="BIMComposer\assets\bim\two\two.png" />
+    <Content Include="BIMComposer\assets\bim\two\view.svg" />
+    <Content Include="BIMComposer\assets\bim\viewcube\back.png" />
+    <Content Include="BIMComposer\assets\bim\viewcube\bottom.png" />
+    <Content Include="BIMComposer\assets\bim\viewcube\center.png" />
+    <Content Include="BIMComposer\assets\bim\viewcube\front.png" />
+    <Content Include="BIMComposer\assets\bim\viewcube\home.png" />
+    <Content Include="BIMComposer\assets\bim\viewcube\left.png" />
+    <Content Include="BIMComposer\assets\bim\viewcube\right.png" />
+    <Content Include="BIMComposer\assets\bim\viewcube\top.png" />
+    <Content Include="BIMComposer\assets\bim\viewcube\view.png" />
+    <Content Include="BIMComposer\assets\bim\viewcube\zoomall.png" />
+    <Content Include="BIMComposer\assets\bim\viewpoint.component\bim_an.png" />
+    <Content Include="BIMComposer\assets\bim\viewpoint.component\bim_zhi.png" />
+    <Content Include="BIMComposer\assets\bim\viewpoint.component\Fire.png" />
+    <Content Include="BIMComposer\assets\bim\viewpoint.component\gantan.png" />
+    <Content Include="BIMComposer\assets\bim\viewpoint.component\image.png" />
+    <Content Include="BIMComposer\assets\bim\viewpoint.component\jc.png" />
+    <Content Include="BIMComposer\assets\bim\viewpoint.component\link.png" />
+    <Content Include="BIMComposer\assets\bim\viewpoint.component\video.png" />
+    <Content Include="BIMComposer\assets\bim\viewpoint.component\videolink.png" />
+    <Content Include="BIMComposer\assets\bim\viewpoint.component\views.png" />
+    <Content Include="BIMComposer\assets\data.json" />
+    <Content Include="BIMComposer\assets\data\213102.json" />
+    <Content Include="BIMComposer\assets\data\213116.json" />
+    <Content Include="BIMComposer\assets\data\308791.json" />
+    <Content Include="BIMComposer\assets\data\308807.json" />
+    <Content Include="BIMComposer\assets\data\308823.json" />
+    <Content Include="BIMComposer\assets\data\309417.json" />
+    <Content Include="BIMComposer\assets\data\309433.json" />
+    <Content Include="BIMComposer\assets\data\cars-small.json" />
+    <Content Include="BIMComposer\assets\data\sheets.json" />
+    <Content Include="BIMComposer\assets\favicon\favicon-DEV.ico" />
+    <Content Include="BIMComposer\assets\favicon\favicon-PROD.ico" />
+    <Content Include="BIMComposer\assets\i18n\bg.json" />
+    <Content Include="BIMComposer\assets\i18n\cn.json" />
+    <Content Include="BIMComposer\assets\i18n\en.json" />
+    <Content Include="BIMComposer\assets\i18n\es.json" />
+    <Content Include="BIMComposer\assets\i18n\fr.json" />
+    <Content Include="BIMComposer\assets\i18n\ru.json" />
+    <Content Include="BIMComposer\assets\logo.icns" />
+    <Content Include="BIMComposer\assets\logo.ico" />
+    <Content Include="BIMComposer\assets\svg\4d.png" />
+    <Content Include="BIMComposer\assets\svg\AR.png" />
+    <Content Include="BIMComposer\assets\svg\camera.png" />
+    <Content Include="BIMComposer\assets\svg\category.png" />
+    <Content Include="BIMComposer\assets\svg\compare.png" />
+    <Content Include="BIMComposer\assets\svg\element.png" />
+    <Content Include="BIMComposer\assets\svg\filter.png" />
+    <Content Include="BIMComposer\assets\svg\gyroscope.png" />
+    <Content Include="BIMComposer\assets\svg\home.PNG" />
+    <Content Include="BIMComposer\assets\svg\level.png" />
+    <Content Include="BIMComposer\assets\svg\levelgrid.png" />
+    <Content Include="BIMComposer\assets\svg\measure.png" />
+    <Content Include="BIMComposer\assets\svg\more.svg" />
+    <Content Include="BIMComposer\assets\svg\navigation.hover.svg" />
+    <Content Include="BIMComposer\assets\svg\navigation.png" />
+    <Content Include="BIMComposer\assets\svg\navigation.svg" />
+    <Content Include="BIMComposer\assets\svg\picturebox.png" />
+    <Content Include="BIMComposer\assets\svg\ruler.svg" />
+    <Content Include="BIMComposer\assets\svg\search.png" />
+    <Content Include="BIMComposer\assets\svg\section.png" />
+    <Content Include="BIMComposer\assets\svg\sectionbyplane.svg" />
+    <Content Include="BIMComposer\assets\svg\smile.svg" />
+    <Content Include="BIMComposer\assets\svg\type.png" />
+    <Content Include="BIMComposer\assets\widget\icons\add.png" />
+    <Content Include="BIMComposer\assets\widget\icons\default.png" />
+    <Content Include="BIMComposer\assets\widget\icons\delete.png" />
+    <Content Include="BIMComposer\assets\widget\icons\edit.png" />
+    <Content Include="BIMComposer\assets\widget\icons\element.png" />
+    <Content Include="BIMComposer\assets\widget\icons\file.png" />
+    <Content Include="BIMComposer\assets\widget\icons\gantt-close.png" />
+    <Content Include="BIMComposer\assets\widget\icons\gantt-finish.png" />
+    <Content Include="BIMComposer\assets\widget\icons\gantt-play.png" />
+    <Content Include="BIMComposer\assets\widget\icons\gantt-stop.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\black-pen.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\blackpen.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\blue-pen.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\bluepen.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\green-pen.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\greenpen.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\hand-close.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\hand-open.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\image.gif" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\pen.jpg" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\pen.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\pencil.cur" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\red-pen.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\redpen.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\text.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\tool-1.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\yellow-pen.png" />
+    <Content Include="BIMComposer\assets\widget\icons\image-markup\img\yellowpen.png" />
+    <Content Include="BIMComposer\assets\widget\icons\layer.png" />
+    <Content Include="BIMComposer\assets\widget\icons\linkfile.png" />
+    <Content Include="BIMComposer\assets\widget\icons\locationTree.png" />
+    <Content Include="BIMComposer\assets\widget\icons\manual-close.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\2.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\2D.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\3.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\4.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\5.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\6.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\7.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\artboard.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\artboard.svg" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\attribute.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\help-document-hover.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\help-document.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\manual.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\mission.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\schedule.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\selections.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\set.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\space.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\tree.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\trees.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\view.png" />
+    <Content Include="BIMComposer\assets\widget\icons\modelmanagement\views.png" />
+    <Content Include="BIMComposer\assets\widget\icons\Positioning.png" />
+    <Content Include="BIMComposer\assets\widget\icons\project.png" />
+    <Content Include="BIMComposer\assets\widget\icons\selectionset.png" />
+    <Content Include="BIMComposer\assets\widget\icons\space-left-room.png" />
+    <Content Include="BIMComposer\assets\widget\icons\space-right-room.png" />
+    <Content Include="BIMComposer\assets\widget\icons\system.png" />
+    <Content Include="BIMComposer\assets\worker\OrbitControls.js-470" />
+    <Content Include="BIMComposer\css\fonts\fontawesome-webfont.eot" />
+    <Content Include="BIMComposer\css\fonts\fontawesome-webfont.svg" />
+    <Content Include="BIMComposer\css\fonts\fontawesome-webfont.ttf" />
+    <Content Include="BIMComposer\css\fonts\fontawesome-webfont.woff" />
+    <Content Include="BIMComposer\css\fonts\fontawesome-webfont.woff2" />
+    <Content Include="BIMComposer\css\fonts\FontAwesome.otf" />
+    <Content Include="BIMComposer\css\fonts\roboto-v15-latin-regular.eot" />
+    <Content Include="BIMComposer\css\fonts\roboto-v15-latin-regular.svg" />
+    <Content Include="BIMComposer\css\fonts\roboto-v15-latin-regular.ttf" />
+    <Content Include="BIMComposer\css\fonts\roboto-v15-latin-regular.woff" />
+    <Content Include="BIMComposer\css\fonts\roboto-v15-latin-regular.woff2" />
+    <Content Include="BIMComposer\css\images\color.png" />
+    <Content Include="BIMComposer\css\images\hue.png" />
+    <Content Include="BIMComposer\css\images\icons_16.png" />
+    <Content Include="BIMComposer\css\images\slider_handles%402x.png" />
+    <Content Include="BIMComposer\css\images\slider_handles.png" />
+    <Content Include="BIMComposer\css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="BIMComposer\css\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="BIMComposer\css\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="BIMComposer\css\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="BIMComposer\css\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="BIMComposer\css\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="BIMComposer\css\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="BIMComposer\css\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="BIMComposer\css\images\ui-icons_222222_256x240.png" />
+    <Content Include="BIMComposer\css\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="BIMComposer\css\images\ui-icons_454545_256x240.png" />
+    <Content Include="BIMComposer\css\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="BIMComposer\css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="BIMComposer\css\main.css" />
+    <Content Include="BIMComposer\css\main.cssd" />
+    <Content Include="BIMComposer\fonts\fontawesome-webfont.eot" />
+    <Content Include="BIMComposer\fonts\fontawesome-webfont.svg" />
+    <Content Include="BIMComposer\fonts\fontawesome-webfont.ttf" />
+    <Content Include="BIMComposer\fonts\fontawesome-webfont.woff" />
+    <Content Include="BIMComposer\fonts\fontawesome-webfont.woff2" />
+    <Content Include="BIMComposer\fonts\FontAwesome.otf" />
+    <Content Include="BIMComposer\fonts\roboto-v15-latin-regular.ttf" />
+    <Content Include="BIMComposer\fonts\roboto-v15-latin-regular.woff" />
+    <Content Include="BIMComposer\fonts\roboto-v15-latin-regular.woff2" />
+    <Content Include="BIMComposer\FormData.js" />
+    <Content Include="BIMComposer\index.html" />
+    <Content Include="BIMComposer\js\app.js" />
+    <Content Include="BIMComposer\js\shims.js" />
+    <Content Include="BIMComposer\js\webWorker-scene.js" />
+    <Content Include="BIMComposer\lzma_worker.js" />
+    <Content Include="BIMComposer\ngsw-manifest.json" />
+    <Content Include="BIMComposer\package.json" />
+    <Content Include="BIMComposer\qrcode\easyui.css" />
+    <Content Include="BIMComposer\qrcode\elementProperty.html" />
+    <Content Include="BIMComposer\qrcode\jquery.easyui.min.js" />
+    <Content Include="BIMComposer\qrcode\jquery.min.js" />
+    <Content Include="BIMComposer\scss\images\ui-bg_highlight-hard_100_9ca6af_1x100.png" />
+    <Content Include="BIMComposer\scss\images\ui-bg_highlight-hard_50_2276c3_1x100.png" />
+    <Content Include="BIMComposer\scss\images\ui-icons_16111c_256x240.png" />
+    <Content Include="BIMComposer\scss\images\ui-icons_3551bf_256x240.png" />
+    <Content Include="BIMComposer\scss\images\ui-icons_555555_256x240.png" />
+    <Content Include="BIMComposer\scss\images\ui-icons_777620_256x240.png" />
+    <Content Include="BIMComposer\scss\images\ui-icons_777777_256x240.png" />
+    <Content Include="BIMComposer\scss\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="BIMComposer\scss\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="BIMComposer\three.js" />
+    <Content Include="BIMComposer\tsdocConfig.json" />
+    <Content Include="BIMComposer\web-config.json" />
+    <Content Include="BIMComposer\worker-basic.min.js" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\drawingSign.css" />
+    <Content Include="Content\css\enterpriseInformation.css" />
+    <Content Include="Content\css\header.css" />
+    <Content Include="Content\css\HJcommon.css" />
+    <Content Include="Content\css\iconfont.css" />
+    <Content Include="Content\css\index.css" />
+    <Content Include="Content\css\intoModel.css" />
+    <Content Include="Content\css\login.css" />
+    <Content Include="Content\css\paperVersionManagement.css" />
+    <Content Include="Content\css\personalInformation.css" />
+    <Content Include="Content\css\popUp.css" />
+    <Content Include="Content\css\professionalAuditList.css" />
+    <Content Include="Content\css\projectLists.css" />
+    <Content Include="Content\css\projectOverview.css" />
+    <Content Include="Content\css\superAdminInforManage.css" />
+    <Content Include="Content\css\viewsDetail.css" />
+    <Content Include="Content\image\addLink.png" />
+    <Content Include="Content\image\addmark.png" />
+    <Content Include="Content\image\exit.png" />
+    <Content Include="Content\image\ICON_ACTIVE XIAOJIANTOU.png" />
+    <Content Include="Content\image\ICON_BIMJIANTOU1.png" />
+    <Content Include="Content\image\ICON_DAIQITIXING.png" />
+    <Content Include="Content\image\ICON_DELETE.png" />
+    <Content Include="Content\image\ICON_DUIGOU.png" />
+    <Content Include="Content\image\ICON_FANHUI.png" />
+    <Content Include="Content\image\ICON_GENGDUO.png" />
+    <Content Include="Content\image\ICON_GUANBI.png" />
+    <Content Include="Content\image\ICON_SANJIAOJIANTOU.png" />
+    <Content Include="Content\image\ICON_SHOUQI.png" />
+    <Content Include="Content\image\ICON_SOUSUO.png" />
+    <Content Include="Content\image\ICON_TISHI.png" />
+    <Content Include="Content\image\ICON_XIAOJIANTOU.png" />
+    <Content Include="Content\image\ICON_ZHANKAI.png" />
+    <Content Include="Content\image\IMG_DENGLUBEIJING.png" />
+    <Content Include="Content\image\IMG_DENGLUYONGTU.png" />
+    <Content Include="Content\image\IMG_TISHIBEIJING.png" />
+    <Content Include="Content\image\IMG_ZHUCE TOP.png" />
+    <Content Include="Content\image\loading.gif" />
+    <Content Include="Content\image\selectIcon.png" />
+    <Content Include="Content\image\selectModel.png" />
+    <Content Include="Content\image\success.png" />
+    <Content Include="Content\image\upload.png" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\Common.js" />
+    <Content Include="Content\js\echarts.common.min.js" />
+    <Content Include="Content\js\loading.js" />
+    <Content Include="Content\js\loginCommon.js" />
+    <Content Include="Content\js\pagination.js" />
+    <Content Include="Content\js\pdfobject.min.js" />
+    <Content Include="Content\js\popUp.js" />
+    <Content Include="Content\js\selectCommon.js" />
+    <Content Include="Content\js\template.min.js" />
+    <Content Include="Content\lib\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Content\lib\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="Content\lib\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\lib\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\lib\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\lib\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\lib\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\lib\bootstrap\js\npm.js" />
+    <Content Include="Content\lib\html5shiv\html5shiv-printshiv.js" />
+    <Content Include="Content\lib\html5shiv\html5shiv-printshiv.min.js" />
+    <Content Include="Content\lib\html5shiv\html5shiv.js" />
+    <Content Include="Content\lib\html5shiv\html5shiv.min.js" />
+    <Content Include="Content\lib\jquery\jquery.js" />
+    <Content Include="Content\lib\jquery\jquery.min.js" />
+    <Content Include="Content\lib\respond\matchmedia.addListener.js" />
+    <Content Include="Content\lib\respond\matchmedia.polyfill.js" />
+    <Content Include="Content\lib\respond\respond.js" />
+    <Content Include="Content\lib\underscore\underscore-min.js" />
+    <Content Include="Content\static\changePassword.html" />
+    <Content Include="Content\static\commonPopup.html" />
+    <Content Include="Content\static\constructionCompanyIntoModel.html" />
+    <Content Include="Content\static\constructionCompanyProjectCon.html" />
+    <Content Include="Content\static\constructionComProfessionalAuditList.html" />
+    <Content Include="Content\static\createEnterpriseAccount.html" />
+    <Content Include="Content\static\createOrdinaryAccount.html" />
+    <Content Include="Content\static\designCompanyIntoModel.html" />
+    <Content Include="Content\static\designCompanyProfessionalAuditList.html" />
+    <Content Include="Content\static\designCompanyProjectCon.html" />
+    <Content Include="Content\static\designCompanyViewsDetail.html" />
+    <Content Include="Content\static\drawingReview.html" />
+    <Content Include="Content\static\drawingSign.html" />
+    <Content Include="Content\static\enterpriseAdminCreateProject.html" />
+    <Content Include="Content\static\enterpriseAdminEnterInfo.html" />
+    <Content Include="Content\static\enterpriseAdminMember.html" />
+    <Content Include="Content\static\enterpriseAdminPM.html" />
+    <Content Include="Content\static\enterpriseAdminProjectOverview.html" />
+    <Content Include="Content\static\enterpriseInformation.html" />
+    <Content Include="Content\static\enterpriseInformationAudit.html" />
+    <Content Include="Content\static\forgetPassword.html" />
+    <Content Include="Content\static\index.html" />
+    <Content Include="Content\static\intoModel.html" />
+    <Content Include="Content\static\login.html" />
+    <Content Include="Content\static\paperVersionManagement.html" />
+    <Content Include="Content\static\personalInformation.html" />
+    <Content Include="Content\static\professionalAuditList.html" />
+    <Content Include="Content\static\professionalAuditListSubmit.html" />
+    <Content Include="Content\static\projectLists.html" />
+    <Content Include="Content\static\projectOverview.html" />
+    <Content Include="Content\static\registration.html" />
+    <Content Include="Content\static\responsibleProject.html" />
+    <Content Include="Content\static\scoreEvaluation.html" />
+    <Content Include="Content\static\superAdminChecked.html" />
+    <Content Include="Content\static\superAdminCheckPending.html" />
+    <Content Include="Content\static\superAdminInforManage.html" />
+    <Content Include="Content\static\superAdministrator.html" />
+    <Content Include="Content\static\superAdministratorChecked.html" />
+    <Content Include="Content\static\viewsDetail.html" />
+    <Content Include="Content\static\viewsOpinionDetail.html" />
+    <Content Include="ErrorPage.htm" />
+    <Content Include="FileNotFound.htm" />
+    <Content Include="Global.asax" />
+    <Content Include="index.html" />
+    <Content Include="MsgConfig.xml" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BlobFileController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\BimModelController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrganizationController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\EngineeringFileController.cs" />
+    <Compile Include="Controllers\SuperAdminController.cs" />
+    <Compile Include="Filters\HttpExceptionFilter.cs" />
+    <Compile Include="Filters\IsLoginFilter.cs" />
+    <Compile Include="Filters\LoginFilter.cs" />
+    <Compile Include="Filters\RoleFilter.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\CookieHelper.cs" />
+    <Compile Include="Helper\EnumHelper.cs" />
+    <Compile Include="Models\BimModel\BIMElementModel.cs" />
+    <Compile Include="Models\BimModel\CommentDataListModel.cs" />
+    <Compile Include="Models\BimModel\RejectModel.cs" />
+    <Compile Include="Models\Comments\CommentBulkOperationButtonModel.cs" />
+    <Compile Include="Models\Comments\CommentBulkOperationType.cs" />
+    <Compile Include="Models\Comments\CommentOperationType.cs" />
+    <Compile Include="Models\Comments\CommentType.cs" />
+    <Compile Include="Models\CustomerLogin\CompanyAndId.cs" />
+    <Compile Include="Models\CustomerLogin\CompanyRegisterModel.cs" />
+    <Compile Include="Models\CustomerLogin\LoginModel.cs" />
+    <Compile Include="Models\Comments\CommentDetailModel.cs" />
+    <Compile Include="Models\Comments\CommentListModel.cs" />
+    <Compile Include="Models\Comments\CommentRecordModel.cs" />
+    <Compile Include="Models\CustomerLogin\UserType.cs" />
+    <Compile Include="Models\EngineeringFiles\AddOrUpdateDrawingModel.cs" />
+    <Compile Include="Models\EngineeringFiles\ModelOperationType.cs" />
+    <Compile Include="Models\EngineeringFiles\DrawingListModel.cs" />
+    <Compile Include="Models\EngineeringFiles\ModelEvaluateModel.cs" />
+    <Compile Include="Models\BimModel\AddNewCommentModel.cs" />
+    <Compile Include="Models\BimModel\CommentModel.cs" />
+    <Compile Include="Models\BimModel\ModelDetailModel.cs" />
+    <Compile Include="Models\EngineeringFiles\DrawingSeriesListModel.cs" />
+    <Compile Include="Models\EngineeringFiles\ModelListModel.cs" />
+    <Compile Include="Models\EngineeringFiles\ModelProfessionOperationType.cs" />
+    <Compile Include="Models\EngineeringFiles\ModelProfessionOperateModel.cs" />
+    <Compile Include="Models\EngineeringFiles\ModelReviewedListModel.cs" />
+    <Compile Include="Models\EngineeringFiles\UploadModelModel.cs" />
+    <Compile Include="Models\Organizations\OrganizationModel.cs" />
+    <Compile Include="Models\Organizations\OrganizationQueryModel.cs" />
+    <Compile Include="Models\Projects\ProjectContentModel.cs" />
+    <Compile Include="Models\Projects\ProjectProcessModel.cs" />
+    <Compile Include="Models\Projects\ProjectDetailModel.cs" />
+    <Compile Include="Models\Projects\ProjectIndexModel.cs" />
+    <Compile Include="Models\Projects\ProjectListModel.cs" />
+    <Compile Include="Models\Projects\ProjectModel.cs" />
+    <Compile Include="Models\Projects\ProjectPageType.cs" />
+    <Compile Include="Models\SuperAdmin\AdminAndCompanyModel.cs" />
+    <Compile Include="Models\SuperAdmin\BaseCommentType.cs" />
+    <Compile Include="Models\SuperAdmin\CommentTypeModel.cs" />
+    <Compile Include="Models\SuperAdmin\DetailModel.cs" />
+    <Compile Include="Models\SuperAdmin\DictionaryType.cs" />
+    <Compile Include="Models\SuperAdmin\InformationManagerModel.cs" />
+    <Compile Include="Models\SuperAdmin\OldAndNewCompanyInfoModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="packages.config" />
+    <Content Include="Views\Common\PageNotFound.cshtml" />
+    <Content Include="Views\Common\index.cshtml" />
+    <Content Include="Content\lib\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="Content\lib\bootstrap\css\bootstrap-theme.min.css.map" />
+    <Content Include="Content\lib\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Content\lib\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="Content\lib\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\lib\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\lib\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\lib\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\lib\jquery\jquery.min.map" />
+    <Content Include="BIMComposer\prod.rar" />
+    <None Include="Properties\PublishProfiles\debug.pubxml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Project\ProjectIndex.cshtml" />
+    <Content Include="Views\Project\_Projects.cshtml" />
+    <Content Include="Views\Project\ProjectList.cshtml" />
+    <Content Include="Views\Shared\_PageFooter.cshtml" />
+    <Content Include="Views\Project\ProjectHeader.cshtml" />
+    <Content Include="Views\Shared\_SelectOptions.cshtml" />
+    <Content Include="Views\BimModel\ModelDetail.cshtml" />
+    <Content Include="Views\Project\ProjectContent.cshtml" />
+    <Content Include="Views\EngineeringFile\_DrawingSeriesList.cshtml" />
+    <Content Include="Views\EngineeringFile\_ModelList.cshtml" />
+    <Content Include="Views\EngineeringFile\_ModelReviewedList.cshtml" />
+    <Content Include="Views\Shared\_UploadModel.cshtml" />
+    <Content Include="Views\EngineeringFile\DrawingList.cshtml" />
+    <Content Include="Views\EngineeringFile\_Drawing.cshtml" />
+    <None Include="Properties\PublishProfiles\DevEnvironment.pubxml" />
+    <None Include="Properties\PublishProfiles\TestEnvironment.pubxml" />
+    <Content Include="Views\Comment\CommentList.cshtml" />
+    <Content Include="Views\Comment\_Comment.cshtml" />
+    <Content Include="Views\Customer\Login.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Project\Create.cshtml" />
+    <Content Include="Views\Project\Edit.cshtml" />
+    <Content Include="Views\Project\_CreateOrUpdate.cshtml" />
+    <Content Include="Views\Comment\CommentDetail.cshtml" />
+    <Content Include="Views\Comment\_CommentRecord.cshtml" />
+    <Content Include="Views\Customer\Register.cshtml" />
+    <Content Include="Views\Shared\_ManagementLayout.cshtml" />
+    <Content Include="Views\Project\RoleDistributionList.cshtml" />
+    <Content Include="Views\Project\_DistributionPopup.cshtml" />
+    <Content Include="Views\BlobFile\ViewBlob.cshtml" />
+    <Content Include="Views\SuperAdmin\SuperAdminCheckList.cshtml" />
+    <Content Include="Views\SuperAdmin\UnCheckedCompany.cshtml" />
+    <Content Include="Views\SuperAdmin\UnCheckedDetail.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Organization\EnterpriseInfo.cshtml" />
+    <Content Include="Views\SuperAdmin\SuperAdminHasCheckedList.cshtml" />
+    <Content Include="Views\SuperAdmin\CheckedDetail.cshtml" />
+    <Content Include="Views\SuperAdmin\CheckedCompany.cshtml" />
+    <Content Include="Views\Project\ProjectDetail.cshtml" />
+    <Content Include="Views\BlobFile\AddOrUpdateDrawing.cshtml" />
+    <Content Include="Views\Shared\_AddOrUpdateModel.cshtml" />
+    <Content Include="Views\Organization\AdminCheckList.cshtml" />
+    <Content Include="Views\Shared\UnCheckedUser.cshtml" />
+    <Content Include="Views\EngineeringFile\ModelEvaluate.cshtml" />
+    <Content Include="Views\EngineeringFile\_ProfessionEvaluate.cshtml" />
+    <Content Include="Views\Shared\_UserInfo.cshtml" />
+    <Content Include="Views\Shared\UserInfoEdit.cshtml" />
+    <Content Include="Views\BimModel\_CommentList.cshtml" />
+    <Content Include="Views\SuperAdmin\InformationManager.cshtml" />
+    <Content Include="Views\SuperAdmin\SuperAdminCreateCompany.cshtml" />
+    <Content Include="Views\BimModel\_OperationButtonBar.cshtml" />
+    <Content Include="Views\SuperAdmin\_DictionaryItem.cshtml" />
+    <Content Include="Views\SuperAdmin\_DictionaryCommentType.cshtml" />
+    <Content Include="Views\Customer\ModifyPassword.cshtml" />
+    <Content Include="Views\Project\ResponsibleProjectList.cshtml" />
+    <Content Include="Views\Customer\ForgetPassword.cshtml" />
+    <Content Include="Views\EngineeringFile\_ModelProfessionOperate.cshtml" />
+    <Content Include="Views\Shared\_CommentButton.cshtml" />
+    <Content Include="Views\Project\_ProjectDetail.cshtml" />
+    <Content Include="Views\Project\AdminOverView.cshtml" />
+    <Content Include="Views\Comment\_BulkOperationButton.cshtml" />
+    <Content Include="Views\Project\_ProjectProcess.cshtml" />
+    <Content Include="Views\SuperAdmin\UnCheckedCompanyModifyInfo.cshtml" />
+    <Content Include="Views\SuperAdmin\SuperAdminCheckModifyInfoDetail.cshtml" />
+    <Content Include="Views\Organization\AdminCreateUser.cshtml" />
+    <Content Include="Views\SuperAdmin\AdminUserMana.cshtml" />
+    <Content Include="Views\BimModel\_AddOrUpdateComment.cshtml" />
+    <Content Include="Views\BimModel\_RejectComment.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="BIMComposer\assets\resource\model\" />
+    <Folder Include="Models\Common\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TS.Core\TS.Core.csproj">
+      <Project>{093a2ddd-b68b-4491-b717-d5ad64e46d52}</Project>
+      <Name>TS.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TS.Data\TS.Data.csproj">
+      <Project>{3687E0F0-DEDF-440E-B70F-F73196B66AF9}</Project>
+      <Name>TS.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TS.Service\TS.Service.csproj">
+      <Project>{bd105513-4eea-429b-a6b7-964eb37735a4}</Project>
+      <Name>TS.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>47523</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:47523/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

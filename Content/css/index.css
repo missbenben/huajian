@@ -1,0 +1,127 @@
+.reviewCompany-content {
+  padding: 30px 60px 153px 60px;
+  background-color: #fff;
+  box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+  -moz-box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+  -webkit-box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+  -o-box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+  min-height: 100%;
+  position: relative; }
+  .reviewCompany-content .my-project {
+    margin-top: 18px; }
+    .reviewCompany-content .my-project .top-title {
+      margin-bottom: 30px;
+      padding-right: 22px; }
+    .reviewCompany-content .my-project .category {
+      color: #0078D7;
+      font-size: 18px;
+      padding-left: 24px;
+      position: relative; }
+      .reviewCompany-content .my-project .category .dot {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background: #0078D7;
+        border-radius: 50%;
+        position: absolute;
+        left: 0px;
+        top: 50%;
+        margin-top: -6px; }
+    .reviewCompany-content .my-project .more-project {
+      position: relative;
+      padding-right: 9px; }
+      .reviewCompany-content .my-project .more-project a {
+        color: #0078D7; }
+      .reviewCompany-content .my-project .more-project img {
+        width: 8px;
+        height: 12px;
+        position: absolute;
+        right: 0px;
+        top: 50%;
+        margin-top: -6px; }
+    .reviewCompany-content .my-project .my-project-table {
+      padding-left: 22px;
+      padding-right: 22px; }
+      .reviewCompany-content .my-project .my-project-table .table {
+        border: 1px solid #E4E7F0; }
+    .reviewCompany-content .my-project .table-responsive .table > thead > tr > th {
+      text-align: center;
+      padding: 20px 8px;
+      border-bottom: 1px solid #E4E7F0;
+      color: #767A8A;
+      font-weight: normal; }
+    .reviewCompany-content .my-project .table-responsive .table > thead > tr > th.space {
+      padding: 8px 4%; }
+    .reviewCompany-content .my-project .table-responsive .table > thead > tr > th.first-space {
+      padding: 8px 2%; }
+    .reviewCompany-content .my-project .table-responsive .table > tbody > tr > td {
+      text-align: center;
+      padding: 25px 8px;
+      border-bottom: 1px solid #E4E7F0;
+      max-width: 120px;
+      word-wrap: break-word;
+      word-break: normal;
+    }
+      .reviewCompany-content .my-project .table-responsive .table > tbody > tr > td .open-project {
+        margin-right: 10px; }
+.reviewCompany-content .my-project .table-responsive .table > tbody > tr > td .left-space {
+  margin-left: 10px;
+}
+    .reviewCompany-content .my-project .table-responsive .table > tbody > tr:nth-child(2n+1) {
+      background: rgba(247, 247, 250, 0.6); }
+    .reviewCompany-content .my-project .table-responsive .common-color {
+      color: #0078D7;
+      text-decoration: underline;
+      cursor: default; }
+      .reviewCompany-content .my-project .table-responsive .common-color a {
+        color: #0078D7;
+        text-decoration: underline; }
+
+.search-input {
+  text-align: right; }
+  .search-input .search-main {
+    display: inline-block; }
+    .search-input .search-main .text {
+      width: 300px;
+      height: 34px;
+      display: inline-block;
+      margin-right: 40px;
+      position: relative; }
+.search-input .search-main .text .search-btn {
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  right: 9px;
+  top: 50%;
+  margin-top: -14px;
+  cursor: default;
+}
+      .search-input .search-main .text .search-btn img {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        left: 50%;
+        top: 50%;
+        margin-left: -7px;
+        margin-top: -7px; }
+    .search-input .search-main input[type="text"] {
+      width: 300px;
+      height: 34px;
+      padding-left: 23px;
+      padding-right: 28px;
+      background: rgba(179, 184, 201, 0.16);
+      border: 1px solid rgba(160, 166, 184, 0.16);
+      border-radius: 100px; }
+    .search-input .search-main .export-data {
+      display: inline-block;
+      padding: 7px 18px;
+      background: #0078D7;
+      border-radius: 2px;
+      font-size: 14px;
+      color: #FFFFFF;
+      cursor: default;
+    }
+.search-input .search-main .export-data:hover {
+  background: #2A9AF2;
+  box-shadow: 0 3px 5px 0 rgba(0,0,0,0.16);
+}

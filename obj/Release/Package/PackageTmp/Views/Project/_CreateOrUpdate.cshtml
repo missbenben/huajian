@@ -1,0 +1,925 @@
+﻿@model TS.Service.BusinessLogic.Models.ProjectLogicModel
+@using TS.Core.Domain.Organizations
+@using TS.Data.Extensions
+@using TS.Service.BusinessLogic.Models
+
+<div class="admin-project-overview createProject-con">
+    @Html.HiddenFor(s => s.ProjectId)
+    @Html.HiddenFor(s => s.BIMProjectId)
+    <div class="projectOverview-tabs">
+        <ul class="clearfix">
+            <li class="active tabli">基本信息</li>
+            <li class="tabli">单位工程</li>
+        </ul>
+    </div>
+    <div class="basic-information active">
+        <div class="information-input-lists clearfix">
+            <div class="left pull-left">
+                <div class="form-group">
+                    <label class="prompt">报建编号：</label>
+                    <div class="form-controls">
+                        <input type="text" onblur="checkDeliverNo()" value="@Model.DeliverNo" class="control DeliverNo">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">项目名称：</label>
+                    <div class="form-controls">
+                        <input type="text" onblur="checkProjectName()" value="@Model.ProjectName" class="control ProjectName">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">建设单位：</label>
+                    <div class="form-controls">
+                        @Html.HiddenFor(s => s.ConstructionCompanyId)
+                        <input type="text" value="@Model.ConstructionCompany" readonly class="control ConstructionCompany">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">建设单位联系人：</label>
+                    <div class="form-controls">
+                        <input type="text" onblur="checkConstructionCompanyContacterName()" value="@Model.ConstructionCompanyContacterName" class="control ConstructionCompanyContacterName">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">建设单位联系电话：</label>
+                    <div class="form-controls">
+                        <input type="text" onblur="checkConstructionCompanyContacterPhone()" value="@Model.ConstructionCompanyContacterPhone" class="control ConstructionCompanyContacterPhone">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">建设地点：</label>
+                    <div class="form-controls">
+                        <input type="text" onblur="checkBuildingLocation()" value="@Model.BuildingLocation" class="control BuildingLocation">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="left pull-left">
+                <div class="form-group">
+                    <label class="prompt">项目分类：</label>
+                    <div class="form-controls">
+                        <div class="select-control">
+                            <input type="text" value="@Model.ProjectCatalogDes" readonly data-id="@Model.ProjectCatalog" class="control select-input ProjectCatalog">
+                            <div class="error-reminder"></div>
+                            <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                        </div>
+                    </div>
+                    <div class="select-lists">
+                        <ul>
+                            @{
+                                var prjectCatelogList = Enum.GetNames(typeof(TS.Core.Domain.Projects.ProjectCatalog)).Select(s => (TS.Core.Domain.Projects.ProjectCatalog)Enum.Parse(typeof(TS.Core.Domain.Projects.ProjectCatalog), s)).ToList();
+                            }
+
+                            @foreach (var item in prjectCatelogList)
+                            {
+                            <li data-id="@item">@item.GetDescription()</li>
+                            }
+
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="prompt">总建筑面积(㎡)：</label>
+                    <div class="form-controls">
+                        <input type="text" onblur="checkBuildingArea()" value="@Model.BuildingArea" class="control BuildingArea">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">人防面积(m)：</label>
+                    <div class="form-controls">
+                        <input type="text" onblur="checkCivilAirDefenseArea()" value="@Model.CivilAirDefenseArea" class="control CivilAirDefenseArea">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">是否装配式建筑：</label>
+                    <div class="form-controls">
+                        <input type="checkbox" value="@Model.IsPrefabricatedBuilding" class="IsPrefabricatedBuilding">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">设计单位：</label>
+                    <div class="form-controls">
+                        <div class="select-control">
+                            <input type="text" value="@Model.DesignCompany" data-id="@Model.DesignCompanyId" class="control select-input DesignCompanyId" onkeyup="progressSearch(this,@((int)OrganizationType.DesignCompany))">
+                            <div class="error-reminder"></div>
+                            <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                        </div>
+                    </div>
+                    <div class="select-lists">
+                        <ul>
+                            @*@for (int i = 0; i < Model.DesignCompanyList.Count; i++)
+                            {
+                            <li data-id="@Model.DesignCompanyList[i].Id">@Model.DesignCompanyList[i].Name</li>
+                            }*@
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="prompt">审查机构：</label>
+                    <div class="form-controls">
+                        <div class="select-control">
+                            <input type="text" value="@Model.Censorship" data-id="@Model.CensorshipId" class="control select-input CensorshipId" onkeyup="progressSearch(this,@((int)OrganizationType.Censorship))">
+                            <div class="error-reminder"></div>
+                            <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                        </div>
+                    </div>
+                    <div class="select-lists">
+                        <ul>
+                            @*@for (int i = 0; i < Model.CensorshipList.Count; i++)
+                            {
+                            <li data-id="@Model.CensorshipList[i].Id">@Model.CensorshipList[i].Name</li>
+                            }*@
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="basic-information unitInformation">
+        <div class="unitInformationUl">
+            @foreach (var t in Model.Engineerings)
+            {
+                <div class="unitInformation-lists">
+                    <input type="hidden" value="@t.Id" class="engineeringid" />
+                    <div class="information-input-lists clearfix">
+                        <div class="left pull-left">
+                            <div class="form-group">
+                                <label class="prompt">单位工程名称：</label>
+                                <div class="form-controls">
+                                    <input type="text" value="@t.Name" class="control Name">
+                                    <div class="error-reminder"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="prompt">单位工程高度(m)：</label>
+                                <div class="form-controls">
+                                    <input type="text" value="@t.Height" class="control Height">
+                                    <div class="error-reminder"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="prompt">单位工程地上面积(㎡)：</label>
+                                <div class="form-controls">
+                                    <input type="text" value="@t.AreaAboveGround" class="control AreaAboveGround">
+                                    <div class="error-reminder"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="left pull-left">
+                            <div class="form-group">
+                                <label class="prompt">单位工程(地上)层数：</label>
+                                <div class="form-controls">
+                                    <input type="text" value="@t.FloorsAboveGround" class="control FloorsAboveGround">
+                                    <div class="error-reminder"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="prompt">单位工程(地下)层数：</label>
+                                <div class="form-controls">
+                                    <input type="text" value="@t.FloorsUnderGround" class="control FloorsUnderGround">
+                                    <div class="error-reminder"></div>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <span class="otherInput-title">其他层数：</span>
+                                <div class="otherInput clearfix">
+                                    <ul>
+                                        @if (!string.IsNullOrEmpty(t.Description))
+                                        {
+                                            foreach (var desc in t.Description.Split(','))
+                                            {
+                                                <li class="hoverLi">
+                                                    <div>@desc</div>
+                                                    <img src="~/Content/image/ICON_DELETE.png" alt="" class="deleteOtherFloor">
+                                                </li>
+                                            }
+                                        }
+                                        <li class="addBtn">+</li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="deleteUnit"><span>删除</span></div>
+                </div>
+            }
+        </div>
+        <div class="newGrop">新建单位</div>
+    </div>
+    <div class="save-information common-btn">保存项目</div>
+</div>
+
+<script>
+    $(function () {
+
+        //选择公司，选择所属公司类型
+        $(".form-group .select-control").click(function (e) {
+            e.stopPropagation();
+            var selectLists = $(this).parent().siblings(".select-lists");
+            if (selectLists.hasClass("active")) {
+                selectLists.removeClass("active");
+            } else {
+                $(".select-lists").removeClass("active");
+                selectLists.addClass("active");
+            }
+        });
+
+        //点击下拉选项 选中某个值
+        $(".select-lists").on("click","li",function(e) {
+            e.stopPropagation();
+            var html = $(this).html();
+            var id = $(this).data("id");
+            $(this).parent().parent().siblings(".form-controls").find(".select-input").val(html);
+            $(this).parent().parent().siblings(".form-controls").find(".select-input").data("id", id);
+            $(".select-lists").removeClass("active");
+        });
+
+        
+        //$(".select-lists li").click(function (e) {
+        //    e.stopPropagation();
+        //    var html = $(this).html();
+        //    var id = $(this).data("id");
+        //    $(this).parent().parent().siblings(".form-controls").find(".select-input").val(html);
+        //    $(this).parent().parent().siblings(".form-controls").find(".select-input").data("id", id);
+        //    $(".select-lists").removeClass("active");
+        //});
+
+        //切换tab
+        $(".projectOverview-tabs .tabli").click(function (e) {
+            e.stopPropagation();
+            var index = $(this).index();
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".basic-information").eq(index).addClass("active").siblings().removeClass("active");
+        });
+        
+        //新建单位信息
+        $(".unitInformation .newGrop").click(function () {
+            var html = '\
+                  <div class="unitInformation-lists">\
+                   <div class="information-input-lists clearfix">\
+                    <div class="left pull-left">\
+                    <div class="form-group"><label class="prompt">单位工程名称：</label><div class="form-controls"><input type="text" class="control Name"><div class="error-reminder"></div></div></div>\
+                    <div class="form-group"><label class="prompt">单位工程高度：</label><div class="form-controls"><input type="text" class="control Height"><div class="error-reminder"></div></div></div>\
+                    <div class="form-group"><label class="prompt">单位工程地上面积(平方米)：</label><div class="form-controls"><input type="text" class="control AreaAboveGround"><div class="error-reminder"></div></div></div>\
+                    </div>\
+                    <div class="left pull-left">\
+                    <div class="form-group"><label class="prompt">单位工程(地上)层数：</label><div class="form-controls"><input type="text" class="control FloorsAboveGround"><div class="error-reminder"></div></div></div>\
+                    <div class="form-group"><label  class="prompt">单位工程(地下)层数：</label><div class="form-controls"><input  type="text" class="control FloorsUnderGround"><div class="error-reminder"></div></div></div>\
+                    <div class="form-group clearfix"><span  class="otherInput-title">其他层数：</span><div class="otherInput clearfix"><ul><li class="addBtn">+</li></ul></div>\
+                    </div>\
+                    </div>\
+                    </div>\
+                    <div class="deleteUnit"><span>删除</span></div>\
+                    </div>';
+            $(".unitInformationUl").append(html);
+   
+        });
+
+        //添加其他层数
+        $(".unitInformation").on("click", ".addBtn", function () {
+            $(".wrap").show();
+            setDivCenter(".OtherLayers-popUp");
+            $(".addBtn").removeAttr("addId");
+            $(this).attr("addId", 1);
+        });
+
+        //确定添加层数
+        $(".OtherLayers-popUp .confirm-btn").click(function () {
+            var val = $(".OtherLayers-popUp .textBox").val();
+            if (!val) return;
+            var html = '<li class="hoverLi"><div>' + val + '</div> <img src="@Url.Content("~/Content/image/ICON_DELETE.png")" alt="" class="deleteOtherFloor"></li>';
+            $(".addBtn[addId = '1']").before(html);
+            $(".wrap").hide();
+            $(".OtherLayers-popUp").hide();
+            $(".OtherLayers-popUp .textBox").val("");
+            $("body").css({
+                'overflow': 'auto'
+            });
+        });
+
+        //删除其他楼层
+        $(".unitInformationUl").on("click", ".otherInput .deleteOtherFloor", function () {
+            $(this).parent().remove();
+        });
+
+        //弹出整个子项目
+        popUp(".unitInformationUl .deleteUnit span", ".deletePrompt");
+        //删除单位信息
+        $(".unitInformationUl").on("click", ".unitInformation-lists .deleteUnit span", function () {
+            $(this).parents(".unitInformation-lists").attr("deleteId", 2);
+            $(".deletePrompt .confirm-btn").attr("deleteId", 2);
+        });
+        $(".deletePrompt .confirm-btn").click(function () {
+            var deleteId = $(this).attr("deleteId");
+            if (deleteId == 2) {
+                $(".unitInformation-lists[deleteId='" + deleteId + "']").remove();
+            }
+            popUpHide();
+        });
+        $(".deletePrompt .close-icon").click(function () {
+            removeAttr();
+        });
+        $(".deletePrompt .cancle-btn").click(function () {
+            removeAttr();
+        });
+        $(".wrap").click(function () {
+            removeAttr();
+        });
+
+        function removeAttr() {
+            $(".unitInformation-lists").removeAttr("deleteId");
+            $(".deletePrompt .confirm-btn").removeAttr();
+        }
+    })
+</script>
+<script type="text/javascript">
+    function progressSearch(_this, type) {
+        var keyword = $(_this).val();
+        var ul = $($(_this).parents('.form-controls')[0]).siblings('.select-lists').find('ul')[0];
+
+        //ajax向服务器发送请求
+        $.ajax({
+            url: "@Url.Action("GetCompanyList","Project")",
+            type: "post",
+            data: {
+                "keyword": keyword,
+                "type": type
+            },
+            success: function (msg) {
+                //console.log(msg);
+                //console.log($(_this).parents('.form-controls'));
+                $(ul).html('');
+                if (msg.length > 0) {
+                    
+                    //将服务器获取到值绑定到候选列表中
+                    var html = "";
+                    $.each(msg, function (k, v) {
+                        html += '<li data-id="' + v.Id + '">' + v.Name + '</li>';
+                    });
+                    $(ul).html(html);
+                }
+            }
+
+        });
+    }
+
+    var regular = {
+        establishNumber: function(val) {
+            if (/^([a-z]|[A-Z]|[0-9]|\(|\)|\#)*$/.test(val)) {
+                var str = val.replace(/[\-\_\,\!\|\~\`\(\)\#\$\%\^\&\*\{\}\:\;\"\L\<\>\?]/g, '');
+                console.log(str);
+                if (str.length == 11) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        },
+        projectName: function (val) {
+            if (val.length >= 1 && val.length <= 40) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        constructionUnit: /^([a-z]|[A-Z]|[0-9]|[\u4E00-\u9FA5]){1,25}$/,
+        constructionUnitContact: function (val) {
+            if (/^[\u4E00-\u9FA5]{1,5}$/g.test(val)) {
+                return true;
+            } else {
+                if (/\(|\)/g.test(val)) {
+                    var test = /[^\(\)]+(?=\))/g.exec(val);
+                    if (!test) {
+                        return false;
+                    } else {
+                        var str = val.split("(")[0] + val.split(")")[1];
+                        if (/^[\u4E00-\u9FA5]{1,5}$/g.test(str)) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                } else {
+                    return false;
+                }
+            }
+        },
+        constructionUnitTel: /^[0-9]|-/,
+        constructionSite: function (val) {
+            if (val.length >= 1 && val.length <= 50) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        area: function (val) {            
+                if (/^[+-]?(\d|([0-9]\d+))(\.\d+)?$/.test(val)) {                  
+                    var value = String(parseInt(val));
+                    if (value.length > 10) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } else {
+                    return false;
+                }
+        },
+        unitEngineeringName: function (val) {
+            if (val.length >= 1 && val.length <= 20) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        height: function (val) {
+            if (/^[+-]?(\d|([1-9]\d+))(\.\d+)?$/.test(val)) {
+                return true;
+            } else {
+                return false;
+            }
+
+        },
+        layerNumber: /^[0-9]{1,5}$/
+    }
+    function errPromotShow(dom, msg) {
+        dom.siblings(".error-reminder").html(msg).show();
+        dom.addClass("error");
+    }
+    function removeErr(dom) {
+        dom.siblings(".error-reminder").hide();
+        dom.removeClass("error");
+    }
+
+    //报建编号
+    function checkDeliverNo() {
+        var DeliverNo = $(".DeliverNo").val();
+        if ((!regular.establishNumber(DeliverNo)) && (DeliverNo)) {
+            errPromotShow($(".DeliverNo"), "报建编号应为11位的字母,数字");
+            return false;
+        }
+    }
+
+    //项目名称
+    function checkProjectName() {
+        var ProjectName = $(".ProjectName").val();
+        if ((!regular.projectName(ProjectName)) && (ProjectName)) {
+            errPromotShow($(".ProjectName"), "项目名称应为40位以内");
+            return false;
+        }
+    }
+
+    //建设单位联系人
+    function checkConstructionCompanyContacterName() {
+        var ConstructionCompanyContacterName = $(".ConstructionCompanyContacterName").val();
+        if ((!regular.constructionUnitContact(ConstructionCompanyContacterName)) && (ConstructionCompanyContacterName)) {
+            errPromotShow($(".ConstructionCompanyContacterName"), "建设单位联系人应为5位以内");
+            return false;
+        }
+    }
+
+    //建设单位联系电话
+    function checkConstructionCompanyContacterPhone() {
+        var ConstructionCompanyContacterPhone = $(".ConstructionCompanyContacterPhone").val();
+        if ((!regular.constructionUnitTel.test(ConstructionCompanyContacterPhone)) && (ConstructionCompanyContacterPhone)) {
+            errPromotShow($(".ConstructionCompanyContacterPhone"), "建设单位联系电话格式不对");
+            return false;
+        }
+    }
+
+    //建设地点
+    function checkBuildingLocation() {
+        var BuildingLocation = $(".BuildingLocation").val();
+        if ((!regular.constructionSite(BuildingLocation)) && (BuildingLocation)) {
+            errPromotShow($(".BuildingLocation"), "建设地点50位以内");
+            return false;
+        }
+    }
+
+    //项目分类
+    function removeProjectCatalog() {
+        removeErr($(".ProjectCatalog"));
+    }
+    //总建筑面积
+    function checkBuildingArea() {
+        var BuildingArea = $(".BuildingArea").val();
+        if ((!regular.area(BuildingArea)) && (BuildingArea)) {
+            errPromotShow($(".BuildingArea"), "总建筑面积应为10位以内数字");
+            return false;
+        }
+    }
+
+    //人防面积
+    function checkCivilAirDefenseArea() {
+        var CivilAirDefenseArea = $(".CivilAirDefenseArea").val();
+        if (!regular.area(CivilAirDefenseArea) && (CivilAirDefenseArea)) {
+            errPromotShow($(".CivilAirDefenseArea"), "人防面积应为10位以内数字");
+            return false;
+        }
+    }
+
+
+    $(".basic-information").on("focus", ".control", function () {
+        removeErr($(this));
+    });
+
+
+</script>
+<script type="text/javascript">
+    //单位工程名称
+    $(".unitInformationUl").on("blur", ".Name", function () {
+        if ((!regular.unitEngineeringName($(this).val())) && ($(this).val())) {
+            errPromotShow($(this), "单位工程名称应为20位以内");
+            return false;
+        }
+    });
+   
+    //单位工程高度
+    $(".unitInformationUl").on("blur", ".Height", function () {
+        if ((!regular.height($(this).val())) && ($(this).val())) {
+            errPromotShow($(this), "单位工程高度应为数字");
+            return false;
+        }
+    });
+   
+    //单位工程地上面积  
+    $(".unitInformationUl").on("blur", ".AreaAboveGround", function () {
+        if ((!regular.area($(this).val())) && ($(this).val())) {
+            errPromotShow($(this), "单位工程地上面积应为数字");
+            return false;
+        }
+    });
+   
+    //单位工程(地上)层数 
+    $(".unitInformationUl").on("blur", ".FloorsAboveGround", function () {
+        if ((!regular.layerNumber.test($(this).val()))  && ($(this).val())) {
+            errPromotShow($(this), "单位工程地上层数应为5位以内的数字");
+            return false;
+        }
+    });
+   
+    //单位工程(地下)层数
+    $(".unitInformationUl").on("blur", ".FloorsUnderGround", function () {
+        if ((!regular.layerNumber.test($(this).val())) && ($(this).val())) {
+            errPromotShow($(this), "单位工程地下层数应为5位以内的数字");
+            return false;
+        }
+    });
+   
+
+   
+
+   
+    $(".common-btn").click(function () {
+        //获取项目信息
+        var projectmodel = {
+            ProjectId: "@Model.ProjectId",
+            DeliverNo: $(".DeliverNo").val(),
+            ProjectName: $(".ProjectName").val(),
+            ConstructionCompanyContacterName: $(".ConstructionCompanyContacterName").val(),
+            ConstructionCompanyContacterPhone: $(".ConstructionCompanyContacterPhone").val(),
+            ProjectCatalog: $(".ProjectCatalog").data("id"),
+            Brief: $(".Brief").val(),
+            DesignCompanyId: $(".DesignCompanyId").data("id"),
+            ConstructionCompanyId: $("#ConstructionCompanyId").val(),
+            CensorshipId: $(".CensorshipId").data("id"),
+            BIMProjectId: $("#BIMProjectId").val(),//获取BIMProjectID
+            BuildingLocation: $(".BuildingLocation").val(),
+            BuildingArea: $(".BuildingArea").val(),
+            CivilAirDefenseArea: $(".CivilAirDefenseArea").val(),
+            IsPrefabricatedBuilding: $(".IsPrefabricatedBuilding").val(),
+            //PrefabricatedBuildingArea: $(".PrefabricatedBuildingArea").val(),
+            Engineerings: [],
+        }
+
+        //获取 单位信息列表
+        var engreeingListEle = $(".unitInformation-lists");
+        if (engreeingListEle.length > 0) {
+            engreeingListEle.each(function (e, ele) {
+                var name = $(ele).find(".information-input-lists .Name").val();
+                var id = $(ele).find(".engineeringid").val();
+                var height = $(ele).find(".information-input-lists .Height").val();
+                var floorsAboveGround = $(ele).find(".information-input-lists .FloorsAboveGround").val();
+                var floorsUnderGround = $(ele).find(".information-input-lists .FloorsUnderGround").val();
+                var areaAboveGround = $(ele).find(".information-input-lists .AreaAboveGround").val();
+                var otherFloorEle = $(ele).find(".hoverLi div");
+                var description = "";
+                if (otherFloorEle.length > 0) {
+                    otherFloorEle.each(function (e, ele) {
+                        var othervalue = $(ele).html();
+                        if (e != otherFloorEle.length - 1)//如果不是最后一个数据，则加上  ','
+                            description = description + othervalue + ',';
+                        else
+                            description = description + othervalue;
+                    });
+                }
+
+                projectmodel.Engineerings.push({
+                    Id: id,
+                    Name: name,
+                    Height: height,
+                    FloorsAboveGround: floorsAboveGround,
+                    FloorsUnderGround: floorsUnderGround,
+                    AreaAboveGround: areaAboveGround,
+                    Description: description,
+                });
+            });
+        }
+
+        //validate the projectinfo
+        if (!ValidateProjectModel(projectmodel)) {
+            return false;
+        }
+
+        console.log(projectmodel);
+        //TODO:如果BIMProjectId=="",则需要 调用BIM引擎的api
+        if (projectmodel.BIMProjectId == "") {
+            //调用BIM引擎的api
+            var guid = new GUID();
+            var bimProjectId = guid.newGUID();
+            Ajax(BIMServerDomain + "/api/Sys/CreateProject?ProjectID=" + bimProjectId, null, function (res) {
+                //set
+                projectmodel.BIMProjectId = bimProjectId;
+                $("#BIMProjectId").val(bimProjectId);
+                Post("@Url.Action("CreateOrUpdate", "Project")", projectmodel);
+                //Post("@string.Concat(Request.Url.Scheme,"://",Request.Url.Authority, Url.Action("CreateOrUpdate", "Project"))", projectmodel);
+            }, function (jqXHR, textStatus) {
+                errPromot("Bim 引擎创建项目失败。");
+                return;
+            });
+        } else {
+            Post("@Url.Action("CreateOrUpdate", "Project")", projectmodel);
+        }
+    });
+
+    
+    
+    //验证数据
+    function ValidateProjectModel(projectmodel) {
+        //报建编号
+        if (!projectmodel.DeliverNo) {
+            errPromotShow($(".DeliverNo"), "报建编号不能为空");
+            return false;
+        }
+        if (!regular.establishNumber(projectmodel.DeliverNo)) {
+            errPromotShow($(".DeliverNo"), "报建编号应为11位的字母,数字");
+            return false;
+        }
+        //项目名称
+        if (!projectmodel.ProjectName) {         
+            errPromotShow($(".ProjectName"), "项目名称不能为空");
+            return false;
+        }
+        if (!regular.projectName(projectmodel.ProjectName)) {
+            errPromotShow($(".ProjectName"), "项目名称应为40位以内");
+            return false;
+        }
+        //建设单位
+        //if (projectmodel.ConstructionCompanyId != 0) {
+        //    errPromot("建设单位应为25位以内包含字母，数字，汉字");
+        //    return false;
+        //}
+        //if (!regular.constructionUnit.test(projectmodel.BuildingLocation)) {
+        //    errPromot("建设单位应为25位以内包含字母，数字，汉字");
+        //    return false;
+        //}
+        //建设单位联系人
+        if (!projectmodel.ConstructionCompanyContacterName) {          
+            errPromotShow($(".ConstructionCompanyContacterName"), "建设单位联系人不能为空");
+            return false;
+        }
+        if (!regular.constructionUnitContact(projectmodel.ConstructionCompanyContacterName)) {
+            errPromotShow($(".ConstructionCompanyContacterName"), "建设单位联系人应为5位以内");
+            return false;
+        }
+       
+        //建设单位电话
+        if (!projectmodel.ConstructionCompanyContacterPhone) {        
+            errPromotShow($(".ConstructionCompanyContacterPhone"), "建设单位联系电话不能为空");
+            return false;
+        }
+        if (!regular.constructionUnitTel.test(projectmodel.ConstructionCompanyContacterPhone)) {
+            errPromotShow($(".ConstructionCompanyContacterPhone"), "建设单位联系电话格式不对");
+            return false;
+        }
+       
+        //建设地点
+        if (!projectmodel.BuildingLocation) {        
+            errPromotShow($(".BuildingLocation"), "建设地点不能为空");
+            return false;
+        }
+        if (!regular.constructionSite(projectmodel.BuildingLocation)) {
+            errPromotShow($(".BuildingLocation"), "建设地点50位以内");
+            return false;
+        }
+       
+
+        //项目分类
+        if (!(projectmodel.ProjectCatalog) || projectmodel.ProjectCatalog == "") {
+            errPromotShow($(".ProjectCatalog"), "没有选择项目分类");
+            return false;
+        }
+        
+        //总建筑面积
+        var BuildingArea = $(".BuildingArea").val();
+        if (!(BuildingArea) || BuildingArea == 0) {
+            errPromotShow($(".BuildingArea"), "总建筑面积不能为空");
+            return false;
+        }
+        if (!regular.area(BuildingArea)) {
+            errPromotShow($(".BuildingArea"), "总建筑面积应为10位以内数字");
+            return false;
+        }
+      
+
+        ////人防面积
+        //if (!(projectmodel.CivilAirDefenseArea) || projectmodel.CivilAirDefenseArea == 0) {
+        //    errPromot("人防面积不能为空");
+        //    return false;
+        //}
+        var CivilAirDefenseArea = $(".CivilAirDefenseArea").val();
+        if (!regular.area(CivilAirDefenseArea)) {
+            errPromotShow($(".CivilAirDefenseArea"), "人防面积应为10位以内数字");
+            return false;
+        }
+       
+
+        //设计单位
+        //if (isNaN(projectmodel.DesignCompanyId) || projectmodel.DesignCompanyId == 0) {
+        //    errPromotShow($(".DesignCompanyId"), "没有选择设计公司");
+        //   return false;
+        //}
+        var DesignCompanyId = $(".DesignCompanyId").val();
+        if (!DesignCompanyId) {
+            errPromotShow($(".DesignCompanyId"), "没有选择设计公司");
+            return false;
+        }
+        
+
+        //审查机构
+        //if (isNaN(projectmodel.CensorshipId) || projectmodel.CensorshipId == 0) {
+        //    errPromotShow($(".CensorshipId"), "没有选择审查单位");
+        //    return false;
+        //}
+        var CensorshipId = $(".CensorshipId").val();
+        if (!CensorshipId) {
+            errPromotShow($(".CensorshipId"), "没有选择审查单位");
+            return false;
+        }
+
+
+        if (projectmodel.Engineerings.length == 0) {
+            errPromot("必须要有子项目！");
+            return false;
+        }
+
+        function checkProject(dom, test) {
+            $(".unitInformationUl " + dom).each(function () {
+                if (!$(this).val()) {
+                    errPromotShow($(this), test);                   
+                }
+            });
+        }
+        checkProject(".Name", "单位工程名称不能为空");
+        checkProject(".Height", "单位工程高度不能为空");
+        checkProject(".AreaAboveGround", "单位工程地上面积不能为空");
+        checkProject(".FloorsAboveGround", "单位工程地上层数不能为空");
+        checkProject(".FloorsUnderGround", "单位工程地下层数不能为空");
+
+
+       // 单位工程名称
+        //$(".unitInformationUl .Name").each(function () {
+        //    if (!$(this).val()) {
+        //        errPromotShow($(this), "单位工程名称不能为空");
+        //        return false;
+        //    }
+        //    //if (!regular.unitEngineeringName($(this).val())) {
+        //    //    errPromotShow($(this), "单位工程名称应为20位以内");
+        //    //    return false;
+        //    //}
+        //});
+        ////单位工程高度
+        //$(".unitInformationUl .Height").each(function () {
+        //    if (!$(this).val()) {
+        //        errPromotShow($(this), "单位工程高度不能为空");
+        //        return false;
+        //    }
+        //    //if (!regular.height($(this).val())) {
+        //    //    errPromotShow($(this), "单位工程高度应为数字");
+        //    //    return false;
+        //    //}
+        //});
+        ////单位工程地上面积  
+        //$(".unitInformationUl .AreaAboveGround").each(function () {
+        //    if (!$(this).val()) {
+        //        errPromotShow($(this), "单位工程地上面积不能为空");
+        //        return false;
+        //    }
+        //    //if (!regular.area($(this).val())) {
+        //    //    errPromotShow($(this), "单位工程地上面积应为数字");
+        //    //    return false;
+        //    //}
+        //});
+
+        ////单位工程(地上)层数 
+        //$(".unitInformationUl .FloorsAboveGround").each(function () {
+        //    if (!$(this).val()) {
+        //        errPromotShow($(this), "单位工程地上层数不能为空");
+        //        return false;
+        //    }
+        //    //if (!regular.layerNumber.test($(this).val())) {
+        //    //    errPromotShow($(this), "单位工程地上层数应为5位以内的数字");
+        //    //    return false;
+        //    //}
+        //});
+        ////单位工程(地下)层数
+        //$(".unitInformationUl .FloorsUnderGround").each(function () {
+        //    if (!$(this).val()) {
+        //        errPromotShow($(this), "单位工程地下层数不能为空");
+        //        return false;
+        //    }
+        //    //if (!regular.layerNumber.test($(this).val())) {
+        //    //    errPromotShow($(this), "单位工程地下层数应为5位以内的数字");
+        //    //    return false;
+        //    //}
+        //});
+
+
+        for (var i = 0; i < projectmodel.Engineerings.length; i++) {
+            if (!projectmodel.Engineerings[i].Name || projectmodel.Engineerings[i].Name == "") {
+               // errPromot("单位工程名称不能为空");
+                return false;
+            }
+            if (!regular.unitEngineeringName(projectmodel.Engineerings[i].Name)) {
+                //errPromot("单位工程名称应为20位以内");
+                return false;
+            }
+            if (!projectmodel.Engineerings[i].Height || projectmodel.Engineerings[i].Height == "") {
+               // errPromot("单位工程高度不能为空");
+                return false;
+            }
+            if (!regular.height(projectmodel.Engineerings[i].Height)) {
+               // errPromot("单位工程高度应为数字");
+                return false;
+            }
+            if (!projectmodel.Engineerings[i].AreaAboveGround || projectmodel.Engineerings[i].AreaAboveGround == "") {
+              // errPromot("单位工程地上面积不能为空");
+                return false;
+            }
+            if (!regular.area(projectmodel.Engineerings[i].AreaAboveGround)) {
+               // errPromot("单位工程地上面积应为数字");
+                return false;
+            }
+
+            if (!projectmodel.Engineerings[i].FloorsAboveGround || projectmodel.Engineerings[i].FloorsAboveGround == "") {
+               //errPromot("单位工程地上层数不能为空");
+                return false;
+            }
+
+            if (!regular.layerNumber.test(projectmodel.Engineerings[i].FloorsAboveGround)) {
+               // errPromot("单位工程地上层数应为5位以内的数字");
+                return false;
+            }
+            if (!projectmodel.Engineerings[i].FloorsUnderGround || projectmodel.Engineerings[i].FloorsUnderGround == "") {
+               // errPromot("单位工程地下层数不能为空");
+                return false;
+            }
+            if (!regular.layerNumber.test(projectmodel.Engineerings[i].FloorsUnderGround)) {
+               // errPromot("单位工程地下层数应为5位以内的数字");
+                return false;
+            }
+
+        }
+       
+
+       
+        
+   
+
+        return true;
+
+    }
+
+    //请求后台
+    function Post(url, model) {
+        Ajax(url, "post", function (res) {
+            if (res.success) {
+                errPromot("添加或者修改成功！");
+                document.location = "@Url.Action("RoleDistributionList", "Project")";
+            }
+            else {
+                errPromot("添加或者修改失败！");
+            }
+        }, model);
+    }
+</script>

@@ -1,0 +1,154 @@
+﻿@model TS.Web.Models.SuperAdmin.OldAndNewCompanyInfoModel
+@{
+    ViewBag.Title = "信息修改审核";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+   <link rel="stylesheet" href="~/Content/css/enterpriseInformation.css">
+}
+    
+
+
+    <!--头部-->
+<div class="HJ-header">
+    <div class="HJ-header-tabs clearfix">
+        <div class="project-classification pull-left clearfix">
+            <div class="name pull-left"><a href="@Url.Action("Login", "Customer")">数字化审图平台</a></div>
+            <ul class="pull-left">
+                <li class="manage-project"><a href="/SuperAdmin/SuperAdminCheckList">公司管理</a></li>
+                <li class="reviewed-project"><a href="/SuperAdmin/SuperAdminHasCheckedList">人员管理</a></li>
+                <li class="review-project"><a href="@Url.Action("InformationManager","SuperAdmin")">信息管理</a></li>
+            </ul>
+        </div>
+        @Html.Action("GetUser", "Customer")
+
+    </div>
+
+</div>
+
+    <div class="main-box">
+        <div class="enterpriseInformation-content">
+            <div class="information-box">
+                <div class="enterprise-title clearfix">
+                    <div class="pull-left title">修改信息审核</div>
+                    <div class="pull-right">
+                        <ul class="clearfix">
+                            <li class="pass" onclick="Isapprove('approve')">审核通过</li>
+                            <li onclick="Isapprove('disapprove')">审核不通过</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modify-lists  original-enterprise-information" >
+                    <div class="category">修改后企业信息</div>
+                    <div class="enterprice-information clearfix">
+                        <table class="pull-left enterprice-information-table">
+                            <tbody>
+                                <tr>
+                                    <td class="common">企业组织机构代码：</td>
+                                    <td>@Model.NewNumber</td>
+                                </tr>
+                                <tr>
+                                    <td class="common">专业类型：</td>
+                                    <td>@Model.NewType</td>
+                                </tr>
+                                <tr>
+                                    <td class="common">企业名称：</td>
+                                    <td>@Model.NewName</td>
+                                </tr>
+                                <tr>
+                                    <td class="common">企业电话：</td>
+                                    <td>@Model.NewPhone</td>
+                                </tr>
+                                <tr>
+                                    <td class="common">企业地址：</td>
+                                    <td>@Model.NewAddress</td>
+                                </tr>
+                                <tr>
+                                    <td class="common">专业执照注册号：</td>
+                                    <td>@Model.NewBusinessLicence</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="business-license pull-left">
+                            <div class="title">营业执照扫描件：</div>
+                            <img src="@Model.NewUploadLicenceUri" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="modify-lists">
+                    <div class="category">原企业信息</div>
+                    <div class="enterprice-information clearfix">
+                        <table class="pull-left enterprice-information-table">
+                            <tbody>
+                                <tr>
+                                    <td class="common">企业组织机构代码：</td>
+                                    <td>@Model.OldNumber</td>
+                                </tr>
+                                <tr>
+                                    <td class="common">专业类型：</td>
+                                    <td>@Model.OldType</td>
+                                </tr>
+                                <tr>
+                                    <td class="common">企业名称：</td>
+                                    <td>@Model.OldName</td>
+                                </tr>
+                                <tr>
+                                    <td class="common">企业电话：</td>
+                                    <td>@Model.OldPhone</td>
+                                </tr>
+                                <tr>
+                                    <td class="common">企业地址：</td>
+                                    <td>@Model.OldAddress</td>
+                                </tr>
+                                <tr>
+                                    <td class="common">专业执照注册号：</td>
+                                    <td>@Model.OldBusinessLicence</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="business-license pull-left">
+                            <div class="title">营业执照扫描件：</div>
+                            <img src="@Model.OldUploadLicenceUri" alt="">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <script>
+        function timer() {
+            window.location.href = "/SuperAdmin/SuperAdminCheckList";
+        }
+
+        function start() {
+            set_timer = setInterval(timer, 3000);
+
+        }
+        function Isapprove( postdata) {
+            var info = {
+                isapp: postdata,
+                unCheckedInfoId: @Model.UnCheckedInfoId};
+
+            $.ajax({
+                async: false,
+                data: info,
+                type: 'POST',
+                url: "@Url.Action("IsCompanyInfoApprove", "SuperAdmin")",
+                success: function (data) {
+                    var obj = eval(data);
+                    var result = obj.Result;
+                    var mess = obj.Message;
+                    errPromot(mess);
+                    start();
+                                                          
+                },
+            error: function (res) {
+                alert("异常");
+            }
+        });
+        }
+    </script>
+

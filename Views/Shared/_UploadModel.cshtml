@@ -1,0 +1,97 @@
+﻿@model TS.Web.Models.EngineeringFiles.UploadModelModel
+
+<h2>上传模型</h2>
+<!-- 按钮触发模态框 -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">上传模型</button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">选择上传的文件</h4>
+            </div>
+            <div class="modal-body">
+                
+                <input name="username" id="username" type="hidden" value="System">
+                <input name="phase" id="phase" type="hidden" value="1" />
+                <input id="engineeringid" name="engineeringfileid" type="hidden" value="@Model.EngineeringFileId"/>
+
+                <div class="form-group">
+                    <label class="sr-only" for="inputfile">文件输入</label>
+                    <input type="file" name="bimFile" id="bimFile">
+                    <!-- upload info -->
+                    <div class="progress" style="margin-left: 10px; width: 300px; display: none"></div>
+                    <div class="uploaded-result"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="sr-only" for="description">说明</label>
+                    <textarea class="form-control" rows="3" id="description" name="description" placeholder="请输入描述"></textarea>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancleUploadButton" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" id="uploadButton" class="btn btn-primary">上传</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script type="text/javascript">
+    // jQuery zepto vue angular 等库皆有 progress 的实现 以jQuery为例：
+    $('#uploadButton').click(function () {
+        var $userfile = $('#bimFile');  // the file you selected
+        $('#uploadButton').attr('disabled', 'true');
+        $('#uploadButton').html('正在上传');
+
+        // upload info
+        var $progress = $(".progress");
+        var $uploadedResult = $('.uploaded-result');
+
+        $uploadedResult.html('');
+        var selectedFile = $userfile.val();
+        if (!selectedFile) {
+            return false;
+        }
+
+        var formData = new FormData();
+        formData.append('engineeringfileid', $('#engineeringfileid').val());
+        formData.append('bimFile', $userfile[0].files[0]);
+        formData.append('username', $('#username').val());
+        formData.append('phase', $('#phase').val());
+        formData.append('description', $('#description').val());
+
+        $.ajax({
+            url: '@Html.Raw(Url.Action("ModelUpLoad", "BimModel"))',  // Different bucket zone has different upload url, you can get right url by the browser error massage when uploading a file with wrong upload url.
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            //xhr: function () {
+            //    myXhr = $.ajaxSettings.xhr();
+            //    if (myXhr.upload) {
+            //        myXhr.upload.addEventListener('progress', function (e) {
+            //            if (e.lengthComputable) {
+            //                var percent = e.loaded / e.total * 100;
+            //                //$progress.html('上传：' + e.loaded + "/" + e.total + " bytes. " + percent.toFixed(2) + "%");
+            //            }
+            //        }, false);
+            //    }
+            //    return myXhr;
+            //},
+            success: function (res) {
+                alert("得到结果:" + JSON.stringify(res));
+                $('#uploadButton').attr('disabled', 'false');
+                $('#uploadButton').html('上传');
+                $('#cancleUploadButton').click();
+            },
+            error: function (res) {
+                alert("失败:" + JSON.stringify(res));
+                $('#uploadButton').attr('disabled', 'false');
+                $('#uploadButton').html('上传');
+            }
+        });
+    });
+</script>

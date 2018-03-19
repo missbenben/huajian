@@ -1,0 +1,181 @@
+﻿@model TS.Web.Models.SuperAdmin.AdminAndCompanyModel
+@{
+    ViewBag.Title = "个人信息";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@section styles{
+    <link rel="stylesheet" href="~/Content/css/personalInformation.css">
+}
+
+
+
+
+<!--头部-->
+<div class="HJ-header">
+    <div class="HJ-header-tabs clearfix">
+        <div class="project-classification pull-left clearfix">
+            <div class="name pull-left"><a href="@Url.Action("Login", "Customer")">数字化审图平台</a></div>
+            <ul class="pull-left">
+                @*<li class="manage-project"><a href="index.html">我管理的项目</a></li>
+                <li class="reviewed-project"><a href="index.html">我审查的项目</a></li>
+                <li class="review-project"><a href="index.html">我复核的项目</a></li>*@
+            </ul>
+        </div>
+        @Html.Action("GetUser", "Customer")
+    </div>
+</div>
+
+<div class="main-box">
+    <div class="personalInformation-content">
+        <!-- <div class="back-previous-level">
+             <a href="index.html">
+                 <img src="../image/ICON_FANHUI.png" alt="">
+                 返回上一级
+             </a>
+         </div>-->
+        <div class="information-box">
+            <div class="title">个人信息</div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="common">姓名：</td>
+                        <td>@Model.AdminName</td>
+                    </tr>
+                    <tr>
+                        <td class="common">账号：</td>
+                        <td>@Model.Account</td>
+                    </tr>
+                    <tr>
+                        <td class="common">手机号码：</td>
+                        <td>
+                            @Model.ApplyPhone <span class="mobileedit">
+                            更新
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="common">邮箱：</td>
+                    <td>
+                        @Model.ApplyEmail
+                    <span class="emailedit">
+                        更新
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="common">所属公司类型：</td>
+                <td>@Model.CompanyType</td>
+            </tr>
+            <tr>
+                <td class="common">公司名称：</td>
+                <td>@Model.CompanyName</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="changePassword-btn">
+    <a href="/Customer/ModifyPassword">修改密码</a>
+</div>
+</div>
+
+</div>
+
+<div class="popUp">
+    <!--添加弹窗-->
+    <div class="common-popUp superAdminInforManage-popUp Mobile">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">确认修改手机号？</div>
+            <div>
+                <input type="text" class="profession-input">
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="common-popUp superAdminInforManage-popUp Email">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">确认修改邮箱？</div>
+            <div>
+                <input type="text" class="profession-input">
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+    $(function () {
+        //添加专业
+        popUp(".mobileedit", ".superAdminInforManage-popUp.Mobile");
+        popUp(".emailedit", ".superAdminInforManage-popUp.Email");
+    })
+
+    $(".Mobile .confirm-btn").click(function () {
+        var newphone = $('.Mobile .profession-input').val();
+        data = {
+            newphonenum:newphone
+        };
+        $.ajax({
+            async: false,
+            data: data,
+            url: "@Url.Action("ModifyPhone", "Customer")",
+            success: function (res) {
+                var obj = eval(res);
+                var result = obj.Result;
+                var mess = obj.Message;
+                if (result) {
+                    errPromot(mess);
+                    window.location.href = "/Customer/UserInfoEdit";
+                }
+                else {
+                    errPromot(mess);
+                }
+            },
+            error: function (res) {
+                errPromot("异常");
+
+            }
+    });
+    });
+
+    $(".Email .confirm-btn").click(function () {
+        var newemail = $('.Email .profession-input').val();
+        data = {
+            newemailval: newemail
+        };
+        $.ajax({
+            async: false,
+            data: data,
+            url: "@Url.Action("ModifyEmail", "Customer")",
+            success: function (res) {
+                var obj = eval(res);
+                var result = obj.Result;
+                var mess = obj.Message;
+                if (result) {
+                    errPromot(mess);
+                    window.location.href = "/Customer/UserInfoEdit";
+                }
+                else {
+                    errPromot(mess);
+                }
+            },
+            error: function (res) {
+                errPromot("异常");
+
+            }
+        })
+    });
+
+</script>
+

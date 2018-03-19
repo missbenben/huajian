@@ -1,0 +1,386 @@
+﻿@using TS.Web.Models.Projects
+@using TS.Core.Domain.Projects
+@model ProjectContentModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.ProjectName + "-项目内容";
+}
+
+<link rel="stylesheet" href="~/Content/css/drawingSign.css">
+
+<div class="wrapper">
+    @Html.Action("ProjectHeader", "Project")
+    <div class="main-sidebar">
+        <ul class="sidebar-menu">
+            @foreach (var engineer in Model.AvaliableEngineers)
+            {
+                <li class="treeview">
+                    <div class="floor @(engineer.Selected ? "active" : null)" data-engineerId="@engineer.Value">
+                        @engineer.Text
+                        <i class="iconfont icon-icon pull-right"></i>
+                    </div>
+                    <ul class="treeview-menu">
+                        @foreach (var profession in Model.AvaliableProfession)
+                        {
+                            <li data-professionId="@profession.ProfessionId">
+                                <i class="iconfont @profession.ProfessionIcon"></i>
+                                <span>@profession.ProfessionName</span>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    </div>
+    @if (Model.AvaliableEngineers.Count > 0)
+    {
+        <div class="content-box">
+            <div class="sign-box">
+                <div class="project-name">
+                    <div class="top clearfix">
+                        <div class="premises pull-left">@Model.ProjectName</div>
+                    </div>
+                </div>
+                <div class="drawing-tabs">
+                    <ul class="clearfix drawing-tabs-ul">
+                        <li class="active slideBar-status tab1" data-category="model">@Model.ModelTab</li>
+                        <li class="tab2" data-category="drawing">@Model.DrawingTab</li>                        
+                        @if (Model.Roles.Contains(Role.BuildingCompanyManager) || Model.Roles.Contains(Role.DesignCompanyManager) || Model.Roles.Contains(Role.CensorshipManager) || Model.Roles.Contains(Role.CensorshipEngreeingManager))
+                        {
+                            <li class="slideBar-status tab2" data-category="modelReviewed">@Model.ModelReviewedTab</li>
+                        }
+                    </ul>
+                    <div class="drawing-tables active">
+                    </div>
+                    <!--分页-->
+                    <div class="">
+                        @Html.Partial("_PageFooter")
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!--版本说明弹窗-->
+<div class="popUp">
+    <div class="common-popUp releaseNotes-popUp drawingSeries">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">版本说明</div>
+            <div class="uploadDrawings-detail">
+                <div class="commonStyle clearfix">
+                    <div class="name">图纸名称：</div>
+                    <span id="fileName"></span>
+                </div>
+                <div class="commonStyle clearfix">
+                    <div class="name">图纸大小：</div>
+                    <span id="fileSize"></span>
+                </div>
+                <div class="commonStyle clearfix">
+                    <div class="name">版本说明：</div>
+                    <div class="inputBox editionStatement">
+                        <textarea id="drawingSeriseDes" readonly="readonly"></textarea>
+                        <div class="words"><span>0</span>/200</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="common-popUp releaseNotes-popUp model">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">提交说明</div>
+            <div class="uploadDrawings-detail">
+                <div class="commonStyle clearfix">
+                    <div class="name">提交说明：</div>
+                    <div class="inputBox editionStatement">
+                        <textarea id="uploadDes" readonly="readonly"></textarea>
+                        <div class="words"><span>0</span>/200</div>
+                    </div>
+                </div>
+                <div class="commonStyle clearfix">
+                    <div class="name">退回说明：</div>
+                    <div class="inputBox returnInstructions">
+                        <textarea id="rejectDesShow" readonly="readonly"></textarea>
+                        <div class="words"><span>0</span>/200</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="common-popUp releaseNotes-popUp rejectDes">
+        <div class="addProfession-popUp-con">
+            <img src="~/Content/image/ICON_GUANBI.png" alt="" class="close-icon">
+            <div class="title">退回说明</div>
+            <div class="uploadDrawings-detail">
+                <div class="commonStyle clearfix">
+                    <div class="name">退回说明：</div>
+                    <div class="inputBox returnInstructions">
+                        <textarea id="reject-input"></textarea>
+                        <div class="words"><span>0</span>/200</div>
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-box">
+                <div class="confirm-btn">确认</div>
+                <div class="cancle-btn">取消</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var drawingQueryUri = "@Url.Action("DrawingSeriesPageData", "EngineeringFile")";
+    var modelQueryUri = "@Url.Action("ModelPageData", "EngineeringFile")";
+    var modelReviewedQueryUri = "@Url.Action("ModelReviewedPageData", "EngineeringFile")";
+    var queryUri = modelQueryUri;
+
+    var searchData = {
+        pageSize: 10,
+        pageIndex: 1,
+        totalCount: 0,
+        searchEngineerId: "0",
+        searchProfessionId: "0",
+        selectedState: "",
+        projectId: "@Model.ProjectId",
+    }
+
+    function getPageData(needInitFooter) {
+        var engineerId = $(".floor.active").attr("data-engineerId") == null ? "0" : $(".floor.active").attr("data-engineerId");
+        var professionId = $(".default-show").attr("data-professionId") == null ? "0" : $(".default-show").attr("data-professionId");
+
+        searchData.searchEngineerId = engineerId;
+        searchData.searchProfessionId = professionId;
+
+        if (needInitFooter) {
+            searchData.pageIndex = 1;
+        }
+
+        ajaxGetPageData(queryUri, searchData, function (data) {
+            if (!data.result) {
+                errPromot(data.errmsg);
+            } else {
+                $(".drawing-tables").empty();
+
+                $(".drawing-tables").append(data.listHtml);
+                var height = $(document).innerHeight() - 89;
+                $(".sign-box").css("min-height", height);
+                var sidebaHeight = $(".sign-box").innerHeight() - 56;
+                $(".main-sidebar").css("height", sidebaHeight);
+
+                if ($(".drawing-tabs-ul li.active").attr("data-category") == "modelReviewed") {
+                    if (data.total == 0) {
+                        $(".score-evaluation").hide();
+                    } else {
+                        $(".score-evaluation").show();
+                    }
+                }
+
+                searchData.totalCount = data.total;
+
+                if (needInitFooter) {
+                    initPageFooter();
+                }
+            }
+        });
+    }
+
+    function initPageFooter() {
+        $('#mypagenation').empty();
+        $('#mypagenation').initPagenation({
+            totalCount: searchData.totalCount,      //数据总个数,
+            showBtnFirst: true,   //是否显示 首页按钮
+            showCount: 10,        //每页显示多少个,默认10个
+            showBtnsCount: 5,     //数字按钮数量,最多10个,默认10个
+            callback: function (pageIndex) {
+                searchData.pageIndex = pageIndex;
+                getPageData(false);
+            }
+        });
+    }
+
+    $(function () {
+        var height = $(document).innerHeight() - 89;
+        $(".sign-box").css("min-height", height);
+        var sidebaHeight = $(".sign-box").innerHeight() - 56;
+        $(".main-sidebar").css("height", sidebaHeight);
+
+        //切换tab
+        $(".drawing-tabs-ul li").click(function () {
+            if ($(this).hasClass("active"))
+                return;
+
+            var height = $(document).innerHeight() - 89;
+            $(".sign-box").css("min-height", height);
+            var sidebaHeight = $(".sign-box").innerHeight() - 56;
+            $(".main-sidebar").css("height", sidebaHeight);
+
+            var index = $(this).index();
+            $(this).addClass("active").siblings().removeClass("active");
+
+            switch ($(this).attr("data-category")) {
+                case "modelReviewed":
+                    queryUri = modelReviewedQueryUri;
+                    break;
+                case "model":
+                    queryUri = modelQueryUri;
+                    break;
+                case "drawing":
+                default:
+                    queryUri = drawingQueryUri;
+                    break;
+            }
+            getPageData(true);
+
+            $(".drawing-tables").eq(index).addClass("active").siblings().removeClass("active");
+            if ($(this).hasClass("tab2")) {
+                $(this).attr("tabId", 2);
+                $(".treeview-menu").hide();
+                $(".floor i").hide();
+            } else {
+                $(".tab2").attr("tabId", 1);
+                $(".floor i").show();
+                $(".floor").each(function () {
+                    if ($(this).hasClass("active")) {
+                        $(this).removeClass("rotate");
+                        var thisTreeviewMenu = $(this).parent().find(".treeview-menu");
+                        thisTreeviewMenu.addClass("active");
+                        thisTreeviewMenu.show();
+                    }
+                });
+            }
+        });
+
+        $(".treeview-menu").eq(0).addClass("menuopen");
+
+        $(".treeview-menu li").click(function () {
+            if ($(this).hasClass("default-show"))
+                return;
+
+            $(".treeview-menu li").removeClass("default-show");
+            $(this).addClass("default-show");
+
+            getPageData(true);
+        });
+        $(".treeview .floor").click(function () {
+            $(".treeview-menu li").removeClass("default-show");
+            var thisTreeviewMenu = $(this).parent().find(".treeview-menu");
+            var siblingLi = $(this).parent().siblings();
+
+            $(this).addClass("active");
+            siblingLi.find(".floor").removeClass("active");
+            siblingLi.find(".treeview-menu").removeClass("active");
+
+            // $(".premises").text($(this).text());
+
+            if (thisTreeviewMenu.hasClass("active")) {
+                thisTreeviewMenu.removeClass("active");
+                if ($(".tab2").attr("tabId") == 2) return;
+                $(this).addClass("rotate");
+                thisTreeviewMenu.slideUp();
+            } else {
+                thisTreeviewMenu.addClass("active");
+                if ($(".tab2").attr("tabId") == 2) {
+                    getPageData(true);
+                    return;
+                }
+                $(this).removeClass("rotate");
+                thisTreeviewMenu.slideDown();
+
+                getPageData(true);
+            }
+            siblingLi.find(".treeview-menu").slideUp();
+        });
+
+        getPageData(true);
+
+
+
+        $("body").delegate(".model-operate", "click", function () {
+            var uri = $(this).attr("data-uri");
+            var des = $(this).attr("data-des");
+
+            operatePrompt(des, uri, function (data) {
+                if (!data.result) {
+                    if (data.errmsg !== "" && data.errmsg != null) {
+                        errPromot(data.errmsg);
+                    } else {
+                        errPromot("操作失败");
+                    }
+                } else {
+                    getPageData(false);
+                }
+            });
+        });
+
+        $("body").on("click", ".selectedStatus", function () {
+            searchData.selectedState = $(this).attr("data-state");
+            getPageData(true);
+        });
+
+        //图纸系列说明弹窗
+        popUp(".imprint.drawingSeries", ".releaseNotes-popUp.drawingSeries");
+        $("body").on("click", ".imprint.drawingSeries", function () {
+            var fileName = $(this).attr("data-fileName");
+            var fileSize = $(this).attr("data-fileSize");
+            var des = $(this).attr("data-des");
+
+            $(".releaseNotes-popUp.drawingSeries #fileName").empty().text(fileName);
+            $(".releaseNotes-popUp.drawingSeries #fileSize").empty().text(fileSize);
+            $(".releaseNotes-popUp.drawingSeries #drawingSeriseDes").empty().text(des);
+
+            //显示字数
+            var len = $(".drawingSeries .editionStatement textarea").val().length;
+            $(".drawingSeries .editionStatement .words span").html(len);
+        });
+
+        //模型说明弹窗
+        popUp(".imprint.model", ".releaseNotes-popUp.model");
+        $("body").on("click", ".imprint.model", function () {
+            var uploadDes = $(this).attr("data-uploadDes");
+            var rejectDesShow = $(this).attr("data-rejectDes");
+
+            if (!rejectDesShow || rejectDesShow == "" || rejectDesShow == null) {
+                $(".releaseNotes-popUp.model #rejectDesShow").parent().parent().hide();
+            }
+
+            $(".releaseNotes-popUp.model #uploadDes").empty().text(uploadDes);
+            $(".releaseNotes-popUp.model #rejectDesShow").empty().text(rejectDesShow);
+
+            //显示字数
+            var len = $(".model .editionStatement textarea").val().length;
+            $(".model .editionStatement .words span").html(len);
+
+            var len = $(".model .returnInstructions textarea").val().length;
+            $(".model .returnInstructions .words span").html(len);
+        });
+
+        //模型退回说明
+        popUp(".reject-model", ".releaseNotes-popUp.rejectDes");
+        words(".releaseNotes-popUp.rejectDes")
+        $("body").on("click", ".reject-model", function () {
+            var uri = $(this).attr("data-uri");
+            $(".rejectDes .confirm-btn").attr("data-uri", uri);
+        });
+        $("body").on("click", ".rejectDes .confirm-btn", function () {
+            ajaxPost($(this).attr("data-uri"), { rejectDes: $("#reject-input").val() }, function (data) {
+                if (!data.result) {
+                    errPromot("退回失败");
+                } else {
+                    getPageData(false);
+                }
+
+                $(".wrap").hide();
+                $(".common-popUp").hide();
+                $(".audit-status-popup").hide();
+                $("body").css({
+                    'overflow': 'auto'
+                });
+            }, function () {
+                errPromot("退回失败");
+            });
+        });
+    });
+</script>

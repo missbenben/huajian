@@ -1,0 +1,995 @@
+﻿@model TS.Web.Models.CustomerLogin.CompanyRegisterModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "创建账号";
+}
+<div class="registration-bg">
+    <div class="title"><span>数字化审图平台 | </span>创建账号 </div>
+</div>
+<div class="registration-classification">
+    <ul>
+        <li class="active">创建用户</li>
+        <li id="turnbacktothecompanypage">创建单位</li>
+    </ul>
+</div>
+
+ <!--用户注册-->
+
+<div class="user-registration-box login-iterms active">
+    <form action="/SuperAdmin/SuperAdminCreateUser" method="post">
+        <div class="input-box">
+            <div class="form-group">
+                <label for="account" class="prompt">账户</label>
+                <div class="form-controls">
+                    <input id="account" name="UserAccount" onblur="checkAccount()" type="text" class="control" placeholder="请设置您的账户名" value="@Model.UserAccount">
+                    <div class="error-reminder"></div>
+                </div>
+                <!--<div class="mandatory-signs">*</div>-->
+            </div>
+            <div class="form-group">
+                <label for="name" class="prompt">姓名</label>
+                <div class="form-controls">
+                    <input id="name" name="UserName" onblur="checkName()" type="text" class="control" placeholder="请输入您的姓名" value="@Model.UserName">
+                    <div class="error-reminder"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="prompt">邮箱</label>
+                <div class="form-controls">
+                    <input id="email" name="UserEmail" onblur="checkEmail()" type="text" class="control" placeholder="请输入您的企业邮箱" value="@Model.UserEmail">
+                    <div class="error-reminder"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="prompt">密码</label>
+                <div class="form-controls">
+                    <input id="password" name="UserPassword" onblur="checkPassword()" type="password" class="control" placeholder="请设置6-20位包含数字与字母的密码" value="@Model.UserPassword">
+                    <div class="error-reminder"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password" class="prompt">确认密码</label>
+                <div class="form-controls">
+                    <input id="confirm-password" onblur="checkConfirmPassword()" type="password" class="control" placeholder="请再次输入登录密码">
+                    <div class="error-reminder"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="select-box-company" class="prompt">选择公司</label>
+                <div class="form-controls">
+                    <div class="select-control">
+                        <input id="select-box-company"   autocomplete="off" changeId="1" name="UsersCompanyName" type="text" class="control select-input" placeholder="请选择公司" value="@Model.UsersCompanyName">
+                        <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                        <div class="error-reminder"></div>
+                    </div>
+                </div>
+                <div class="select-lists">
+                    <ul id="choose_company_list">
+                        @foreach (var item in Model.companys)
+                        {
+                            <li companyId="@item.Id">@item.Name</li>
+                        }
+                        @*<li>12,华建公司</li>
+            <li>文思海辉技术科技有限公司</li>
+            <li>华建公司</li>
+            <li>华建公司</li>*@
+                    </ul>
+                </div>
+
+            </div>
+            <input id="companyIdInput" type="text" name="UserCompanyId" style="display:none" value="@Model.UserCompanyId">
+            <div class="error-reminder">@Model.CompanyIdAndNameError</div>
+
+            <div class="form-group">
+                <label for="mobile-number" class="prompt">手机号码</label>
+                <div class="form-controls">
+                    <input id="mobile-number" name="UserMobile" onblur="checkMobileNumber()" type="text" class="control" placeholder="请输入手机号码" value="@Model.UserMobile">
+                    <div class="error-reminder"></div>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+            <label for="telephone" class="prompt">固定电话</label>
+            <div class="form-controls">
+                <input id="telephone" type="text" class="control" placeholder="请输入固定电话">
+            </div>
+        </div>-->
+        </div>
+
+        <div class="agreement">注册即视为同意 <a href="#">《数字化审图用户注册协议》</a> </div>
+        <div class="">
+            <input type="submit" class="submit-btn disable user-registration-btn" value="创建">
+        </div>
+    </form>
+</div>
+
+
+
+<!--单位注册-->
+
+
+<div class="unit-registration-wrapper login-iterms">
+    <form action="/SuperAdmin/SuperAdminCreateCompany" method="post">
+        <div class="unit-registration-box clearfix">
+            <div class="information pull-left">
+                <div class="information-title">填写企业信息</div>
+                <div class="information-lists">
+                    <div class="form-group">
+                        <label for="organization-code" class="prompt">企业组织机构代码</label>
+                        <div class="form-controls">
+                            <input id="organization-code" name="CompanyID" onblur="checkOrganizationCode()" type="text" class="control" placeholder="请输入企业组织机构代码" value="@Model.CompanyID">
+                            <div class="error-reminder"></div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="enterprise-type" class="prompt">企业类型</label>
+                        <div class="form-controls">
+                            <div class="select-control">
+                                <input id="enterprise-type" name="CompanyType" type="text" class="control select-input" placeholder="请选择企业类型" value="@Model.CompanyType" readonly>
+                                <img src="~/Content/image/ICON_XIAOJIANTOU.png" alt="">
+                                <div class="error-reminder"></div>
+                            </div>
+                        </div>
+                        <div class="select-lists">
+                            <ul>
+                                <li></li>
+                                <li>设计公司</li>
+                                <li>建设公司</li>
+                                <li>审查机构</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="enterprise-name" class="prompt">企业名称</label>
+                        <div class="form-controls">
+                            <input id="enterprise-name" name="CompanyName" onblur="checkEnterpriseName()" type="text" class="control" placeholder="请输入企业名称" value="@Model.CompanyName">
+                            <div class="error-reminder"></div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="enterprise-address" class="prompt">企业地址</label>
+                        <div class="form-controls">
+                            <input id="enterprise-address" name="Address" onblur="checkEnterpriseAddress()" type="text" class="control" placeholder="请输入企业地址" value="@Model.Address">
+                            <div class="error-reminder"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="enterprise-postcode" class="prompt">邮编</label>
+                        <div class="form-controls">
+                            <input id="enterprise-postcode" name="ZipCode" onblur="checkEnterprisePostcode()" type="text" class="control" placeholder="请输入邮编" value="@Model.ZipCode">
+                            <div class="error-reminder"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="enterprise-telephone" class="prompt">企业电话</label>
+                        <div class="form-controls">
+                            <input id="enterprise-telephone" name="CompanyPhone" onblur="checkEnterpriseTelephone()" type="text" class="control" placeholder="请输入企业电话" value="@Model.CompanyPhone">
+                            <div class="error-reminder"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="license-number" class="prompt">营业执照注册号</label>
+                        <div class="form-controls">
+                            <input id="license-number" name="BusinessLicence" onblur="checkLicenseNumber()" type="text" class="control" placeholder="请填写营业执照注册号" value="@Model.BusinessLicence">
+                            <div class="error-reminder"></div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="information-title applicant-information-title">填写申请人信息</div>
+                <div class="information-lists">
+                    <div class="form-group">
+                        <label for="applicant-name" class="prompt">申请人姓名</label>
+                        <div class="form-controls">
+                            <input id="applicant-name" name="ApplyName" onblur="checkApplicantName()" type="text" class="control" placeholder="请输入申请人姓名" value="@Model.ApplyName">
+                            <div class="error-reminder"></div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="applicant-email" class="prompt">申请人邮箱</label>
+                        <div class="form-controls">
+                            <input id="applicant-email" name="ApplyEmail" onblur="checkApplicantEmail()" type="text" class="control" placeholder="请输入申请人邮箱" value="@Model.ApplyEmail">
+                            <div class="error-reminder"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="applicant-phoneNumber" class="prompt">申请人手机号</label>
+                        <div class="form-controls">
+                            <input id="applicant-phoneNumber" name="ApplyPhone" onblur="checkApplicantPhoneNumber()" type="text" class="control" placeholder="请输入申请人手机号" value="@Model.ApplyPhone">
+                            <div class="error-reminder"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="applicant-account" class="prompt">账号设置</label>
+                        <div class="form-controls">
+                            <input id="applicant-account" name="Account" onblur="checkApplicantAccount()" type="text" class="control" placeholder="请设置账号" value="@Model.Account">
+                            <div class="error-reminder"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="setpassword" class="prompt">密码设置</label>
+                        <div class="form-controls">
+                            <input id="setpassword" name="Password" onblur="checkSetpassword()" type="password" class="control" placeholder="请设置6-20位包含数字与字母的密码" value="@Model.Password">
+                            <div class="error-reminder"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="business-license-box pull-left">
+                <div class="upload-license">
+                    <label for="file1" class="add-picture">
+                        <img src="~/Content/image/upload.png" alt="" class="add-icon">
+                    </label>
+                    <input type="file" id="file1" class="upload-file">
+                    <div class="loading">
+                        <img src="~/Content/image/loading.gif" height="32" width="32" />
+                    </div>
+                </div>
+                <div class="remider">
+                    <p class="title">营业执照扫描</p>
+                    <p class="format">（请上传图片文件 如：JPG/PNG/GIF等）</p>
+                </div>
+            </div>
+            <input id="uploadPictureUri" type="text" name="UploadLicenceUri" style="display:none" value="@Model.UploadLicenceUri">
+            <div id="licen_uriError" style="color:red">@Model.UriError</div>
+        </div>
+        <div class="agreement">注册即视为同意 <a href="#">《数字化审图用户注册协议》</a> </div>
+        <div class="">
+            <input type="submit" id="companyRegister" class="submit-btn disable unit-registration-btn" value="创建">
+        </div>
+
+    </form>
+</div>
+
+<script>
+    var ispostok = false;
+    function timer() {
+        ispostok = true;
+        $(".user-registration-btn").click();
+    }
+
+    function start() {
+        set_timer = setInterval(timer, 2000);
+
+    }
+
+    var ispostokcom = false;
+    function timercom() {
+        ispostokcom = true;
+        $(".unit-registration-btn").click();
+    }
+
+    function startcom() {
+        set_timer = setInterval(timercom, 2000);
+
+    }
+      function uploadthispicture() {
+          //up
+          var $userfile = $('#file1');  // the file you selected
+
+          // upload info
+          var selectedFile = $userfile.val();
+          if (!selectedFile) {
+              return false;
+          }
+          var formData = new FormData();
+          formData.append('licencePicture', $userfile[0].files[0]);
+
+
+          $.ajax({
+              url: '@Html.Raw(Url.Action("PostPicture", "Customer"))',
+              type: 'POST',
+              data: formData,
+              processData: false,
+              contentType: false,
+
+              success: function (res) {
+                  var obj = eval(res);
+                  var result = obj.Result;
+                  var mess = obj.Message;
+                  if (result) {
+                      $('#uploadPictureUri').val(mess);
+                      $('.loading').hide();
+                      $('#licen_uriError').text("");
+                  }
+                  else {
+                      errPromot(mess);
+                      $('.loading').hide();
+                      $('.modify').click();
+                  }
+                  //       $('#loginButton').attr('disabled', 'false');
+                  // $('#loginButton').html('登陆');
+              },
+              error: function (res) {
+                  errPromot("上传异常");
+                  //     $('#loginButton').attr('disabled', 'false');
+              }
+          });
+      }
+</script>
+<script>
+    function checkAccount() {
+        var account = $("#account").val();
+        //账户验证
+        if ((!regs.account.test(account)) && (account)) {
+            errPromotShow($("#account"), "账户应为6到15字以内包含字母，数字");
+            return false;
+        }
+        var isExixtCus = false;
+        $.ajax({
+            url: '@Html.Raw(Url.Action("IsAccountExist", "Customer"))',
+            type: 'POST',
+            data: { account: account },
+            async: false,
+            success: function (res) {
+                var obj = eval(res);
+                var result = obj.Result;
+                var mess = obj.Message;
+                if (!result) {
+                    errPromotShow($("#account"), mess);
+                    isExixtCus = true;
+                }
+            },
+            error: function (res) {
+                errPromot("异常");
+                //     $('#loginButton').attr('disabled', 'false');
+            }
+        });
+        if (isExixtCus) {
+            return false;
+        }
+    }
+   
+    function checkName() {
+        var name = $("#name").val();
+        //姓名验证
+        if ((!regs.name(name)) && (name)) {
+            errPromotShow($("#name"), "姓名应为5字以内汉字");
+            return false;
+        }
+    }
+    
+    function checkEmail() {
+        var email = $("#email").val();
+        if ((!regs.email.test(email)) && email) {
+            errPromotShow($("#email"), "请填写正确的邮箱格式");
+            return false;
+        }
+    }
+   
+    function checkPassword() {
+        var password = $("#password").val();
+        if ((!regs.password(password)) && password) {
+            errPromotShow($("#password"), "密码设置应为6-20位包含数字，大小写字母");
+            return false;
+        }
+    }
+   
+    function checkConfirmPassword() {
+        var password = $("#password").val();
+        var confirmPassword = $("#confirm-password").val();
+        if ((confirmPassword !== password) && (confirmPassword)) {
+            errPromotShow($("#confirm-password"), "请使密码保持一致");
+            return false;
+        }
+    }
+    
+    function checkMobileNumber() {
+        var mobileNumber = $("#mobile-number").val();
+        if ((!regs.phone.test(mobileNumber)) && (mobileNumber)) {
+            errPromotShow($("#mobile-number"), "手机号格式错误");
+            return false;
+        }
+    }
+   
+    //    单位注册
+    function checkOrganizationCode() {
+        var organizationCode = $("#organization-code").val();
+        if ((!regs.organizationCode.test(organizationCode)) && (organizationCode)) {
+            errPromotShow($("#organization-code"), "企业组织机构代码应为9位数字或字母");
+            return false;
+        }
+    }
+   
+    function checkEnterpriseName() {
+        var enterpriseName = $("#enterprise-name").val();
+        if ((!regs.enterpriseName(enterpriseName)) && (enterpriseName)) {
+            errPromotShow($("#enterprise-name"), "企业名称应为25字以内");
+            return false;
+        }
+        var isExixtCompany = false;
+        $.ajax({
+            url: '@Html.Raw(Url.Action("IsCompanyNameExist", "Customer"))',
+            type: 'POST',
+            data: { comName: enterpriseName },
+            async: false,
+            success: function (res) {
+                var obj = eval(res);
+                var result = obj.Result;
+                var mess = obj.Message;
+                if (!result) {
+                    errPromotShow($("#enterprise-name"), mess);
+                    isExixtCompany = true;
+                }
+            },
+            error: function (res) {
+                errPromot("异常");
+                //     $('#loginButton').attr('disabled', 'false');
+            }
+        });
+        if (isExixtCompany) {
+            return false;
+        }
+    }
+   
+    function checkEnterpriseAddress() {
+        var enterpriseAddress = $("#enterprise-address").val();
+        if ((!regs.address(enterpriseAddress)) && (enterpriseAddress)) {
+            errPromotShow($("#enterprise-address"), "企业地址应为50位以内");
+            return false;
+        }
+    }
+   
+    function checkEnterprisePostcode() {
+        var enterprisePostcode = $("#enterprise-postcode").val();
+        if ((!regs.enterprisePostcode.test(enterprisePostcode)) && (enterprisePostcode)) {
+            errPromotShow($("#enterprise-postcode"), "请填写正确的邮编");
+            return false;
+        }
+    }
+   
+    function checkEnterpriseTelephone() {
+        var enterpriseTelephone = $("#enterprise-telephone").val();
+        if ((!regs.telephone.test(enterpriseTelephone)) && (enterpriseTelephone)) {
+            errPromotShow($("#enterprise-telephone"), "请填写有效的企业电话(例如区号-电话号码)");
+            return false;
+        }
+    }
+   
+    function checkLicenseNumber() {
+        var licenseNumber = $("#license-number").val();
+        if ((!regs.licenseNumber.test(licenseNumber)) && (licenseNumber)) {
+            errPromotShow($("#license-number"), "营业执照注册号应为15位数字");
+            return false;
+        }
+    }
+   
+    function checkApplicantName() {
+        var applicantName = $("#applicant-name").val();
+        if ((!regs.name(applicantName)) && (applicantName)) {
+            errPromotShow($("#applicant-name"), "申请人姓名应为5字以内汉字");
+            return false;
+        }
+    }
+   
+    function checkApplicantEmail() {
+        var applicantEmail = $("#applicant-email").val();
+        if ((!regs.email.test(applicantEmail)) && (applicantEmail)) {
+            errPromotShow($("#applicant-email"), "请填写正确的邮箱格式");
+            return false;
+        }
+    }
+   
+    function checkApplicantPhoneNumber() {
+        var applicantPhoneNumber = $("#applicant-phoneNumber").val();
+        if ((!regs.phone.test(applicantPhoneNumber)) && (applicantPhoneNumber)) {
+            errPromotShow($("#applicant-phoneNumber"), "手机号格式错误");
+            return false;
+        }
+    }
+   
+    function checkApplicantAccount() {
+        var applicantAccount = $("#applicant-account").val();
+        if ((!regs.account.test(applicantAccount)) && (applicantAccount)) {
+            errPromotShow($("#applicant-account"), "账户应为15字以内包含字母，数字");
+            return false;
+        }
+
+        var isExixtCusacc = false;
+        $.ajax({
+            url: '@Html.Raw(Url.Action("IsAccountExist", "Customer"))',
+            type: 'POST',
+            data: { account: applicantAccount },
+            async: false,
+            success: function (res) {
+                var obj = eval(res);
+                var result = obj.Result;
+                var mess = obj.Message;
+                if (!result) {
+                    errPromotShow($("#applicant-account"), mess);
+                    isExixtCusacc = true;
+                }
+            },
+            error: function (res) {
+                errPromot("异常");
+                //     $('#loginButton').attr('disabled', 'false');
+            }
+        });
+        if (isExixtCusacc) {
+            return false;
+        }
+    }
+   
+    function checkSetpassword() {
+        var setpassword = $("#setpassword").val();
+        if ((!regs.password(setpassword)) && (setpassword)) {
+            errPromotShow($("#setpassword"), "密码设置应为6-20位包含数字，大小写字母");
+            return false;
+        }
+    }
+
+    $(".form-controls .control").on("focus", function () {
+        removeErr($(this));
+    });
+
+</script>
+<script>
+    function getExistCompanyList() {
+        $.ajax({
+            url: '@Html.Raw(Url.Action("GetExistCompanyList", "Customer"))',
+            type: 'post',
+            data: { inputData: $('#select-box-company').val() },
+            async: false,
+            success: function (res) {
+                var obj = eval(res);
+                var result = obj.Result;
+                var mess = obj.Message;
+                if (result) {
+                    var appendData = "";
+                    for (var i = 0; i < mess.length; i++) {
+                        appendData += "<li companyId=\"" + mess[i].CompanyId + "\">" + mess[i].CompanyName + "<\/li>"
+                    }
+                    $("#choose_company_list").empty();
+                    $("#choose_company_list").append(appendData);
+                }
+            },
+            error: function (res) {
+            }
+        });
+    }
+        $(function () {
+
+            var userRegistrationBtn = $(".user-registration-btn");
+            var unitRegistrationBtn = $(".unit-registration-btn");
+
+            //必填项有值过后，注册按钮移除disable,可用
+            $('.form-group .control').keyup(function () {
+                //用户注册
+                var account = $("#account").val();
+                var name = $("#name").val();
+                var email = $("#email").val();
+                var password = $("#password").val();
+                var confirmPassword = $("#confirm-password").val();
+                var selectBoxCompany = $("#select-box-company").val();
+
+                var mobileNumber = $("#mobile-number").val();
+                if (account && name && email && password && confirmPassword && selectBoxCompany  && mobileNumber) {
+                    userRegistrationBtn.removeClass("disable");
+                } else {
+                    userRegistrationBtn.addClass("disable");
+                }
+                //单位注册
+                var organizationCode = $("#organization-code").val();
+                var enterpriseType = $("#enterprise-type").val();
+                var enterpriseName = $("#enterprise-name").val();
+                var enterpriseAddress = $("#enterprise-address").val();
+                var enterprisePostcode = $("#enterprise-postcode").val();
+                var enterpriseTelephone = $("#enterprise-telephone").val();
+                var licenseNumber = $("#license-number").val();
+                var applicantName = $("#applicant-name").val();
+                var applicantEmail = $("#applicant-email").val();
+                var applicantPhoneNumber = $("#applicant-phoneNumber").val();
+                var applicantAccount = $("#applicant-account").val();
+                var setpassword = $("#setpassword").val();
+                if (organizationCode && enterpriseType && enterpriseName && enterpriseAddress && enterprisePostcode && enterpriseTelephone && licenseNumber && applicantName && applicantEmail && applicantPhoneNumber && applicantAccount && setpassword) {
+                    unitRegistrationBtn.removeClass("disable");
+                } else {
+                    unitRegistrationBtn.addClass("disable");
+                }
+
+
+            })
+
+            //用户注册提交
+            userRegistrationBtn.click(function () {
+                //            if($(this).hasClass("disable")) return;
+                var name = $("#name").val();
+                var email = $("#email").val();
+                var mobileNumber = $("#mobile-number").val();
+                var password = $("#password").val();
+                var confirmPassword = $("#confirm-password").val();
+                var account = $("#account").val();
+                var selectBoxCompany = $("#select-box-company").val();
+                //账户验证
+                if (!account) {
+                    errPromotShow($("#account"), "账户不能为空");
+                    return false;
+                }
+                if (!regs.account.test(account)) {
+                    errPromotShow($("#account"), "账户只能包含字母、数字，长度为6-15位");
+                    return false;
+                }
+                var isExixtCus = false;
+                $.ajax({
+                    url: '@Html.Raw(Url.Action("IsAccountExist", "Customer"))',
+                    type: 'POST',
+                    data: { account: account },
+                    async:false,
+                    success: function (res) {
+                        var obj = eval(res);
+                        var result = obj.Result;
+                        var mess = obj.Message;
+                        if (!result) {
+                            errPromotShow($("#account"), mess);
+                            isExixtCus=true;
+                        }
+                    },
+                    error: function (res) {
+                        errPromot("异常");
+                        //     $('#loginButton').attr('disabled', 'false');
+                    }
+                });
+                if (isExixtCus) {
+                    return false;
+                }
+                //姓名验证
+                if (!name) {
+                    errPromotShow($("#name"), "姓名不能为空");
+                    return false;
+                }
+                if (!regs.name(name)) {
+                    errPromotShow($("#name"), "姓名应为5字以内汉字");
+                    return false;
+                }
+                //邮箱格式错误验证
+                if (!email) {
+                    errPromotShow($("#email"), "邮箱不能为空");
+                    return false;
+                }
+                if (!regs.email.test(email)) {
+                    errPromotShow($("#email"), "请填写正确的邮箱格式");
+                    return false;
+                }
+                //密码验证
+                if (!password) {
+                    errPromotShow($("#password"), "密码不能为空");
+                    return false;
+                }
+                if (!regs.password(password)) {
+                    errPromotShow($("#password"), "密码设置应为6-20位包含数字，大小写字母");
+                    return false;
+                }
+               
+                //密码相同验证
+                if (!confirmPassword) {
+                    errPromotShow($("#confirm-password"), "请确认密码");
+                    return false;
+                }
+                if (confirmPassword !== password) {
+                    errPromotShow($("#confirm-password"), "请使密码保持一致");
+                    return false;
+                }
+                //选择公司
+                if (!selectBoxCompany) {
+                    errPromotShow($("#select-box-company"), "请选择公司");
+                    return false;
+                }
+                if ($("#select-box-company").attr("changeId") == 1) {
+                    errPromotShow($("#select-box-company"), "请选择公司");
+                    return false;
+                }
+                //手机号格式验证
+                if (!mobileNumber) {
+                    errPromotShow($("#mobile-number"), "手机号不能为空");
+                    return false;
+                }
+                if (!regs.phone.test(mobileNumber)) {
+                    errPromotShow($("#mobile-number"), "手机号格式错误");
+                    return false;
+                }
+                if (!ispostok) {
+                    errPromot("创建成功");
+                    start();
+                }
+                if (!ispostok) {
+                    return false;
+                }
+
+            });
+
+            //单位注册提交
+            unitRegistrationBtn.click(function () {
+                //if($(this).hasClass("disable")) return;
+                var enterpriseTelephone = $("#enterprise-telephone").val();
+                var organizationCode = $("#organization-code").val();
+                var enterprisePostcode = $("#enterprise-postcode").val();
+                var licenseNumber = $("#license-number").val();
+                var applicantName = $("#applicant-name").val();
+                var applicantEmail = $("#applicant-email").val();
+                var applicantPhoneNumber = $("#applicant-phoneNumber").val();
+                var applicantAccount = $("#applicant-account").val();
+                var setpassword = $("#setpassword").val();
+                var enterpriseType = $("#enterprise-type").val();
+                var enterpriseName = $("#enterprise-name").val();
+                var enterpriseAddress = $("#enterprise-address").val();
+                //企业组织机构代码验证
+                if (!organizationCode) {
+                    errPromotShow($("#organization-code"), "企业组织机构代码不能为空");
+                    return false;
+                }
+                if (!regs.organizationCode.test(organizationCode)) {
+                    errPromotShow($("#organization-code"), "企业组织机构代码应为9位数字");
+                    return false;
+                }
+                //企业类型
+                if (!enterpriseType) {
+                    errPromotShow($("#enterprise-type"), "请选择企业类型");
+                    return false;
+                }
+                //企业名称
+                if (!enterpriseName) {
+                    errPromotShow($("#enterprise-name"), "企业名称不能为空");
+                    return false;
+                }
+                if (!regs.enterpriseName(enterpriseName)) {
+                    errPromotShow($("#enterprise-name"), "企业名称应为25字以内");
+                    return false;
+                }
+                var isExixtCompany = false;
+                $.ajax({
+                    url: '@Html.Raw(Url.Action("IsCompanyNameExist", "Customer"))',
+                    type: 'POST',
+                    data: { comName: enterpriseName },
+                    async: false,
+                    success: function (res) {
+                        var obj = eval(res);
+                        var result = obj.Result;
+                        var mess = obj.Message;
+                        if (!result) {
+                            errPromotShow($("#enterprise-name"), mess);
+                            isExixtCompany = true;
+                        }
+                    },
+                    error: function (res) {
+                        errPromot("异常");
+                        //     $('#loginButton').attr('disabled', 'false');
+                    }
+                });
+                if (isExixtCompany) {
+                    return false;
+                }
+                //企业地址
+                if (!enterpriseAddress) {
+                    errPromotShow($("#enterprise-address"), "企业地址不能为空");
+                    return false;
+                }
+                if (!regs.address(enterpriseAddress)) {
+                    errPromotShow($("#enterprise-address"), "企业地址应为50位以内");
+                    return false;
+                }
+                //邮编验证
+                if (!enterprisePostcode) {
+                    errPromotShow($("#enterprise-postcode"), "邮编不能为空");
+                    return false;
+                }
+                if (!regs.enterprisePostcode.test(enterprisePostcode)) {
+                    errPromotShow($("#enterprise-postcode"), "请填写正确的邮编");
+                    return false;
+                }
+                //企业电话验证
+                if (!enterpriseTelephone) {
+                    errPromotShow($("#enterprise-telephone"), "企业电话不能为空");
+                    return false;
+                }
+                if (!regs.telephone.test(enterpriseTelephone)) {
+                    errPromotShow($("#enterprise-telephone"), "请填写有效的企业电话(例如区号-电话号码)");
+                    return false;
+                }
+                //企业执照注册号
+                if (!licenseNumber) {
+                    errPromotShow($("#license-number"), "营业执照注册号不能为空");
+                    return false;
+                }
+                if (!regs.licenseNumber.test(licenseNumber)) {
+                    errPromotShow($("#license-number"), "营业执照注册号应为15位数字");
+                    return false;
+                }
+                //申请人姓名
+                if (!applicantName) {
+                    errPromotShow($("#applicant-name"), "申请人姓名不能为空");
+                    return false;
+                }
+                if (!regs.name(applicantName)) {
+                    errPromotShow($("#applicant-name"), "申请人姓名应为5字以内汉字");
+                    return false;
+                }
+                //申请人邮箱
+                if (!applicantEmail) {
+                    errPromotShow($("#applicant-email"), "申请人邮箱不能为空");
+                    return false;
+                }
+                if (!regs.email.test(applicantEmail)) {
+                    errPromotShow($("#applicant-email"), "请填写正确的邮箱格式");
+                    return false;
+                }
+                //申请人手机号
+                if (!applicantPhoneNumber) {
+                    errPromotShow($("#applicant-phoneNumber"), "申请人手机号不能为空");
+                    return false;
+                }
+                if (!regs.phone.test(applicantPhoneNumber)) {
+                    errPromotShow($("#applicant-phoneNumber"), "手机号格式错误");
+                    return false;
+                }
+                
+                //申请人账号
+                if (!applicantAccount) {
+                    errPromotShow($("#applicant-account"), "申请人账户不能为空");
+                    return false;
+                }
+                if (!regs.account.test(applicantAccount)) {
+                    errPromotShow($("#applicant-account"), "账户只能包含字母、数字，长度为6-15位");
+                    return false;
+                }
+
+                var isExixtCusacc = false;
+                $.ajax({
+                    url: '@Html.Raw(Url.Action("IsAccountExist", "Customer"))',
+                    type: 'POST',
+                    data: { account: applicantAccount },
+                    async: false,
+                    success: function (res) {
+                        var obj = eval(res);
+                        var result = obj.Result;
+                        var mess = obj.Message;
+                        if (!result) {
+                            errPromotShow($("#applicant-account"), mess);
+                            isExixtCusacc = true;
+                        }
+                    },
+                    error: function (res) {
+                        errPromot("异常");
+                        //     $('#loginButton').attr('disabled', 'false');
+                    }
+                });
+                if (isExixtCusacc) {
+                    return false;
+                }
+                //密码
+                if (!setpassword) {
+                    errPromotShow($("#setpassword"), "密码不能为空");
+                    return false;
+                }
+                if (!regs.password(setpassword)) {
+                    errPromotShow($("#setpassword"), "密码设置应为6-20位包含数字，大小写字母");
+                    return false;
+                }
+
+                if (!$('#uploadPictureUri').val()) {
+                    $('#licen_uriError').text("图片不能为空");
+                    return false;
+                }
+                if (!ispostokcom) {
+                    errPromot("创建成功");
+                    startcom();
+                }
+                if (!ispostokcom) {
+                    return false;
+                }
+            });
+
+
+            $("#select-box-company").on("input", function () {
+                $(this).attr("changeId", 1);
+                getExistCompanyList();
+            });
+
+
+            //选择公司，选择所属公司类型
+            $(".form-group .select-control").click(function (e) {
+                e.stopPropagation();
+                var selectLists = $(this).parent().siblings(".select-lists");
+                if (selectLists.hasClass("active")) {
+                    selectLists.removeClass("active");
+                } else {
+                    $(".select-lists").removeClass("active");
+                    selectLists.addClass("active");
+                }
+            });
+            $(".select-lists").on('click', 'li', function (e) {
+                e.stopPropagation();
+                var html = $(this).text();
+                var companyId = $(this).attr('companyId');
+                $(this).parent().parent().siblings(".form-controls").find(".select-input").val(html);
+                $('#companyIdInput').val(companyId);
+
+                $(".select-lists").removeClass("active");
+                $("#select-box-company").attr("changeId", 2);
+            })
+
+            //切换用户注册和单位注册
+            $(".registration-classification li").click(function (e) {
+                e.stopPropagation();
+                $(this).addClass("active").siblings().removeClass("active");
+                var index = $(this).index();
+                $(".login-iterms").eq(index).addClass("active").siblings().removeClass("active");
+            });
+
+            var pictureGroups = {};
+            $('.upload-license').on('change', '.upload-file', function () {
+                var file = $(this).get(0);
+                var files = file.files;
+                var addPic = $(this).siblings('.add-picture');
+                var parent = $(this).parent();
+                var id = $(this).attr('id');
+                if (!pictureGroups[id]) pictureGroups[id] = [];
+                var len = pictureGroups[id].length;
+                for (var i in files) {
+                    if (!isNaN(i)) {
+                        pictureGroups[id].push({
+                            index: len,
+                            file: files[i]
+                        });
+                        len++;
+                    }
+                }
+                if (pictureGroups[id].length >= 1) addPic.remove();
+                pictureGroups[id].forEach(function (item) {
+                    reads(item.file, item.index, parent, id);
+                })
+                $('.loading').show();
+                uploadthispicture();
+                $(this).remove();
+
+
+                //执行上传操作
+            })
+
+
+
+            function reads(fil, index, parent, id) {
+                var reader = new FileReader();
+                reader.readAsDataURL(fil);
+                reader.onload = function () {
+                    if ($('.upload-picture[data-index="' + index + '"]').length > 0) return;
+                    parent.prepend('<div class="upload-picture-wrapper"><img class="upload-picture" src="' + this.result + '" data-id="' + id + '" data-index="' + index + '"/> <span class="modify">删除</span></div>');
+                };
+            }
+            //重新上传
+            $(".business-license-box").on("click", ".modify", function () {
+                $(".upload-picture-wrapper").remove();
+                var html = '\
+                <label for="file1" class="add-picture"><img src=\"/Content/image/upload.png\" alt="" class="add-icon"></label>\
+                <input type="file" id="file1" class="upload-file">\
+                <div class="loading"><img src=\"/Content/image/loading.gif\" height="32" width="32"/></div>';
+                $(".upload-license").append(html);
+                pictureGroups = {};
+                $('#uploadPictureUri').val("");
+
+            })
+
+        })
+</script>
+<script>
+        $(document).ready(function(){
+            var whichToShow="@Model.WhichToShow";
+            if(whichToShow=="company")
+            {
+                $("#turnbacktothecompanypage").click();
+            }
+
+           });
+
+</script>
+
+

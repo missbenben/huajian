@@ -1,0 +1,32 @@
+﻿
+@{
+    Layout = "_Layout.cshtml";
+}
+
+
+
+@section styles{
+    @*<link rel="stylesheet" href="~/Content/css/login.css">*@
+    <link rel="stylesheet" href="~/Content/css/projectLists.css">
+    @*<link rel="stylesheet" href="~/Content/css/popUp.css">*@
+    @RenderSection("styles", required: false)
+}
+
+
+<div class="HJ-header">
+    <div class="HJ-header-tabs clearfix">
+        <div class="project-classification pull-left clearfix">
+            <div class="name pull-left"><a href="@Url.Action("Login", "Customer")">数字化审图平台</a></div>
+            <ul class="pull-left">
+                <li class="manage-project"><a href="@Url.Action("RoleDistributionList", "Project")">项目管理</a></li>
+                <li class="reviewed-project"><a href="@Url.Action("AdminCheckList", "Organization")">成员管理</a></li>
+                <li class="review-project"><a href="@Url.Action("EnterpriseInfo","Organization")">企业信息</a></li>
+            </ul>
+        </div>
+@Html.Action("GetUser", "Customer")
+    </div>
+</div>
+<div class="main-box">
+    @RenderBody()
+</div>
+@RenderSection("common_popUp", required: false)

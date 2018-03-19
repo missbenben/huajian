@@ -1,0 +1,285 @@
+.admin-project-overview {
+  background-color: #fff;
+    box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+    -moz-box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+    -webkit-box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+    -o-box-shadow: 0 0 18px 0 rgba(0,0,0,0.04), 0 18px 18px 0 rgba(0,0,0,0.07);
+  padding-bottom: 100px;
+  font-size: 14px;
+    min-height: 100%;
+  position: relative; }
+  .admin-project-overview .back-previous-level {
+    padding: 30px 0px 35px 60px; }
+    .admin-project-overview .back-previous-level a {
+      color: #0078D7;
+      padding-left: 10px;
+      position: relative; }
+    .admin-project-overview .back-previous-level img {
+      position: absolute;
+      width: 8px;
+      height: 12px;
+      left: 0px;
+      top: 50%;
+      margin-top: -6px; }
+  .admin-project-overview .project-name {
+    font-size: 22px;
+    color: #393946;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 6px;
+    padding-top: 30px; }
+  .admin-project-overview .projectOverview-tabs {
+    padding-left: 82px;
+    border-bottom: 1px solid #E4E7F0; }
+    .admin-project-overview .projectOverview-tabs li {
+      padding: 9px 10px;
+      color: #767A8A;
+      letter-spacing: 1px;
+      float: left;
+      margin-right: 45px;
+      cursor: default;
+      /* &.new-group {
+         color: #0078D7;
+         text-decoration: underline;
+         float: right;
+         display: none;
+       }*/ }
+      .admin-project-overview .projectOverview-tabs li.active {
+        border-bottom: 1px solid #0078D7;
+        color: #0078D7; }
+  .admin-project-overview .basic-information {
+    padding-left: 82px;
+    display: none; }
+    .admin-project-overview .basic-information .information-lists {
+      color: #000000;
+      padding-bottom: 30px;
+      padding-top: 40px; }
+      .admin-project-overview .basic-information .information-lists .left {
+        margin-right: 12%;
+          width: 552px;
+      }
+.admin-project-overview .unitInformation .information-lists .left {
+    margin-right: 12%;
+}
+      .admin-project-overview .basic-information .information-lists td {
+        padding: 10px 0px;
+        max-width: 250px;
+      }
+      .admin-project-overview .basic-information .information-lists .informationName {
+        width: 180px;
+        color: #767A8A;
+          vertical-align: top;
+      }
+.admin-project-overview .basic-information .information-lists  .view-staff-allocation {
+    color: #0078D7;
+    text-decoration: underline;
+    cursor: default;
+}
+.admin-project-overview .basic-information .information-lists td span {
+  display: inline-block;
+  padding: 5px 0px;
+  margin-right: 30px;
+  /*max-width: 200px;
+  word-wrap: break-word;
+  word-break: normal;*/
+}
+.unitInformation-table {
+  width: 552px;
+}
+
+/*.other-floor-lists {
+  width: 50%;
+}*/
+    .admin-project-overview .basic-information.active {
+      display: block; }
+    .admin-project-overview .basic-information .information-input-lists {
+      padding: 40px 0px 0px 0px; }
+      .admin-project-overview .basic-information .information-input-lists .left {
+        width: 500px; }
+.admin-project-overview .basic-information .information-input-lists .left:first-child {
+  margin-right: 80px;
+}
+        .admin-project-overview .basic-information .information-input-lists .left .form-group {
+          border: none; }
+        .admin-project-overview .basic-information .information-input-lists .left .form-group .prompt {
+          width: 237px;
+          padding-left: 0px; }
+        .admin-project-overview .basic-information .information-input-lists .left .form-group .form-controls {
+          left: 237px; }
+        .admin-project-overview .basic-information .information-input-lists .left .form-group .form-controls .control {
+          border: 1px solid #CCCCCC;
+          padding-left: 10px; }
+.admin-project-overview .basic-information .information-input-lists .left .form-group .form-controls .control.error {
+    border: 1px solid #FF574D;
+}
+        .admin-project-overview .basic-information .information-input-lists .left .form-group .select-lists {
+          left: 237px; }
+        .admin-project-overview .basic-information .information-input-lists .left .form-group .select-lists {
+          width: 263px; }
+    .admin-project-overview .basic-information .unitInformation-lists .deleteUnit {
+      padding-right: 60px;
+      padding-bottom: 30px;
+      text-align: right;
+      color: #0078D7;
+      text-decoration: underline;
+      cursor: default; }
+  .admin-project-overview .unitInformation {
+    position: relative; }
+    .admin-project-overview .unitInformation .information-lists, .admin-project-overview .unitInformation .unitInformation-lists {
+      border-bottom: 1px dashed #E4E7F0; }
+    .admin-project-overview .unitInformation .newGrop {
+      color: #0078D7;
+      text-decoration: underline;
+      position: absolute;
+      right: 60px;
+      top: -28px;
+      cursor: default; }
+  .admin-project-overview .category-setting {
+    padding-top: 30px;
+    position: relative; }
+    .admin-project-overview .category-setting .category-lists li {
+      padding-bottom: 20px;
+      color: #000000; }
+      .admin-project-overview .category-setting .category-lists li .categoryName {
+        width: 147px;
+        color: #767A8A; }
+      .admin-project-overview .category-setting .category-lists li .categoryDetail {
+        margin-right: 60px; }
+      .admin-project-overview .category-setting .category-lists li .floor {
+        margin-right: 30px; }
+        .admin-project-overview .category-setting .category-lists li .floor span:nth-child(1) {
+          margin-right: 20px; }
+      .admin-project-overview .category-setting .category-lists li .others span:nth-child(1) {
+        margin-right: 20px; }
+      .admin-project-overview .category-setting .category-lists li div {
+        float: left; }
+    .admin-project-overview .category-setting .category-input-lists .iterms {
+      margin-bottom: 10px;
+      position: relative; }
+      .admin-project-overview .category-setting .category-input-lists .iterms div span {
+        display: inline-block;
+        color: #767A8A;
+        line-height: 40px; }
+      .admin-project-overview .category-setting .category-input-lists .iterms div input {
+        border: 1px solid #CCCCCC; }
+      .admin-project-overview .category-setting .category-input-lists .iterms .subprojectsName {
+        float: left;
+        margin-right: 15px;
+        margin-top: 10px; }
+        .admin-project-overview .category-setting .category-input-lists .iterms .subprojectsName span {
+          width: 110px; }
+        .admin-project-overview .category-setting .category-input-lists .iterms .subprojectsName input {
+          width: 250px;
+          height: 40px;
+          padding-left: 10px; }
+      .admin-project-overview .category-setting .category-input-lists .iterms .commonstyle {
+        float: left;
+        margin-right: 15px;
+        margin-top: 10px; }
+        .admin-project-overview .category-setting .category-input-lists .iterms .commonstyle span {
+          margin-right: 10px;
+          float: left; }
+        .admin-project-overview .category-setting .category-input-lists .iterms .commonstyle input {
+          width: 50px;
+          height: 40px;
+          text-align: center; }
+        .otherInput-title {
+          line-height: 40px;
+          color: #767A8A;
+          width: 237px;
+          float: left;
+        }
+ .otherInput {
+   width: 263px;
+   float: right;
+ }
+ .otherInput li {
+            float: left;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            position: relative; }
+ .otherInput li div {
+              max-width: 300px;
+              padding: 9px 14px;
+              border: 1px solid #CCCCCC;
+              word-wrap: break-word;
+              word-break: normal; }
+ .otherInput li img {
+              width: 20px;
+              height: 20px;
+              position: absolute;
+              right: -10px;
+              top: -10px;
+              display: none; }
+.otherInput li.hoverLi:hover {
+  background: #0078D7;
+  color: #fff;
+}
+ .otherInput li.hoverLi:hover img {
+            display: block; }
+ .otherInput ul {
+            float: left; }
+ .otherInput .addBtn {
+            float: left;
+            width: 50px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background: rgba(228, 231, 240, 0.6);
+            color: #A0A6B8; }
+      .admin-project-overview .category-setting .category-input-lists .iterms .deleteOther {
+        line-height: 40px;
+        color: #0078D7;
+        text-decoration: underline;
+        cursor: default;
+        position: absolute;
+        right: 60px;
+        top: 0px; }
+    .admin-project-overview .category-setting .newGrop {
+      color: #0078D7;
+      text-decoration: underline;
+      position: absolute;
+      right: 60px;
+      top: -28px;
+      cursor: default; }
+  .admin-project-overview .common-btn {
+    border-radius: 2px;
+    position: absolute;
+    top: 30px;
+    right: 60px;
+    cursor: default;
+    text-align: center;
+    color: #FFFFFF; }
+    .admin-project-overview .common-btn a {
+      color: #FFFFFF; }
+  .admin-project-overview .modify-information {
+    width: 100px;
+    height: 34px;
+    line-height: 34px;
+    background: #0078D7; }
+.admin-project-overview .modify-information:hover {
+    background: #2A9AF2;
+    box-shadow: 0 3px 5px 0 rgba(0,0,0,0.16);
+}
+  .admin-project-overview .save-information {
+    width: 160px;
+    height: 36px;
+    line-height: 36px;
+    background: #FF574D; }
+
+.createProject-con .projectOverview-tabs {
+  padding-top: 76px; }
+.admin-project-overview .basic-information .information-input-lists .left .form-group .form-controls .IsPrefabricatedBuilding {
+  width: 15px;
+  height: 15px;
+  margin-top: 14px;
+}
+@media screen and (max-width: 1120px) {
+    .admin-project-overview .basic-information .information-lists td {
+        max-width: 400px;
+    }
+    .admin-project-overview .basic-information .information-lists .left {
+        width: 700px;
+    }
+}
+

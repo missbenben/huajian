@@ -1,0 +1,13 @@
+{
+  "HOME": "首页",
+  "EXPERIMENTS":"实验",
+  "VIEWER": "模型查看器",
+  "ABOUT": "关于",
+  "HELLO": "你好",
+  "LOVE_TECH": "我爱钻研技术!",
+  "ABOUT_ADD": "You want more? Add them yourself!",
+  "ABOUT_REWARD": "For reward, here is a list of awesome computer scientists:",
+  "INPUT_HINT": "Enter a new computer scientist...",
+  "ADD_BTN_TEXT": "Add",
+  "SUCCESS_MSG": "Your deployment of Angular Seed Advanced worked perfectly."
+}
